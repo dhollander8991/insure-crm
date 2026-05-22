@@ -1,4 +1,4 @@
-package test.java.com.insurecrm.auth_service;
+package com.insurecrm.auth_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
