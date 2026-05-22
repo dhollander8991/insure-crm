@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  auth-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
+
+  customer-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: customerdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - customer-db-data:/var/lib/postgresql/data
+
+  policy-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: policydb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5435:5432"
+    volumes:
+      - policy-db-data:/var/lib/postgresql/data
+
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://auth-db:5432/authdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      JWT_SECRET: insurecrm-super-secret-key-2024-must-be-long-enough
+      JWT_EXPIRATION: 86400000
+    depends_on:
+      - auth-db
+
+  customer-service:
+    build: ./customer-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://customer-db:5432/customerdb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      JWT_SECRET: insurecrm-super-secret-key-2024-must-be-long-enough
+    depends_on:
+      - customer-db
+
+  policy-service:
+    build: ./policy-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://policy-db:5432/policydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+      JWT_SECRET: insurecrm-super-secret-key-2024-must-be-long-enough
+      CUSTOMER_SERVICE_URL: http://customer-service:8082
+    depends_on:
+      - policy-db
+      - customer-service
+
+volumes:
+  auth-db-data:
+  customer-db-data:
+  policy-db-data:
