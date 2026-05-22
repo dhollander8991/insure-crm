@@ -51,3 +51,11 @@ spring-shell.log
 .env.*
 application-local.yml
 application-local.properties
+
+# Frontend — Node.js
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.wrangler/
+frontend/.env
+frontend/.env.*
