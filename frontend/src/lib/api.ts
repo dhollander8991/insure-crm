@@ -1,7 +1,7 @@
-const AUTH_URL = "http://35.157.14.12:8081";
-const CUSTOMER_URL = "http://35.157.14.12:8082";
-const POLICY_URL = "http://35.157.14.12:8083";
-const AI_URL = "http://35.157.14.12:8084";
+const AUTH_URL = "/api/auth";
+const CUSTOMER_URL = "/api/customers";
+const POLICY_URL = "/api/policies";
+const AI_URL = "/api/ai";
 
 export const tokenStorage = {
   get: () => localStorage.getItem("insurecrm_token"),
@@ -24,6 +24,13 @@ async function request<T>(base: string, path: string, init: RequestInit = {}): P
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
   const res = await fetch(`${base}${path}`, { ...init, headers });
+
+  if (res.status === 401) {
+    tokenStorage.clear();
+    emailStorage.clear();
+    throw new Error("Unauthorized");
+  }
+
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error ?? body.message ?? `HTTP ${res.status}`);

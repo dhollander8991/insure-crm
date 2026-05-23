@@ -21,8 +21,9 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
-  const collapsed = state === "collapsed";
+  const { state, isMobile } = useSidebar();
+  // On mobile the sidebar renders in a full-width Sheet — always show labels
+  const collapsed = state === "collapsed" && !isMobile;
   const location = useLocation();
   const isActive = (path: string) => path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 

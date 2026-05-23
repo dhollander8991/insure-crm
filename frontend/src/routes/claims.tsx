@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useMemo, useState, type MouseEvent } from "react";
+import { ShieldAlert } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import {
   DndContext,
   DragOverlay,
@@ -155,6 +157,12 @@ export function ClaimsPage() {
 
         {loading ? (
           <BoardSkeleton columns={4} perCol={3} />
+        ) : claims.length === 0 ? (
+          <EmptyState
+            icon={ShieldAlert}
+            title="No claims yet"
+            description="Claims will appear here once they are filed."
+          />
         ) : (
           <DndContext
             sensors={sensors}

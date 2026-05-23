@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { DollarSign, FileText, ShieldAlert, UserPlus, Activity, Sparkles, TrendingUp } from "lucide-react";
+import { DollarSign, FileText, ShieldAlert, UserPlus, Activity, Sparkles, TrendingUp, LayoutDashboard } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { PageTransition } from "@/components/page-transition";
 import { KpiCard } from "@/components/kpi-card";
@@ -66,9 +67,15 @@ export function Dashboard() {
 
         {loading ? (
           <KpiGridSkeleton count={4} />
+        ) : !loading && customers.length === 0 && policies.length === 0 ? (
+          <EmptyState
+            icon={LayoutDashboard}
+            title="No data yet"
+            description="Add clients and policies to see your dashboard metrics."
+          />
         ) : (
           <div className="relative grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
-            <KpiCard label="Total Premium (Active)" value={totalPremium} prefix="$" delta={0} icon={DollarSign} index={0} />
+            <KpiCard label="Total Premium (Active)" value={totalPremium} prefix="₪" delta={0} icon={DollarSign} index={0} />
             <KpiCard label="Active Policies" value={activePolicies} delta={0} icon={FileText} index={1} />
             <KpiCard label="Open Claims" value={0} delta={0} icon={ShieldAlert} index={2} />
             <KpiCard label="New Leads" value={newLeads} delta={0} icon={UserPlus} index={3} />
