@@ -1,24 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Heart, Car, Home, Stethoscope, Calendar, type LucideIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Heart, Car, Home, Stethoscope, Calendar, Plus, type LucideIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { PageTransition } from "@/components/page-transition";
 import { CardGridSkeleton } from "@/components/skeletons";
 import { policyApi, type PolicyResponse } from "@/lib/api";
+import { NewPolicyDialog } from "@/components/forms/new-policy-dialog";
 import { cn } from "@/lib/utils";
-
-export const Route = createFileRoute("/policies")({
-  head: () => ({
-    meta: [
-      { title: "Policies — Aegis CRM" },
-      { name: "description", content: "Manage active, pending, and expired insurance policies." },
-    ],
-  }),
-  component: PoliciesPage,
-});
 
 type PolicyType = "Life" | "Auto" | "Home" | "Health";
 type PolicyStatus = "Active" | "Pending" | "Expired";
@@ -75,9 +67,11 @@ const statusStyles: Record<PolicyStatus, string> = {
 const typeFilters: (PolicyType | "All")[] = ["All", "Life", "Auto", "Home", "Health"];
 const statusFilters: (PolicyStatus | "All")[] = ["All", "Active", "Pending", "Expired"];
 
-function PoliciesPage() {
+export function PoliciesPage() {
+  const navigate = useNavigate();
   const [typeF, setTypeF] = useState<(typeof typeFilters)[number]>("All");
   const [statusF, setStatusF] = useState<(typeof statusFilters)[number]>("All");
+  const [showNewPolicy, setShowNewPolicy] = useState(false);
 
   const { data: rawPolicies = [], isLoading, isError } = useQuery({
     queryKey: ["policies"],
@@ -100,9 +94,14 @@ function PoliciesPage() {
       <div className="relative px-4 py-6 md:px-6 lg:px-8">
         <div className="mesh-bg"><div className="mesh-orb" /></div>
         <div className="relative">
-          <div className="mb-6">
-            <h1 className="text-2xl font-semibold tracking-tight">Policies</h1>
-            <p className="text-sm text-muted-foreground">{filtered.length} of {policies.length} policies</p>
+          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold tracking-tight">Policies</h1>
+              <p className="text-sm text-muted-foreground">{filtered.length} of {policies.length} policies</p>
+            </div>
+            <Button onClick={() => setShowNewPolicy(true)} className="gap-2 shadow-[var(--shadow-elegant)]">
+              <Plus className="h-4 w-4" /> New Policy
+            </Button>
           </div>
 
           {renewingSoon.length > 0 && (
@@ -152,6 +151,8 @@ function PoliciesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: Math.min(i * 0.03, 0.5) }}
                     whileHover={{ y: -3 }}
+                    className="cursor-pointer"
+                    onClick={() => navigate(`/policies/${p.id}`)}
                   >
                     <Card className="h-full overflow-hidden transition-shadow hover:shadow-[var(--shadow-elegant)]">
                       <CardContent className="p-5">
@@ -181,6 +182,8 @@ function PoliciesPage() {
           )}
         </div>
       </div>
+
+      <NewPolicyDialog open={showNewPolicy} onOpenChange={setShowNewPolicy} />
     </PageTransition>
   );
 }

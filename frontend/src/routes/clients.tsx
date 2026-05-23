@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, Plus, Mail, Phone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,17 +11,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { PageTransition } from "@/components/page-transition";
 import { TableSkeleton } from "@/components/skeletons";
 import { customerApi, type CustomerResponse } from "@/lib/api";
+import { NewClientDialog } from "@/components/forms/new-client-dialog";
 import { cn } from "@/lib/utils";
-
-export const Route = createFileRoute("/clients")({
-  head: () => ({
-    meta: [
-      { title: "Clients — Aegis CRM" },
-      { name: "description", content: "Manage clients, leads, and customer relationships." },
-    ],
-  }),
-  component: ClientsPage,
-});
 
 type ClientStatus = "Lead" | "Active" | "Churned";
 
@@ -57,9 +48,11 @@ function mapCustomer(c: CustomerResponse): MappedClient {
   };
 }
 
-function ClientsPage() {
+export function ClientsPage() {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<(typeof statuses)[number]>("All");
+  const [showNewClient, setShowNewClient] = useState(false);
 
   const { data: customers = [], isLoading, isError } = useQuery({
     queryKey: ["customers"],
@@ -86,7 +79,7 @@ function ClientsPage() {
               <h1 className="text-2xl font-semibold tracking-tight">Clients</h1>
               <p className="text-sm text-muted-foreground">{filtered.length} of {clients.length} contacts</p>
             </div>
-            <Button className="gap-2 shadow-[var(--shadow-elegant)]">
+            <Button onClick={() => setShowNewClient(true)} className="gap-2 shadow-[var(--shadow-elegant)]">
               <Plus className="h-4 w-4" /> Add Client
             </Button>
           </div>
@@ -136,7 +129,8 @@ function ClientsPage() {
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.25, delay: Math.min(i * 0.03, 0.4) }}
-                          className="border-b transition-colors hover:bg-muted/50"
+                          className="border-b cursor-pointer transition-colors hover:bg-muted/50"
+                          onClick={() => navigate(`/clients/${c.id}`)}
                         >
                           <TableCell>
                             <div className="flex items-center gap-3">
@@ -168,6 +162,8 @@ function ClientsPage() {
           )}
         </div>
       </div>
+
+      <NewClientDialog open={showNewClient} onOpenChange={setShowNewClient} />
     </PageTransition>
   );
 }

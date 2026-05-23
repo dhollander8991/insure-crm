@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
-import { useRouterState } from "@tanstack/react-router";
+import { useLocation } from "react-router-dom";
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
-  // Key the motion div by pathname so the animation replays on route changes
-  // without an opacity flash (kept subtle to avoid the prior "bleep" bug).
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { pathname } = useLocation();
 
   return (
     <motion.div

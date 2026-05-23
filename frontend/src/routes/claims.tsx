@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCallback, useMemo, useState, type MouseEvent } from "react";
 import {
@@ -12,24 +11,16 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
-import { Clock, AlertCircle, GripVertical, Layers } from "lucide-react";
+import { Clock, AlertCircle, GripVertical, Layers, Plus } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { PageTransition } from "@/components/page-transition";
 import { BoardSkeleton, useMountLoading } from "@/components/skeletons";
 import { claims as seedClaims, type Claim, type ClaimStatus, type ClaimSeverity } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
-
-export const Route = createFileRoute("/claims")({
-  head: () => ({
-    meta: [
-      { title: "Claims — Aegis CRM" },
-      { name: "description", content: "Drag claims between stages. Hold ⌘ / Ctrl to select multiple, Shift for a range." },
-    ],
-  }),
-  component: ClaimsPage,
-});
 
 const columns: { status: ClaimStatus; accent: string; ring: string }[] = [
   { status: "Open", accent: "from-sky-500/15 to-sky-500/0", ring: "border-info/30" },
@@ -44,7 +35,7 @@ const severityStripe: Record<ClaimSeverity, string> = {
   High: "bg-destructive",
 };
 
-function ClaimsPage() {
+export function ClaimsPage() {
   const loading = useMountLoading();
   const [claims, setClaims] = useState<Claim[]>(seedClaims);
   const [selected, setSelected] = useState<Set<string>>(new Set());
@@ -90,7 +81,6 @@ function ClaimsPage() {
         return;
       }
 
-      // Plain click: open detail; if part of selection, keep selection
       if (selected.size <= 1) {
         setSelected(new Set([id]));
         setLastClicked(id);
@@ -107,7 +97,6 @@ function ClaimsPage() {
   const onDragStart = (e: DragStartEvent) => {
     const id = String(e.active.id);
     setActiveId(id);
-    // If dragging an unselected card, replace selection with just that card
     if (!selected.has(id)) setSelected(new Set([id]));
   };
 
@@ -138,56 +127,62 @@ function ClaimsPage() {
               <kbd className="ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px]">Shift</kbd> for a range.
             </p>
           </div>
-
-          <AnimatePresence>
-            {selected.size > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                className="glass-strong flex items-center gap-3 rounded-full px-4 py-2 shadow-[var(--shadow-elegant)]"
-              >
-                <Layers className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium tabular-nums">{selected.size} selected</span>
-                <button onClick={clearSelection} className="text-xs text-muted-foreground hover:text-foreground">
-                  Clear
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="flex items-center gap-2">
+            <AnimatePresence>
+              {selected.size > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  className="glass-strong flex items-center gap-3 rounded-full px-4 py-2 shadow-[var(--shadow-elegant)]"
+                >
+                  <Layers className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium tabular-nums">{selected.size} selected</span>
+                  <button onClick={clearSelection} className="text-xs text-muted-foreground hover:text-foreground">
+                    Clear
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Button
+              onClick={() => toast.info("Claims management coming soon")}
+              className="gap-2 shadow-[var(--shadow-elegant)]"
+            >
+              <Plus className="h-4 w-4" /> New Claim
+            </Button>
+          </div>
         </div>
 
         {loading ? (
           <BoardSkeleton columns={4} perCol={3} />
         ) : (
-        <DndContext
-          sensors={sensors}
-          onDragStart={onDragStart}
-          onDragEnd={onDragEnd}
-          onDragOver={(e) => setOverCol(e.over ? (String(e.over.id) as ClaimStatus) : null)}
-          onDragCancel={() => { setActiveId(null); setOverCol(null); }}
-        >
-          <div className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {columns.map((col, ci) => (
-              <Column
-                key={col.status}
-                status={col.status}
-                accent={col.accent}
-                ring={col.ring}
-                items={byStatus[col.status]}
-                selected={selected}
-                onSelect={handleSelect}
-                isOver={overCol === col.status}
-                ci={ci}
-                activeId={activeId}
-              />
-            ))}
-          </div>
+          <DndContext
+            sensors={sensors}
+            onDragStart={onDragStart}
+            onDragEnd={onDragEnd}
+            onDragOver={(e) => setOverCol(e.over ? (String(e.over.id) as ClaimStatus) : null)}
+            onDragCancel={() => { setActiveId(null); setOverCol(null); }}
+          >
+            <div className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {columns.map((col) => (
+                <Column
+                  key={col.status}
+                  status={col.status}
+                  accent={col.accent}
+                  ring={col.ring}
+                  items={byStatus[col.status]}
+                  selected={selected}
+                  onSelect={handleSelect}
+                  isOver={overCol === col.status}
+                  activeId={activeId}
+                />
+              ))}
+            </div>
 
-          <DragOverlay dropAnimation={{ duration: 250, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }}>
-            {activeClaim && <DragStack claim={activeClaim} count={stackCount} />}
-          </DragOverlay>
-        </DndContext>
+            <DragOverlay dropAnimation={{ duration: 250, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }}>
+              {activeClaim && <DragStack claim={activeClaim} count={stackCount} />}
+            </DragOverlay>
+          </DndContext>
         )}
       </div>
 
@@ -222,7 +217,7 @@ function ClaimsPage() {
 }
 
 function Column({
-  status, accent, ring, items, selected, onSelect, isOver, ci, activeId,
+  status, accent, ring, items, selected, onSelect, isOver, activeId,
 }: {
   status: ClaimStatus;
   accent: string;
@@ -231,12 +226,10 @@ function Column({
   selected: Set<string>;
   onSelect: (c: Claim, e: MouseEvent) => void;
   isOver: boolean;
-  ci: number;
   activeId: string | null;
 }) {
   const { setNodeRef } = useDroppable({ id: status });
-  const dragActive = activeId !== null;
-  const activeInSelection = dragActive && selected.has(activeId!);
+  const activeInSelection = activeId !== null && selected.has(activeId);
   return (
     <motion.div
       initial={false}
@@ -256,7 +249,6 @@ function Column({
         )}
       >
         {items.map((c) => {
-          // Fade all selected items while any of them is being dragged
           const dimmed = activeInSelection && selected.has(c.id) && c.id !== activeId;
           return (
             <DraggableCard key={c.id} claim={c} selected={selected.has(c.id)} onSelect={onSelect} dimmed={dimmed} />

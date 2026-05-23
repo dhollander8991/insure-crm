@@ -1,5 +1,4 @@
-import { Link, useRouter, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Users, FileText, ShieldAlert, ShieldCheck } from "lucide-react";
 import {
   Sidebar,
@@ -22,18 +21,10 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const router = useRouter();
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const currentPath = useRouterState({ select: (r) => r.location.pathname });
-  const isActive = (path: string) => (path === "/" ? currentPath === "/" : currentPath.startsWith(path));
-
-  useEffect(() => {
-    router.preloadRoute({ to: "/" });
-    router.preloadRoute({ to: "/clients" });
-    router.preloadRoute({ to: "/policies" });
-    router.preloadRoute({ to: "/claims" });
-  }, [router]);
+  const location = useLocation();
+  const isActive = (path: string) => path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
 
   return (
     <Sidebar collapsible="icon">
@@ -56,7 +47,6 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
-
             <SidebarMenu>
               {items.map((item) => {
                 const active = isActive(item.url);
@@ -68,7 +58,7 @@ export function AppSidebar() {
                       tooltip={item.title}
                       className="group/menu-button transition-all"
                     >
-                      <Link to={item.url} preload="intent" preloadDelay={0} className="flex items-center gap-2">
+                      <Link to={item.url} className="flex items-center gap-2">
                         <item.icon
                           className={`h-4 w-4 transition-transform group-hover/menu-button:scale-110 ${
                             active ? "text-primary" : ""

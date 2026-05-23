@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -9,17 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AuthShell } from "@/components/auth-shell";
 
-export const Route = createFileRoute("/signup")({
-  head: () => ({ meta: [{ title: "Create account — Aegis CRM" }] }),
-  component: SignupPage,
-});
-
 const schema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   password: z.string().min(6, "At least 6 characters").max(72),
 });
 
-function SignupPage() {
+export function SignupPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +33,7 @@ function SignupPage() {
       tokenStorage.set(res.token);
       emailStorage.set(res.email);
       toast.success("Account created");
-      navigate({ to: "/" });
+      navigate("/");
     } catch (err) {
       toast.error((err as Error).message);
     } finally {

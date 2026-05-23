@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { DollarSign, FileText, ShieldAlert, UserPlus, Activity, Sparkles, TrendingUp } from "lucide-react";
@@ -14,17 +13,7 @@ import { KpiGridSkeleton, ChartSkeleton } from "@/components/skeletons";
 import { recentActivity } from "@/lib/mock-data";
 import { customerApi, policyApi } from "@/lib/api";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Dashboard — Aegis CRM" },
-      { name: "description", content: "Overview of premiums, policies, claims, and pipeline." },
-    ],
-  }),
-  component: Dashboard,
-});
-
-function Dashboard() {
+export function Dashboard() {
   const { data: customers = [], isLoading: loadingCustomers } = useQuery({
     queryKey: ["customers"],
     queryFn: customerApi.getAll,

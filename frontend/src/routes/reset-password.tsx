@@ -1,12 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { AuthShell } from "@/components/auth-shell";
 
-export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Reset password — Aegis CRM" }] }),
-  component: ResetPasswordPage,
-});
-
-function ResetPasswordPage() {
+export function ResetPasswordPage() {
   return (
     <AuthShell
       title="Password reset"

@@ -1,5 +1,5 @@
 import { Bell, Search, LogOut, User as UserIcon } from "lucide-react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "react-router-dom";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -25,7 +25,7 @@ export function Topbar() {
   const onSignOut = () => {
     tokenStorage.clear();
     emailStorage.clear();
-    navigate({ to: "/login" });
+    navigate("/login");
   };
 
   return (

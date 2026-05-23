@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -7,14 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AuthShell } from "@/components/auth-shell";
 
-export const Route = createFileRoute("/forgot-password")({
-  head: () => ({ meta: [{ title: "Reset password — Aegis CRM" }] }),
-  component: ForgotPasswordPage,
-});
-
 const schema = z.string().trim().email("Enter a valid email").max(255);
 
-function ForgotPasswordPage() {
+export function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
@@ -39,7 +34,8 @@ function ForgotPasswordPage() {
     >
       {sent ? (
         <p className="rounded-lg border bg-muted/40 p-4 text-center text-sm text-muted-foreground">
-          Please contact your administrator to reset the password for <span className="font-medium text-foreground">{email}</span>.
+          Please contact your administrator to reset the password for{" "}
+          <span className="font-medium text-foreground">{email}</span>.
         </p>
       ) : (
         <form onSubmit={onSubmit} className="space-y-4">
