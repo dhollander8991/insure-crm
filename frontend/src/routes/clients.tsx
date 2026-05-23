@@ -78,7 +78,7 @@ function ClientsPage() {
 
   return (
     <PageTransition>
-      <div className="relative overflow-x-hidden px-4 py-6 md:px-6 lg:px-8">
+      <div className="relative px-4 py-6 md:px-6 lg:px-8">
         <div className="mesh-bg"><div className="mesh-orb" /></div>
         <div className="relative">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -120,7 +120,7 @@ function ClientsPage() {
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto pl-4">
                   <Table>
                     <TableHeader>
                       <TableRow>

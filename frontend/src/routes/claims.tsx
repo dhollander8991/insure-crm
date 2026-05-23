@@ -126,7 +126,7 @@ function ClaimsPage() {
 
   return (
     <PageTransition>
-      <div className="relative overflow-x-hidden px-4 py-6 md:px-6 lg:px-8">
+      <div className="relative px-4 py-6 md:px-6 lg:px-8">
         <div className="mesh-bg"><div className="mesh-orb" /></div>
 
         <div className="relative mb-6 flex flex-wrap items-end justify-between gap-3">

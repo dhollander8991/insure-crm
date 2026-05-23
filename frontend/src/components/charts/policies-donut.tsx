@@ -7,30 +7,37 @@ const COLORS = ["var(--color-chart-1)", "var(--color-chart-2)", "var(--color-cha
 export function PoliciesDonut() {
   const total = policyTypeData.reduce((s, d) => s + d.count, 0);
   return (
-    <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.3 }} className="relative h-72 w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie data={policyTypeData} dataKey="count" nameKey="type" innerRadius={70} outerRadius={100} paddingAngle={3} strokeWidth={0}>
-            {policyTypeData.map((_, i) => (
-              <Cell key={i} fill={COLORS[i % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip
-            contentStyle={{
-              background: "var(--color-popover)",
-              border: "1px solid var(--color-border)",
-              borderRadius: 8,
-              fontSize: 12,
-              color: "var(--color-popover-foreground)",
-            }}
-          />
-        </PieChart>
-      </ResponsiveContainer>
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-semibold tracking-tight">{total}</span>
-        <span className="text-xs text-muted-foreground">Total Policies</span>
-      </div>
-      <div className="mt-2 flex flex-wrap justify-center gap-3 text-xs">
+    <div className="flex flex-col">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="relative h-56 w-full"
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie data={policyTypeData} dataKey="count" nameKey="type" innerRadius={70} outerRadius={100} paddingAngle={3} strokeWidth={0}>
+              {policyTypeData.map((_, i) => (
+                <Cell key={i} fill={COLORS[i % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{
+                background: "var(--color-popover)",
+                border: "1px solid var(--color-border)",
+                borderRadius: 8,
+                fontSize: 12,
+                color: "var(--color-popover-foreground)",
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-3xl font-semibold tracking-tight">{total}</span>
+          <span className="text-xs text-muted-foreground">Total Policies</span>
+        </div>
+      </motion.div>
+      <div className="mt-2 flex flex-wrap justify-center gap-3 pb-4 text-xs">
         {policyTypeData.map((d, i) => (
           <div key={d.type} className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full" style={{ background: COLORS[i] }} />
@@ -39,6 +46,6 @@ export function PoliciesDonut() {
           </div>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }

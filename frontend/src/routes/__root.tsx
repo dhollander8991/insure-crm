@@ -149,15 +149,15 @@ function AppFrame() {
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="h-svh overflow-hidden">
       <AuroraBackground />
       <CommandPalette />
       <RouteProgress />
-      <div className="flex h-svh w-full text-foreground">
+      <div className="flex h-full w-full text-foreground">
         <AppSidebar />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <Topbar />
-          <main className="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto">
+          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto">
             <Outlet />
           </main>
         </div>
