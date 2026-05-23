@@ -60,3 +60,26 @@ jobs:
         run: |
           cd policy-service
           docker build -t insurecrm/policy-service:latest .
+
+  smoke-test-production:
+    runs-on: ubuntu-latest
+    needs: [build-auth-service, build-customer-service, build-policy-service]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: e2e/package-lock.json
+      - name: Install E2E dependencies
+        run: cd e2e && npm ci
+      - name: Run production smoke tests
+        run: cd e2e && npx cypress run --spec 'cypress/e2e/13-production-smoke.cy.ts' --config baseUrl=https://insurecrm-navy.vercel.app
+        env:
+          CYPRESS_agentEmail: agent@insure.com
+          CYPRESS_agentPassword: secret123
+          CYPRESS_authUrl: https://insurecrm-navy.vercel.app/api/auth
+          CYPRESS_customerUrl: https://insurecrm-navy.vercel.app/api/customers
+          CYPRESS_policyUrl: https://insurecrm-navy.vercel.app/api/policies
+          CYPRESS_aiUrl: https://insurecrm-navy.vercel.app/api/ai

@@ -86,31 +86,31 @@ export function NewClientDialog({ open, onOpenChange }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" {...register("firstName")} />
+              <Input id="firstName" data-testid="firstName-input" {...register("firstName")} />
               {errors.firstName && <p className="text-xs text-destructive">{errors.firstName.message}</p>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" {...register("lastName")} />
+              <Input id="lastName" data-testid="lastName-input" {...register("lastName")} />
               {errors.lastName && <p className="text-xs text-destructive">{errors.lastName.message}</p>}
             </div>
           </div>
 
           <div className="space-y-1">
             <Label htmlFor="nc-email">Email</Label>
-            <Input id="nc-email" type="email" {...register("email")} />
+            <Input id="nc-email" type="email" data-testid="email-input" {...register("email")} />
             {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label htmlFor="phone">Phone (05X-XXXXXXX)</Label>
-              <Input id="phone" {...register("phone")} placeholder="050-1234567" />
+              <Input id="phone" data-testid="phone-input" {...register("phone")} placeholder="050-1234567" />
               {errors.phone && <p className="text-xs text-destructive">{errors.phone.message}</p>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="israeliId">Israeli ID</Label>
-              <Input id="israeliId" {...register("israeliId")} placeholder="9 digits" maxLength={9} />
+              <Input id="israeliId" data-testid="israeliId-input" {...register("israeliId")} placeholder="9 digits" maxLength={9} />
               {errors.israeliId && <p className="text-xs text-destructive">{errors.israeliId.message}</p>}
             </div>
           </div>
@@ -149,7 +149,7 @@ export function NewClientDialog({ open, onOpenChange }: Props) {
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} data-testid="submit-button">
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create Client
             </Button>

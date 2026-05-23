@@ -266,7 +266,7 @@ export function PoliciesPage() {
                   <LayoutGrid className="h-4 w-4" />
                 </button>
               </div>
-              <Button onClick={() => setShowNewPolicy(true)} className="gap-2 shadow-[var(--shadow-elegant)]">
+              <Button onClick={() => setShowNewPolicy(true)} className="gap-2 shadow-[var(--shadow-elegant)]" data-testid="add-policy-button">
                 <Plus className="h-4 w-4" /> New Policy
               </Button>
             </div>

@@ -56,6 +56,7 @@ export function ChatWidget() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? "Close chat" : "Open chat"}
+        data-testid="ai-chat-button"
         className={cn(
           "fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-all hover:scale-105 hover:shadow-xl",
           "ring-1 ring-primary/40",
@@ -65,6 +66,7 @@ export function ChatWidget() {
       </button>
 
       <div
+        data-testid="ai-chat-panel"
         className={cn(
           "fixed bottom-20 right-4 z-50 flex w-[calc(100vw-2rem)] max-w-sm origin-bottom-right flex-col overflow-hidden rounded-xl border bg-background/95 shadow-2xl backdrop-blur-md transition-all sm:max-w-md",
           open ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-95 opacity-0",
@@ -81,10 +83,11 @@ export function ChatWidget() {
           </div>
         </div>
 
-        <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-3">
+        <div ref={scrollRef} data-testid="ai-chat-messages" className="flex-1 space-y-3 overflow-y-auto p-3">
           {messages.map((m, i) => (
             <div
               key={i}
+              data-testid={m.role === "user" ? "user-message" : "ai-message"}
               className={cn(
                 "flex w-full",
                 m.role === "user" ? "justify-end" : "justify-start",
@@ -121,9 +124,10 @@ export function ChatWidget() {
               onKeyDown={onKeyDown}
               placeholder="Ask anything…"
               rows={1}
+              data-testid="ai-chat-input"
               className="min-h-[40px] max-h-32 resize-none"
             />
-            <Button size="icon" onClick={send} disabled={isLoading || !input.trim()}>
+            <Button size="icon" onClick={send} disabled={isLoading || !input.trim()} data-testid="ai-chat-send">
               <Send className="h-4 w-4" />
             </Button>
           </div>

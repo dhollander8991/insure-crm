@@ -5,7 +5,7 @@
     { "source": "/api/auth/:path*", "destination": "http://35.157.14.12:8081/:path*" },
     { "source": "/api/customers/:path*", "destination": "http://35.157.14.12:8082/:path*" },
     { "source": "/api/policies/:path*", "destination": "http://35.157.14.12:8083/:path*" },
-    { "source": "/api/ai/:path*", "destination": "http://35.157.14.12:8084/:path*" },
+    { "source": "/api/ai/:path*", "destination": "http://35.157.14.12:8084/ai/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

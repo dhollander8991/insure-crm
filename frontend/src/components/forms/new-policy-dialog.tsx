@@ -92,12 +92,12 @@ export function NewPolicyDialog({ open, onOpenChange }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label htmlFor="customerId">Customer ID</Label>
-              <Input id="customerId" type="number" {...register("customerId")} />
+              <Input id="customerId" type="number" data-testid="customerId-input" {...register("customerId")} />
               {errors.customerId && <p className="text-xs text-destructive">{errors.customerId.message}</p>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="customerName">Customer Name</Label>
-              <Input id="customerName" {...register("customerName")} />
+              <Input id="customerName" data-testid="customerName-input" {...register("customerName")} />
               {errors.customerName && <p className="text-xs text-destructive">{errors.customerName.message}</p>}
             </div>
           </div>
@@ -109,7 +109,7 @@ export function NewPolicyDialog({ open, onOpenChange }: Props) {
                 defaultValue="CAR"
                 onValueChange={(v) => setValue("type", v as "CAR" | "APARTMENT" | "LIFE" | "HEALTH")}
               >
-                <SelectTrigger>
+                <SelectTrigger data-testid="type-select">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -141,12 +141,12 @@ export function NewPolicyDialog({ open, onOpenChange }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label htmlFor="startDate">Start Date</Label>
-              <Input id="startDate" type="date" {...register("startDate")} />
+              <Input id="startDate" type="date" data-testid="startDate-input" {...register("startDate")} />
               {errors.startDate && <p className="text-xs text-destructive">{errors.startDate.message}</p>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="endDate">End Date</Label>
-              <Input id="endDate" type="date" {...register("endDate")} />
+              <Input id="endDate" type="date" data-testid="endDate-input" {...register("endDate")} />
               {errors.endDate && <p className="text-xs text-destructive">{errors.endDate.message}</p>}
             </div>
           </div>
@@ -154,7 +154,7 @@ export function NewPolicyDialog({ open, onOpenChange }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label htmlFor="premium">Premium ($/mo)</Label>
-              <Input id="premium" type="number" step="0.01" min="0.01" {...register("premium")} />
+              <Input id="premium" type="number" step="0.01" min="0.01" data-testid="premium-input" {...register("premium")} />
               {errors.premium && <p className="text-xs text-destructive">{errors.premium.message}</p>}
             </div>
             <div className="space-y-1">
@@ -168,7 +168,7 @@ export function NewPolicyDialog({ open, onOpenChange }: Props) {
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} data-testid="submit-button">
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Create Policy
             </Button>

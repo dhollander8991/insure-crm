@@ -200,7 +200,7 @@ export function ClientsPage() {
                 {filtered.length} of {clients.length} contacts
               </p>
             </div>
-            <Button onClick={() => setShowNewClient(true)} className="gap-2 shadow-[var(--shadow-elegant)]">
+            <Button onClick={() => setShowNewClient(true)} className="gap-2 shadow-[var(--shadow-elegant)]" data-testid="add-customer-button">
               <Plus className="h-4 w-4" /> Add Client
             </Button>
           </div>
@@ -250,6 +250,7 @@ export function ClientsPage() {
                     onChange={(e) => setNameFilter(e.target.value)}
                     placeholder="Search by name…"
                     className="pl-9"
+                    data-testid="customer-search"
                   />
                 </div>
               </CardHeader>
@@ -263,7 +264,7 @@ export function ClientsPage() {
                   />
                 ) : (
                   <div className="overflow-x-auto">
-                    <Table>
+                    <Table data-testid="customers-table">
                       <TableHeader>
                         <TableRow>
                           <TableHead>

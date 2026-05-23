@@ -113,9 +113,14 @@ export const policyApi = {
 };
 
 export const aiApi = {
-  chat: (messages: AiMessage[], agentEmail?: string) =>
-    request<{ reply: string }>(AI_URL, "/ai/chat", {
+  chat: async (messages: AiMessage[], agentEmail?: string) => {
+    const lastUserMessage = [...messages].reverse().find((m) => m.role === "user");
+    const message = lastUserMessage?.content ?? "";
+    const history = messages.slice(0, -1);
+    const res = await request<{ reply?: string; message?: string }>(AI_URL, "/chat", {
       method: "POST",
-      body: JSON.stringify({ messages, agentEmail }),
-    }),
+      body: JSON.stringify({ message, agentEmail, history }),
+    });
+    return { reply: res.reply ?? res.message ?? "" };
+  },
 };

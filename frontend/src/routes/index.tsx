@@ -34,7 +34,7 @@ export function Dashboard() {
 
   return (
     <PageTransition>
-      <div className="relative px-4 py-6 md:px-6 lg:px-8">
+      <div data-testid="dashboard" className="relative px-4 py-6 md:px-6 lg:px-8">
         <div className="mesh-bg"><div className="mesh-orb" /></div>
 
         <motion.div
@@ -75,10 +75,10 @@ export function Dashboard() {
           />
         ) : (
           <div className="relative grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
-            <KpiCard label="Total Premium (Active)" value={totalPremium} prefix="₪" delta={0} icon={DollarSign} index={0} />
-            <KpiCard label="Active Policies" value={activePolicies} delta={0} icon={FileText} index={1} />
-            <KpiCard label="Open Claims" value={0} delta={0} icon={ShieldAlert} index={2} />
-            <KpiCard label="New Leads" value={newLeads} delta={0} icon={UserPlus} index={3} />
+            <div data-testid="kpi-total-premium"><KpiCard label="Total Premium (Active)" value={totalPremium} prefix="₪" delta={0} icon={DollarSign} index={0} /></div>
+            <div data-testid="kpi-active-policies"><KpiCard label="Active Policies" value={activePolicies} delta={0} icon={FileText} index={1} /></div>
+            <div data-testid="kpi-open-claims"><KpiCard label="Open Claims" value={0} delta={0} icon={ShieldAlert} index={2} /></div>
+            <div data-testid="kpi-total-customers"><KpiCard label="New Leads" value={newLeads} delta={0} icon={UserPlus} index={3} /></div>
           </div>
         )}
 
