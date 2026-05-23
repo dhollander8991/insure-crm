@@ -1,0 +1,38 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:e2e:headed": "cypress run --headed --no-exit",
+    "test:auth": "cypress run --spec 'cypress/e2e/01-auth.cy.ts'",
+    "test:layout": "cypress run --spec 'cypress/e2e/02-layout.cy.ts'",
+    "test:dashboard": "cypress run --spec 'cypress/e2e/03-dashboard.cy.ts'",
+    "test:customers": "cypress run --spec 'cypress/e2e/04-customers.cy.ts'",
+    "test:policies": "cypress run --spec 'cypress/e2e/05-policies.cy.ts'",
+    "test:chat": "cypress run --spec 'cypress/e2e/06-ai-chat.cy.ts'",
+    "test:a11y": "cypress run --spec 'cypress/e2e/07-accessibility.cy.ts'",
+    "test:visual": "cypress run --spec 'cypress/e2e/08-visual-regression.cy.ts'",
+    "test:api": "cypress run --spec 'cypress/e2e/09-api-integration.cy.ts'",
+    "test:journeys": "cypress run --spec 'cypress/e2e/10-cross-service.cy.ts'",
+    "test:perf": "cypress run --spec 'cypress/e2e/11-performance.cy.ts'",
+    "test:cross-browser:chrome": "testcafe chrome testcafe/",
+    "test:cross-browser:firefox": "testcafe firefox testcafe/",
+    "test:cross-browser:safari": "testcafe safari testcafe/ || echo 'Safari not available'",
+    "test:all": "npm run test:e2e && npm run test:cross-browser:chrome"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@testing-library/cypress": "^10.1.3",
+    "axe-core": "^4.11.4",
+    "cypress": "^15.15.0",
+    "cypress-axe": "^1.7.0",
+    "cypress-image-snapshot": "^4.0.1",
+    "cypress-real-events": "^1.15.0",
+    "testcafe": "^3.7.4"
+  }
+}
