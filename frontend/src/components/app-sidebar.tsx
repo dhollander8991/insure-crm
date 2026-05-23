@@ -28,8 +28,8 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-2">
+      <SidebarHeader className="border-b border-sidebar-border group-data-[collapsible=icon]:p-0">
+        <div className="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-2 group-data-[collapsible=icon]:gap-0">
           <div
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-primary-foreground shadow-md"
             style={{ background: "var(--gradient-primary)" }}
