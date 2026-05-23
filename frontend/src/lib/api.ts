@@ -1,7 +1,7 @@
-const AUTH_URL = import.meta.env.VITE_AUTH_URL ?? "http://localhost:8081";
-const CUSTOMER_URL = import.meta.env.VITE_CUSTOMER_URL ?? "http://localhost:8082";
-const POLICY_URL = import.meta.env.VITE_POLICY_URL ?? "http://localhost:8083";
-const AI_URL = import.meta.env.VITE_AI_URL ?? "http://localhost:8084";
+const AUTH_URL = "http://35.157.14.12:8081";
+const CUSTOMER_URL = "http://35.157.14.12:8082";
+const POLICY_URL = "http://35.157.14.12:8083";
+const AI_URL = "http://35.157.14.12:8084";
 
 export const tokenStorage = {
   get: () => localStorage.getItem("insurecrm_token"),
