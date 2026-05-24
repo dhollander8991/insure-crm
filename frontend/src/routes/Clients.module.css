@@ -1,6 +1,6 @@
 @reference "../styles.css";
 .page {
-  @apply relative flex flex-col gap-6 p-4 sm:p-6 overflow-auto;
+  @apply relative flex flex-col gap-6 p-4 sm:p-6;
 }
 
 .pageHeader {
