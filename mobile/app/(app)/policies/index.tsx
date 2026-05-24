@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
-  FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View,
+  Dimensions, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View,
 } from 'react-native';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 import { Ionicons } from '@expo/vector-icons';
 import { policyApi, PolicyResponse } from '../../../src/lib/api';
 import { StatusBadge } from '../../../src/components/StatusBadge';
@@ -90,6 +92,7 @@ export default function PoliciesScreen() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={{ width: SCREEN_WIDTH }}
         contentContainerStyle={styles.filterRow}
       >
         {STATUS_FILTERS.map((f) => (
@@ -110,6 +113,7 @@ export default function PoliciesScreen() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={{ width: SCREEN_WIDTH }}
         contentContainerStyle={[styles.filterRow, styles.filterRowType]}
       >
         {TYPE_FILTERS.map((f) => (
