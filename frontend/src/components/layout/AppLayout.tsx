@@ -12,7 +12,7 @@ import { RouteProgress } from "@/components/RouteProgress";
 
 export function AppLayout() {
   return (
-    <SidebarProvider className={styles.sidebarProvider}>
+    <SidebarProvider className="h-svh overflow-hidden">
       <AuroraBackground />
       <CommandPalette />
       <RouteProgress />
