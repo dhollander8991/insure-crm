@@ -12,7 +12,12 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.insurecrm.app"
+      "bundleIdentifier": "com.insurecrm.app",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
     },
     "android": {
       "package": "com.insurecrm.app",
