@@ -1,15 +1,6 @@
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 
-// Graceful image snapshot command — falls back to cy.screenshot if plugin isn't loaded
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { addMatchImageSnapshotCommand } = require('cypress-image-snapshot/command');
-  addMatchImageSnapshotCommand({ failureThreshold: 0.03, failureThresholdType: 'percent' });
-} catch {
-  // noop — matchImageSnapshot will fall back to screenshot
-}
-
 // ─── Login via API (no UI round-trip) ────────────────────────────────────────
 Cypress.Commands.add('login', (email?: string, password?: string) => {
   const e = email ?? Cypress.env('agentEmail');
@@ -37,9 +28,16 @@ Cypress.Commands.add('logout', () => {
   cy.visit('/login');
 });
 
-// Match image snapshot with screenshot fallback
-Cypress.Commands.add('matchOrScreenshot', (name: string) => {
-  cy.screenshot(name);
+// Visual snapshot comparison via pixelmatch.
+// First run saves the baseline; subsequent runs diff against it (3% threshold).
+Cypress.Commands.add('matchVisualSnapshot', (snapshotName: string) => {
+  const screenshotsFolder = Cypress.config('screenshotsFolder') as string;
+  const specRelative = Cypress.spec.relative;
+  cy.screenshot(snapshotName, { overwrite: true });
+  cy.task('compareSnapshots', {
+    snapshotName,
+    screenshotPath: `${screenshotsFolder}/${specRelative}/${snapshotName}.png`,
+  });
 });
 
 declare global {
@@ -47,7 +45,7 @@ declare global {
     interface Chainable {
       login(email?: string, password?: string): Chainable<void>;
       logout(): Chainable<void>;
-      matchOrScreenshot(name: string): Chainable<void>;
+      matchVisualSnapshot(snapshotName: string): Chainable<void>;
     }
   }
 }

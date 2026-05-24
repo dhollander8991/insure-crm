@@ -73,7 +73,7 @@ jobs:
           cache: 'npm'
           cache-dependency-path: e2e/package-lock.json
       - name: Install E2E dependencies
-        run: cd e2e && npm ci
+        run: cd e2e && npm ci --legacy-peer-deps
       - name: Run production smoke tests
         run: cd e2e && npx cypress run --spec 'cypress/e2e/13-production-smoke.cy.ts' --config baseUrl=https://insurecrm-navy.vercel.app
         env:
