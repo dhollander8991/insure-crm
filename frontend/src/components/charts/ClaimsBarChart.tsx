@@ -10,7 +10,12 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 
-import { claimStatusData } from "@/lib/mock-data";
+const CLAIM_STATUS_DATA = [
+  { status: "Open", count: 6 },
+  { status: "In Review", count: 4 },
+  { status: "Approved", count: 7 },
+  { status: "Rejected", count: 5 },
+];
 
 const COLORS: Record<string, string> = {
   Open: "var(--color-info)",
@@ -29,7 +34,7 @@ export function ClaimsBarChart() {
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-          data={claimStatusData}
+          data={CLAIM_STATUS_DATA}
           margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
         >
           <CartesianGrid
@@ -59,7 +64,7 @@ export function ClaimsBarChart() {
             }}
           />
           <Bar dataKey="count" radius={[8, 8, 0, 0]}>
-            {claimStatusData.map((d) => (
+            {CLAIM_STATUS_DATA.map((d) => (
               <Cell key={d.status} fill={COLORS[d.status]} />
             ))}
           </Bar>

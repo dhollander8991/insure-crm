@@ -18,8 +18,7 @@ import {
   FileText,
   type LucideIcon,
 } from "lucide-react";
-
-import styles from "./Policies.module.css";
+import { clsx as cx } from "clsx";
 
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -45,7 +44,6 @@ import { EmptyState } from "@/components/EmptyState";
 import { CardGridSkeleton, TableSkeleton } from "@/components/Skeletons";
 import { type PolicyResponse } from "@/lib/api";
 import { NewPolicyDialog } from "@/components/forms/NewPolicyDialog";
-import { cn } from "@/lib/utils";
 import { usePoliciesQuery } from "@/lib/queries/policies.queries";
 
 type PolicyType = "Life" | "Auto" | "Home" | "Health";
@@ -149,7 +147,7 @@ function SortHeader({
   return (
     <button
       onClick={() => onSort(col)}
-      className={cn(
+      className={cx(
         "flex items-center gap-1 font-medium hover:text-foreground whitespace-nowrap",
         className,
       )}
@@ -197,7 +195,7 @@ function FilterHeader({
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className={cn(
+            className={cx(
               "rounded p-0.5 hover:bg-muted",
               isActive && "text-primary",
             )}
@@ -400,23 +398,23 @@ export function PoliciesPage() {
 
   return (
     <PageTransition>
-      <div className={styles.pageWrapper}>
+      <div className="page-container">
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
         <div className="relative">
-          <div className={styles.pageHeader}>
+          <div className="page-header mb-6 flex-wrap">
             <div>
-              <h1 className={styles.pageTitle}>Policies</h1>
-              <p className={styles.pageSubtitle}>
+              <h1 className="page-title">Policies</h1>
+              <p className="page-subtitle">
                 {filteredPolicies.length} of {policies.length} policies
               </p>
             </div>
-            <div className={styles.viewToggleWrapper}>
-              <div className={styles.viewToggleGroup}>
+            <div className="policies-view-toggle">
+              <div className="flex rounded-lg border border-border bg-background p-0.5">
                 <button
                   onClick={() => setActiveView("table")}
-                  className={cn(
+                  className={cx(
                     "rounded px-2 py-1 transition-colors",
                     activeView === "table"
                       ? "bg-muted shadow-sm"
@@ -428,7 +426,7 @@ export function PoliciesPage() {
                 </button>
                 <button
                   onClick={() => setActiveView("cards")}
-                  className={cn(
+                  className={cx(
                     "rounded px-2 py-1 transition-colors",
                     activeView === "cards"
                       ? "bg-muted shadow-sm"
@@ -467,8 +465,8 @@ export function PoliciesPage() {
           )}
 
           {activeFilters.length > 0 && (
-            <div className={styles.filterChipsRow}>
-              <span className={styles.filterChipsLabel}>Filters:</span>
+            <div className="filter-chips-row">
+              <span className="text-xs text-muted-foreground">Filters:</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
@@ -500,7 +498,7 @@ export function PoliciesPage() {
               <CardGridSkeleton count={8} />
             )
           ) : isError ? (
-            <div className={styles.errorMessage}>
+            <div className="error-message">
               Failed to load policies. Make sure policy-service is running.
             </div>
           ) : policies.length === 0 ? (
@@ -528,7 +526,7 @@ export function PoliciesPage() {
                     }
                   />
                 ) : (
-                  <div className={styles.tableScrollWrapper}>
+                  <div className="table-scroll-wrapper">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -760,7 +758,7 @@ export function PoliciesPage() {
                                 <TableCell>
                                   <div className="flex items-center gap-1.5">
                                     <div
-                                      className={cn(
+                                      className={cx(
                                         "flex h-6 w-6 items-center justify-center rounded bg-gradient-to-br",
                                         typeColors[policy.type],
                                       )}
@@ -775,7 +773,7 @@ export function PoliciesPage() {
                                 <TableCell>
                                   <Badge
                                     variant="outline"
-                                    className={cn(
+                                    className={cx(
                                       "text-[10px]",
                                       statusStyles[policy.status],
                                     )}
@@ -817,7 +815,7 @@ export function PoliciesPage() {
               }
             />
           ) : (
-            <div className={styles.cardsGrid}>
+            <div className="policies-card-grid">
               {filteredPolicies.map((policy, index) => {
                 const TypeIcon = typeIcons[policy.type];
                 return (
@@ -837,7 +835,7 @@ export function PoliciesPage() {
                       <CardContent className="p-5">
                         <div className="flex items-start justify-between">
                           <div
-                            className={cn(
+                            className={cx(
                               "flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br",
                               typeColors[policy.type],
                             )}
@@ -846,7 +844,7 @@ export function PoliciesPage() {
                           </div>
                           <Badge
                             variant="outline"
-                            className={cn(
+                            className={cx(
                               "text-[10px]",
                               statusStyles[policy.status],
                             )}

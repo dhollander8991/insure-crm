@@ -13,8 +13,7 @@ import {
   Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-import styles from "./Clients.module.css";
+import { clsx as cx } from "clsx";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -40,7 +39,6 @@ import { EmptyState } from "@/components/EmptyState";
 import { TableSkeleton } from "@/components/Skeletons";
 import { type CustomerResponse } from "@/lib/api";
 import { NewClientDialog } from "@/components/forms/NewClientDialog";
-import { cn } from "@/lib/utils";
 import { useCustomersQuery } from "@/lib/queries/customers.queries";
 
 type ClientStatus = "Lead" | "Active" | "Churned";
@@ -101,7 +99,7 @@ function SortHeader({
   return (
     <button
       onClick={() => onSort(col)}
-      className={cn(
+      className={cx(
         "flex items-center gap-1 font-medium hover:text-foreground",
         className,
       )}
@@ -149,7 +147,7 @@ function FilterHeader({
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className={cn(
+            className={cx(
               "rounded p-0.5 hover:bg-muted",
               isActive && "text-primary",
             )}
@@ -275,15 +273,15 @@ export function ClientsPage() {
 
   return (
     <PageTransition>
-      <div className={styles.pageWrapper}>
+      <div className="page-container">
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
         <div className="relative">
-          <div className={styles.pageHeader}>
+          <div className="page-header mb-6 flex-wrap">
             <div>
-              <h1 className={styles.pageTitle}>Clients</h1>
-              <p className={styles.pageSubtitle}>
+              <h1 className="page-title">Clients</h1>
+              <p className="page-subtitle">
                 {filteredClients.length} of {clients.length} contacts
               </p>
             </div>
@@ -297,8 +295,8 @@ export function ClientsPage() {
           </div>
 
           {activeFilters.length > 0 && (
-            <div className={styles.filterChipsRow}>
-              <span className={styles.filterChipsLabel}>Filters:</span>
+            <div className="filter-chips-row">
+              <span className="text-xs text-muted-foreground">Filters:</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
@@ -326,7 +324,7 @@ export function ClientsPage() {
           {isLoading ? (
             <TableSkeleton rows={7} cols={5} />
           ) : isError ? (
-            <div className={styles.errorMessage}>
+            <div className="error-message">
               Failed to load clients. Make sure customer-service is running.
             </div>
           ) : clients.length === 0 ? (
@@ -366,7 +364,7 @@ export function ClientsPage() {
                     }
                   />
                 ) : (
-                  <div className={styles.tableScrollWrapper}>
+                  <div className="table-scroll-wrapper">
                     <Table data-testid="customers-table">
                       <TableHeader>
                         <TableRow>
@@ -520,7 +518,7 @@ export function ClientsPage() {
                               <TableCell>
                                 <Badge
                                   variant="outline"
-                                  className={cn(
+                                  className={cx(
                                     "font-medium",
                                     statusStyles[client.status],
                                   )}

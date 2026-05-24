@@ -14,6 +14,7 @@ import {
 } from "@dnd-kit/core";
 import { Clock, AlertCircle, GripVertical, Layers, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { clsx as cx } from "clsx";
 
 import { EmptyState } from "@/components/EmptyState";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -28,13 +29,267 @@ import {
 } from "@/components/ui/Sheet";
 import { PageTransition } from "@/components/PageTransition";
 import { BoardSkeleton, useMountLoading } from "@/components/Skeletons";
-import {
-  claims as seedClaims,
-  type Claim,
-  type ClaimStatus,
-  type ClaimSeverity,
-} from "@/lib/mock-data";
-import { cn } from "@/lib/utils";
+
+export type ClaimStatus = "Open" | "In Review" | "Approved" | "Rejected";
+export type ClaimSeverity = "Low" | "Medium" | "High";
+type PolicyType = "Life" | "Auto" | "Home" | "Health";
+
+export interface Claim {
+  id: string;
+  clientName: string;
+  policyType: PolicyType;
+  amount: number;
+  daysOpen: number;
+  status: ClaimStatus;
+  severity: ClaimSeverity;
+  description: string;
+  filedAt: string;
+}
+
+const seedClaims: Claim[] = [
+  {
+    id: "CLM-3000",
+    clientName: "Olivia Carter",
+    policyType: "Auto",
+    amount: 3200,
+    daysOpen: 5,
+    status: "Open",
+    severity: "Medium",
+    description: "Vehicle collision on highway",
+    filedAt: new Date(Date.now() - 5 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3001",
+    clientName: "Liam Bennett",
+    policyType: "Home",
+    amount: 8500,
+    daysOpen: 12,
+    status: "In Review",
+    severity: "High",
+    description: "Water damage from burst pipe",
+    filedAt: new Date(Date.now() - 12 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3002",
+    clientName: "Emma Hayes",
+    policyType: "Health",
+    amount: 1200,
+    daysOpen: 3,
+    status: "Approved",
+    severity: "Low",
+    description: "Hospitalization expenses",
+    filedAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3003",
+    clientName: "Noah Reed",
+    policyType: "Auto",
+    amount: 5600,
+    daysOpen: 8,
+    status: "Open",
+    severity: "High",
+    description: "Rear-end collision",
+    filedAt: new Date(Date.now() - 8 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3004",
+    clientName: "Ava Brooks",
+    policyType: "Home",
+    amount: 2300,
+    daysOpen: 20,
+    status: "Rejected",
+    severity: "Low",
+    description: "Storm damage to roof",
+    filedAt: new Date(Date.now() - 20 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3005",
+    clientName: "Elijah Foster",
+    policyType: "Life",
+    amount: 15000,
+    daysOpen: 30,
+    status: "In Review",
+    severity: "High",
+    description: "Medical procedure coverage",
+    filedAt: new Date(Date.now() - 30 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3006",
+    clientName: "Sophia Hughes",
+    policyType: "Home",
+    amount: 4100,
+    daysOpen: 7,
+    status: "Open",
+    severity: "Medium",
+    description: "Fire damage in kitchen",
+    filedAt: new Date(Date.now() - 7 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3007",
+    clientName: "Lucas Morgan",
+    policyType: "Auto",
+    amount: 900,
+    daysOpen: 2,
+    status: "In Review",
+    severity: "Low",
+    description: "Theft of personal property",
+    filedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3008",
+    clientName: "Isabella Russell",
+    policyType: "Health",
+    amount: 6700,
+    daysOpen: 15,
+    status: "Approved",
+    severity: "Medium",
+    description: "Hospitalization expenses",
+    filedAt: new Date(Date.now() - 15 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3009",
+    clientName: "Mason Stone",
+    policyType: "Home",
+    amount: 3400,
+    daysOpen: 18,
+    status: "Rejected",
+    severity: "Medium",
+    description: "Water damage from burst pipe",
+    filedAt: new Date(Date.now() - 18 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3010",
+    clientName: "Mia Walker",
+    policyType: "Auto",
+    amount: 2100,
+    daysOpen: 4,
+    status: "Open",
+    severity: "Low",
+    description: "Vehicle collision on highway",
+    filedAt: new Date(Date.now() - 4 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3011",
+    clientName: "Logan Parker",
+    policyType: "Life",
+    amount: 22000,
+    daysOpen: 40,
+    status: "In Review",
+    severity: "High",
+    description: "Medical procedure coverage",
+    filedAt: new Date(Date.now() - 40 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3012",
+    clientName: "Charlotte Coleman",
+    policyType: "Health",
+    amount: 4200,
+    daysOpen: 6,
+    status: "Approved",
+    severity: "Medium",
+    description: "Hospitalization expenses",
+    filedAt: new Date(Date.now() - 6 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3013",
+    clientName: "Ethan Ward",
+    policyType: "Auto",
+    amount: 1800,
+    daysOpen: 9,
+    status: "Open",
+    severity: "Low",
+    description: "Rear-end collision",
+    filedAt: new Date(Date.now() - 9 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3014",
+    clientName: "Amelia Bell",
+    policyType: "Home",
+    amount: 7300,
+    daysOpen: 22,
+    status: "Rejected",
+    severity: "High",
+    description: "Storm damage to roof",
+    filedAt: new Date(Date.now() - 22 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3015",
+    clientName: "James Murphy",
+    policyType: "Health",
+    amount: 3100,
+    daysOpen: 11,
+    status: "Approved",
+    severity: "Medium",
+    description: "Medical procedure coverage",
+    filedAt: new Date(Date.now() - 11 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3016",
+    clientName: "Harper Cooper",
+    policyType: "Auto",
+    amount: 5900,
+    daysOpen: 14,
+    status: "In Review",
+    severity: "High",
+    description: "Vehicle collision on highway",
+    filedAt: new Date(Date.now() - 14 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3017",
+    clientName: "Benjamin Rivera",
+    policyType: "Home",
+    amount: 2700,
+    daysOpen: 1,
+    status: "Open",
+    severity: "Low",
+    description: "Water damage from burst pipe",
+    filedAt: new Date(Date.now() - 1 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3018",
+    clientName: "Evelyn Sanders",
+    policyType: "Life",
+    amount: 18500,
+    daysOpen: 35,
+    status: "In Review",
+    severity: "High",
+    description: "Medical procedure coverage",
+    filedAt: new Date(Date.now() - 35 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3019",
+    clientName: "Henry Price",
+    policyType: "Auto",
+    amount: 1400,
+    daysOpen: 3,
+    status: "Open",
+    severity: "Medium",
+    description: "Theft of personal property",
+    filedAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3020",
+    clientName: "Abigail Powell",
+    policyType: "Home",
+    amount: 6200,
+    daysOpen: 25,
+    status: "Approved",
+    severity: "High",
+    description: "Fire damage in kitchen",
+    filedAt: new Date(Date.now() - 25 * 86400000).toISOString(),
+  },
+  {
+    id: "CLM-3021",
+    clientName: "Alexander Long",
+    policyType: "Health",
+    amount: 4800,
+    daysOpen: 16,
+    status: "Rejected",
+    severity: "Medium",
+    description: "Hospitalization expenses",
+    filedAt: new Date(Date.now() - 16 * 86400000).toISOString(),
+  },
+];
 
 const boardColumns: { status: ClaimStatus; accent: string; ring: string }[] = [
   {
@@ -385,7 +640,7 @@ function BoardColumn({
       className="flex flex-col"
     >
       <div
-        className={cn(
+        className={cx(
           "mb-3 flex items-center justify-between rounded-xl border bg-gradient-to-b px-3 py-2.5",
           accent,
           ring,
@@ -398,7 +653,7 @@ function BoardColumn({
       </div>
       <div
         ref={setNodeRef}
-        className={cn(
+        className={cx(
           "relative min-h-[180px] flex-1 space-y-2.5 rounded-xl p-2 transition-all duration-300",
           isOver &&
             "bg-primary/5 ring-2 ring-primary/40 ring-offset-2 ring-offset-background",
@@ -449,14 +704,14 @@ function DraggableCard({
       {...attributes}
       {...listeners}
       onClick={(mouseEvent) => onSelect(claim, mouseEvent)}
-      className={cn(
+      className={cx(
         "group relative cursor-grab select-none transition-opacity duration-200 active:cursor-grabbing",
         isDragging && "opacity-30",
         isDimmed && "opacity-30",
       )}
     >
       <Card
-        className={cn(
+        className={cx(
           "relative overflow-hidden border bg-card/80 backdrop-blur-sm transition-all duration-200",
           "hover:-translate-y-0.5 hover:shadow-[var(--shadow-elegant)]",
           isSelected &&
@@ -464,7 +719,7 @@ function DraggableCard({
         )}
       >
         <span
-          className={cn(
+          className={cx(
             "absolute left-0 top-0 h-full w-1",
             severityStripeColors[claim.severity],
           )}
@@ -513,7 +768,7 @@ function DragStack({ claim, stackSize }: { claim: Claim; stackSize: number }) {
       )}
       <Card className="relative overflow-hidden border drag-glow bg-card/95 backdrop-blur">
         <span
-          className={cn(
+          className={cx(
             "absolute left-0 top-0 h-full w-1",
             severityStripeColors[claim.severity],
           )}

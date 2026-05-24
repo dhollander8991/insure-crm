@@ -9,7 +9,20 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 
-import { revenueData } from "@/lib/mock-data";
+const REVENUE_DATA = [
+  { month: "Jun", premiums: 88500, claims: 28000 },
+  { month: "Jul", premiums: 93000, claims: 30500 },
+  { month: "Aug", premiums: 97500, claims: 27000 },
+  { month: "Sep", premiums: 102000, claims: 33000 },
+  { month: "Oct", premiums: 106500, claims: 31000 },
+  { month: "Nov", premiums: 111000, claims: 35000 },
+  { month: "Dec", premiums: 115500, claims: 29500 },
+  { month: "Jan", premiums: 120000, claims: 38000 },
+  { month: "Feb", premiums: 124500, claims: 34000 },
+  { month: "Mar", premiums: 129000, claims: 32000 },
+  { month: "Apr", premiums: 133500, claims: 36000 },
+  { month: "May", premiums: 138000, claims: 40000 },
+];
 
 export function RevenueAreaChart() {
   return (
@@ -21,7 +34,7 @@ export function RevenueAreaChart() {
     >
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
-          data={revenueData}
+          data={REVENUE_DATA}
           margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
         >
           <defs>

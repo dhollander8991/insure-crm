@@ -9,12 +9,12 @@ import {
   User,
   FileText,
 } from "lucide-react";
+import { clsx as cx } from "clsx";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { PageTransition } from "@/components/PageTransition";
-import { cn } from "@/lib/utils";
 import { useCustomerByIdQuery } from "@/lib/queries/customers.queries";
 import { usePoliciesByCustomerQuery } from "@/lib/queries/policies.queries";
 
@@ -108,7 +108,7 @@ export function ClientDetailPage() {
                     <h1 className="mt-4 text-xl font-semibold">{fullName}</h1>
                     <Badge
                       variant="outline"
-                      className={cn(
+                      className={cx(
                         "mt-2 font-medium",
                         customerStatusStyles[customer.status],
                       )}
@@ -181,7 +181,7 @@ export function ClientDetailPage() {
                             <div className="text-right">
                               <Badge
                                 variant="outline"
-                                className={cn(
+                                className={cx(
                                   "text-[10px]",
                                   policyStatusStyles[policy.status],
                                 )}

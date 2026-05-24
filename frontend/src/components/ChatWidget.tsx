@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { MessageCircle, X, Send, Sparkles, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
-
-import styles from "./ChatWidget.module.css";
+import { clsx as cx } from "clsx";
 
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
-import { cn } from "@/lib/utils";
 import { type AiMessage } from "@/lib/api";
 import { useSendChatMessageMutation } from "@/lib/queries/ai.queries";
 
@@ -71,7 +69,7 @@ export function ChatWidget() {
         onClick={() => setIsChatOpen((previousOpen) => !previousOpen)}
         aria-label={isChatOpen ? "Close chat" : "Open chat"}
         data-testid="ai-chat-button"
-        className={cn(styles.toggleButton, "ring-1 ring-primary/40")}
+        className="chat-toggle-button bg-primary text-primary-foreground ring-1 ring-primary/40"
       >
         {isChatOpen ? (
           <X className="h-5 w-5" />
@@ -82,25 +80,27 @@ export function ChatWidget() {
 
       <div
         data-testid="ai-chat-panel"
-        className={cn(
-          styles.chatPanel,
-          isChatOpen ? styles.chatPanelOpen : styles.chatPanelClosed,
+        className={cx(
+          "chat-panel",
+          isChatOpen
+            ? "pointer-events-auto scale-100 opacity-100"
+            : "pointer-events-none scale-95 opacity-0",
         )}
       >
-        <div className={styles.chatHeader}>
-          <div className={styles.chatHeaderAvatar}>
+        <div className="flex items-center gap-2 border-b px-4 py-3 bg-gradient-to-r from-primary/10 to-transparent">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary">
             <Sparkles className="h-4 w-4" />
           </div>
-          <div className={styles.chatHeaderTextWrapper}>
-            <div className={styles.chatHeaderTitle}>Aegis Assistant</div>
-            <div className={styles.chatHeaderSubtitle}>AI · always on</div>
+          <div className="min-w-0">
+            <div className="chat-panel-title">Aegis Assistant</div>
+            <div className="text-xs text-muted-foreground">AI · always on</div>
           </div>
         </div>
 
         <div
           ref={messagesScrollRef}
           data-testid="ai-chat-messages"
-          className={styles.messagesArea}
+          className="chat-messages-area"
         >
           {chatMessages.map((message, index) => (
             <div
@@ -108,19 +108,19 @@ export function ChatWidget() {
               data-testid={
                 message.role === "user" ? "user-message" : "ai-message"
               }
-              className={cn(
-                styles.messageRow,
+              className={cx(
+                "chat-message-row",
                 message.role === "user"
-                  ? styles.messageRowUser
-                  : styles.messageRowAssistant,
+                  ? "chat-message-row--user"
+                  : "chat-message-row--ai",
               )}
             >
               <div
-                className={cn(
-                  styles.messageBubble,
+                className={cx(
+                  "chat-bubble",
                   message.role === "user"
-                    ? styles.messageBubbleUser
-                    : styles.messageBubbleAssistant,
+                    ? "chat-bubble--user"
+                    : "chat-bubble--ai",
                 )}
               >
                 <div className="prose prose-sm max-w-none dark:prose-invert prose-p:my-1 prose-pre:my-1 prose-ul:my-1 prose-ol:my-1">
@@ -130,16 +130,16 @@ export function ChatWidget() {
             </div>
           ))}
           {sendChatMessageMutation.isPending && (
-            <div className={styles.loadingBubble}>
-              <div className={styles.loadingIndicator}>
+            <div className="flex justify-start">
+              <div className="rounded-2xl bg-muted px-3 py-2 text-sm text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             </div>
           )}
         </div>
 
-        <div className={styles.inputArea}>
-          <div className={styles.inputRow}>
+        <div className="chat-input-area">
+          <div className="chat-input-row">
             <Textarea
               value={chatInputText}
               onChange={(event) => setChatInputText(event.target.value)}

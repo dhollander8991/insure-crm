@@ -1,7 +1,12 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { motion } from "framer-motion";
 
-import { policyTypeData } from "@/lib/mock-data";
+const POLICY_TYPE_DATA = [
+  { type: "Life", count: 10 },
+  { type: "Auto", count: 13 },
+  { type: "Home", count: 9 },
+  { type: "Health", count: 8 },
+];
 
 const COLORS = [
   "var(--color-chart-1)",
@@ -11,7 +16,7 @@ const COLORS = [
 ];
 
 export function PoliciesDonut() {
-  const total = policyTypeData.reduce((s, d) => s + d.count, 0);
+  const total = POLICY_TYPE_DATA.reduce((s, d) => s + d.count, 0);
   return (
     <div className="flex flex-col">
       <motion.div
@@ -23,7 +28,7 @@ export function PoliciesDonut() {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={policyTypeData}
+              data={POLICY_TYPE_DATA}
               dataKey="count"
               nameKey="type"
               innerRadius={70}
@@ -31,7 +36,7 @@ export function PoliciesDonut() {
               paddingAngle={3}
               strokeWidth={0}
             >
-              {policyTypeData.map((_, i) => (
+              {POLICY_TYPE_DATA.map((_, i) => (
                 <Cell key={i} fill={COLORS[i % COLORS.length]} />
               ))}
             </Pie>
@@ -52,7 +57,7 @@ export function PoliciesDonut() {
         </div>
       </motion.div>
       <div className="mt-2 flex flex-wrap justify-center gap-3 pb-4 text-xs">
-        {policyTypeData.map((d, i) => (
+        {POLICY_TYPE_DATA.map((d, i) => (
           <div key={d.type} className="flex items-center gap-1.5">
             <span
               className="h-2.5 w-2.5 rounded-full"

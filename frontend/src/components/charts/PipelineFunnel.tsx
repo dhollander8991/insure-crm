@@ -1,12 +1,18 @@
 import { motion } from "framer-motion";
 
-import { pipelineData } from "@/lib/mock-data";
+const PIPELINE_DATA = [
+  { stage: "New Leads", count: 48 },
+  { stage: "Contacted", count: 34 },
+  { stage: "Qualified", count: 22 },
+  { stage: "Proposal", count: 14 },
+  { stage: "Won", count: 9 },
+];
 
 export function PipelineFunnel() {
-  const max = Math.max(...pipelineData.map((d) => d.count));
+  const max = Math.max(...PIPELINE_DATA.map((d) => d.count));
   return (
     <div className="space-y-3 py-2">
-      {pipelineData.map((d, i) => {
+      {PIPELINE_DATA.map((d, i) => {
         const pct = (d.count / max) * 100;
         return (
           <div key={d.stage} className="space-y-1.5">

@@ -43,6 +43,10 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-unused-vars": "off",
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      eqeqeq: "error",
       "import/order": [
         "warn",
         {

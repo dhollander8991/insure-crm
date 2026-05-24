@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import styles from "./Skeletons.module.css";
-
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
@@ -32,7 +30,7 @@ export function KpiCardSkeleton() {
 
 export function KpiGridSkeleton({ count = 4 }: { count?: number }) {
   return (
-    <div className={styles.kpiGrid}>
+    <div className="skeleton-kpi-grid">
       {Array.from({ length: count }).map((_, index) => (
         <KpiCardSkeleton key={index} />
       ))}
@@ -67,7 +65,7 @@ export function ChartSkeleton({
               (barHeightPercent, index) => (
                 <div
                   key={index}
-                  className={styles.chartBar}
+                  className="skeleton-chart-bar"
                   style={
                     {
                       "--bar-height": `${barHeightPercent}%`,
@@ -99,7 +97,7 @@ export function TableSkeleton({
       <CardContent className="p-0">
         <div className="divide-y">
           <div
-            className={styles.tableHeaderGrid}
+            className="skeleton-table-header-grid"
             style={{ "--grid-cols": cols } as React.CSSProperties}
           >
             {Array.from({ length: cols }).map((_, index) => (
@@ -109,7 +107,7 @@ export function TableSkeleton({
           {Array.from({ length: rows }).map((_, rowIndex) => (
             <div
               key={rowIndex}
-              className={styles.tableRowGrid}
+              className="skeleton-table-row-grid"
               style={{ "--grid-cols": cols } as React.CSSProperties}
             >
               {Array.from({ length: cols }).map((_, colIndex) => (

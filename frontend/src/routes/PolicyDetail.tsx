@@ -1,12 +1,12 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, DollarSign, User, Hash } from "lucide-react";
+import { clsx as cx } from "clsx";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { PageTransition } from "@/components/PageTransition";
-import { cn } from "@/lib/utils";
 import { usePolicyByIdQuery } from "@/lib/queries/policies.queries";
 import { useCustomerByIdQuery } from "@/lib/queries/customers.queries";
 
@@ -111,7 +111,7 @@ export function PolicyDetailPage() {
                     </CardTitle>
                   </div>
                   <div
-                    className={cn(
+                    className={cx(
                       "flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-lg font-bold",
                       policyTypeColors[policy.type],
                     )}
@@ -121,7 +121,7 @@ export function PolicyDetailPage() {
                 </div>
                 <Badge
                   variant="outline"
-                  className={cn(
+                  className={cx(
                     "w-fit font-medium",
                     policyStatusStyles[policy.status],
                   )}

@@ -10,8 +10,6 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
-import styles from "./Dashboard.module.css";
-
 import { EmptyState } from "@/components/EmptyState";
 import {
   Card,
@@ -28,9 +26,41 @@ import { ClaimsBarChart } from "@/components/charts/ClaimsBarChart";
 import { PipelineFunnel } from "@/components/charts/PipelineFunnel";
 import { LiveCoverageGlobe } from "@/components/charts/LiveCoverageGlobe";
 import { KpiGridSkeleton, ChartSkeleton } from "@/components/Skeletons";
-import { recentActivity } from "@/lib/mock-data";
 import { useCustomersQuery } from "@/lib/queries/customers.queries";
 import { usePoliciesQuery } from "@/lib/queries/policies.queries";
+
+const RECENT_ACTIVITY = [
+  {
+    id: 1,
+    type: "policy",
+    text: "New auto policy issued for Olivia Carter",
+    time: "2m ago",
+  },
+  {
+    id: 2,
+    type: "claim",
+    text: "Claim CLM-3012 approved — $4,200",
+    time: "18m ago",
+  },
+  {
+    id: 3,
+    type: "lead",
+    text: "New lead: Noah Bennett requested a quote",
+    time: "1h ago",
+  },
+  {
+    id: 4,
+    type: "renewal",
+    text: "Home policy POL-482910 renewed",
+    time: "3h ago",
+  },
+  {
+    id: 5,
+    type: "claim",
+    text: "Claim CLM-3007 moved to In Review",
+    time: "5h ago",
+  },
+];
 
 export function Dashboard() {
   const { data: customersData = [], isLoading: isCustomersLoading } =
@@ -52,7 +82,7 @@ export function Dashboard() {
 
   return (
     <PageTransition>
-      <div data-testid="dashboard" className={styles.pageWrapper}>
+      <div data-testid="dashboard" className="page-container">
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
@@ -104,7 +134,7 @@ export function Dashboard() {
             description="Add clients and policies to see your dashboard metrics."
           />
         ) : (
-          <div className={styles.kpiGrid}>
+          <div className="kpi-grid">
             <div data-testid="kpi-total-premium">
               <KpiCard
                 label="Total Premium (Active)"
@@ -271,8 +301,8 @@ export function Dashboard() {
                 Latest events across your workspace
               </CardDescription>
             </CardHeader>
-            <CardContent className={styles.activityGrid}>
-              {recentActivity.map((activityItem, index) => (
+            <CardContent className="dashboard-activity-grid">
+              {RECENT_ACTIVITY.map((activityItem, index) => (
                 <motion.div
                   key={activityItem.id}
                   initial={{ opacity: 0, x: -10 }}

@@ -6,8 +6,7 @@ import {
   ShieldAlert,
   ShieldCheck,
 } from "lucide-react";
-
-import styles from "./AppSidebar.module.css";
+import { clsx as cx } from "clsx";
 
 import {
   Sidebar,
@@ -42,13 +41,13 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border group-data-[collapsible=icon]:p-0">
-        <div className="flex items-center gap-2 px-2 py-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:py-2 group-data-[collapsible=icon]:gap-0">
-          <div className={styles.logoIcon}>
+        <div className="sidebar-logo-wrapper">
+          <div className="sidebar-logo-icon">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <div className="flex flex-col leading-tight overflow-hidden group-data-[collapsible=icon]:hidden">
-            <span className={styles.logoTitle}>Aegis CRM</span>
-            <span className={styles.logoSubtitle}>Insurance Suite</span>
+            <span className="sidebar-logo-title">Aegis CRM</span>
+            <span className="sidebar-logo-subtitle">Insurance Suite</span>
           </div>
         </div>
       </SidebarHeader>
@@ -75,9 +74,10 @@ export function AppSidebar() {
                         className="flex items-center gap-2"
                       >
                         <navItem.icon
-                          className={`${styles.navIcon} group-hover/menu-button:scale-110 ${
-                            isNavItemActive ? styles.navIconActive : ""
-                          }`}
+                          className={cx(
+                            "sidebar-nav-icon group-hover/menu-button:scale-110",
+                            isNavItemActive && "sidebar-nav-icon--active",
+                          )}
                         />
                         {!isSidebarCollapsed && <span>{navItem.title}</span>}
                       </Link>

@@ -116,10 +116,7 @@ export function KpiCard({
                 "radial-gradient(400px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, var(--primary) 15%, transparent), transparent 60%)",
             }}
           />
-          <div
-            className="relative flex items-start justify-between gap-3"
-            style={{ transform: "translateZ(30px)" }}
-          >
+          <div className="kpi-card-inner relative flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1 space-y-1.5">
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {label}
