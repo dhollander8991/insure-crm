@@ -2,10 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
-  Dimensions, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View,
+  FlatList, Pressable, RefreshControl, StyleSheet, Text, View,
 } from 'react-native';
-
-const SCREEN_WIDTH = Dimensions.get('window').width;
 import { Ionicons } from '@expo/vector-icons';
 import { policyApi, PolicyResponse } from '../../../src/lib/api';
 import { StatusBadge } from '../../../src/components/StatusBadge';
@@ -89,12 +87,7 @@ export default function PoliciesScreen() {
       </View>
 
       {/* Status filters */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ width: SCREEN_WIDTH }}
-        contentContainerStyle={styles.filterRow}
-      >
+      <View style={styles.filterRow}>
         {STATUS_FILTERS.map((f) => (
           <Pressable
             key={f}
@@ -106,16 +99,10 @@ export default function PoliciesScreen() {
             </Text>
           </Pressable>
         ))}
-        <View style={styles.filterTrail} />
-      </ScrollView>
+      </View>
 
       {/* Type filters */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={{ width: SCREEN_WIDTH }}
-        contentContainerStyle={[styles.filterRow, styles.filterRowType]}
-      >
+      <View style={[styles.filterRow, styles.filterRowType]}>
         {TYPE_FILTERS.map((f) => (
           <Pressable
             key={f}
@@ -127,8 +114,7 @@ export default function PoliciesScreen() {
             </Text>
           </Pressable>
         ))}
-        <View style={styles.filterTrail} />
-      </ScrollView>
+      </View>
 
       {/* List */}
       {isLoading ? (
@@ -173,15 +159,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryLight, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 20,
   },
   filterRow: {
-    flexDirection: 'row', alignItems: 'center',
-    paddingLeft: 16, paddingTop: 4, paddingBottom: 4,
+    flexDirection: 'row', flexWrap: 'wrap',
+    paddingHorizontal: 16, paddingTop: 4, paddingBottom: 4, gap: 8,
   },
   filterRowType: { paddingTop: 0, paddingBottom: 8 },
-  filterTrail: { width: 16 },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
     backgroundColor: colors.card, borderWidth: 1, borderColor: colors.border,
-    marginRight: 8,
   },
   chipType: { backgroundColor: colors.background },
   chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
