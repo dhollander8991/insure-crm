@@ -1,0 +1,12 @@
+@reference "../../styles.css";
+.container {
+  @apply flex h-full w-full max-w-full overflow-x-hidden text-foreground;
+}
+
+.sidebar {
+  @apply flex min-w-0 flex-1 flex-col overflow-hidden;
+}
+
+.main {
+  @apply min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden;
+}

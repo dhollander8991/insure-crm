@@ -1,0 +1,4 @@
+@reference "../styles.css";
+.loadingRow {
+  @apply flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground;
+}

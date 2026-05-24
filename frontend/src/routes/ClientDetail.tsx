@@ -9,7 +9,9 @@ import {
   User,
   FileText,
 } from "lucide-react";
-import { clsx as cx } from "clsx";
+import clsx from "clsx";
+
+import styles from "./ClientDetail.module.css";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -18,17 +20,17 @@ import { PageTransition } from "@/components/PageTransition";
 import { useCustomerByIdQuery } from "@/lib/queries/customers.queries";
 import { usePoliciesByCustomerQuery } from "@/lib/queries/policies.queries";
 
-const customerStatusStyles: Record<string, string> = {
-  ACTIVE: "bg-success/15 text-success border-success/30",
-  INACTIVE: "bg-muted text-muted-foreground border-border",
-  PROSPECT: "bg-info/15 text-info border-info/30",
+const customerStatusClasses: Record<string, string> = {
+  ACTIVE: styles.statusActive,
+  INACTIVE: styles.statusInactive,
+  PROSPECT: styles.statusProspect,
 };
 
-const policyStatusStyles: Record<string, string> = {
-  ACTIVE: "bg-success/15 text-success border-success/30",
-  PENDING: "bg-warning/15 text-warning border-warning/30",
-  EXPIRED: "bg-muted text-muted-foreground border-border",
-  CANCELLED: "bg-muted text-muted-foreground border-border",
+const policyStatusClasses: Record<string, string> = {
+  ACTIVE: styles.policyStatusActive,
+  PENDING: styles.policyStatusPending,
+  EXPIRED: styles.policyStatusExpired,
+  CANCELLED: styles.policyStatusCancelled,
 };
 
 export function ClientDetailPage() {
@@ -47,8 +49,8 @@ export function ClientDetailPage() {
   if (isLoading) {
     return (
       <PageTransition>
-        <div className="flex h-64 items-center justify-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        <div className={styles.loadingWrap}>
+          <div className={styles.loadingSpinner} />
         </div>
       </PageTransition>
     );
@@ -57,15 +59,15 @@ export function ClientDetailPage() {
   if (isError || !customer) {
     return (
       <PageTransition>
-        <div className="px-4 py-6 md:px-6 lg:px-8">
+        <div className={styles.errorWrap}>
           <Button
             variant="ghost"
             onClick={() => navigate("/clients")}
-            className="mb-4 gap-2"
+            className={styles.backButton}
           >
             <ArrowLeft className="h-4 w-4" /> Back to Clients
           </Button>
-          <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-center text-sm text-destructive">
+          <div className={styles.errorMessage}>
             Client not found or failed to load.
           </div>
         </div>
@@ -79,7 +81,7 @@ export function ClientDetailPage() {
 
   return (
     <PageTransition>
-      <div className="relative px-4 py-6 md:px-6 lg:px-8">
+      <div className={styles.page}>
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
@@ -87,7 +89,7 @@ export function ClientDetailPage() {
           <Button
             variant="ghost"
             onClick={() => navigate("/clients")}
-            className="mb-6 gap-2"
+            className={styles.backButton}
           >
             <ArrowLeft className="h-4 w-4" /> Back to Clients
           </Button>
@@ -96,49 +98,47 @@ export function ClientDetailPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid gap-4 lg:grid-cols-3"
+            className={styles.grid}
           >
-            <div className="lg:col-span-1">
-              <Card className="bg-card/70 backdrop-blur-xl">
-                <CardContent className="p-6">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-                      {initials}
-                    </div>
-                    <h1 className="mt-4 text-xl font-semibold">{fullName}</h1>
+            <div className={styles.profileCol}>
+              <Card className={styles.profileCard}>
+                <CardContent className={styles.profileCardContent}>
+                  <div className={styles.profileCenter}>
+                    <div className={styles.avatar}>{initials}</div>
+                    <h1 className={styles.name}>{fullName}</h1>
                     <Badge
                       variant="outline"
-                      className={cx(
-                        "mt-2 font-medium",
-                        customerStatusStyles[customer.status],
+                      className={clsx(
+                        styles.statusBadge,
+                        customerStatusClasses[customer.status],
                       )}
                     >
                       {customer.status}
                     </Badge>
                   </div>
-                  <div className="mt-6 space-y-3 border-t pt-4">
-                    <div className="flex items-center gap-3 text-sm">
-                      <Mail className="h-4 w-4 shrink-0 text-muted-foreground" />
-                      <span className="break-all">{customer.email}</span>
+                  <div className={styles.infoSection}>
+                    <div className={styles.infoRow}>
+                      <Mail className={styles.infoIcon} />
+                      <span className={styles.infoBreak}>{customer.email}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Phone className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    <div className={styles.infoRow}>
+                      <Phone className={styles.infoIcon} />
                       <span>{customer.phone}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Hash className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    <div className={styles.infoRow}>
+                      <Hash className={styles.infoIcon} />
                       <span>ID: {customer.israeliId}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Calendar className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    <div className={styles.infoRow}>
+                      <Calendar className={styles.infoIcon} />
                       <span>
                         DOB:{" "}
                         {new Date(customer.dateOfBirth).toLocaleDateString()}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <User className="h-4 w-4 shrink-0 text-muted-foreground" />
-                      <span className="break-all">
+                    <div className={styles.infoRow}>
+                      <User className={styles.infoIcon} />
+                      <span className={styles.infoBreak}>
                         Agent: {customer.agentEmail}
                       </span>
                     </div>
@@ -147,48 +147,48 @@ export function ClientDetailPage() {
               </Card>
             </div>
 
-            <div className="lg:col-span-2">
-              <Card className="bg-card/70 backdrop-blur-xl">
+            <div className={styles.policiesCol}>
+              <Card className={styles.policiesCard}>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-5 w-5" /> Policies (
+                  <CardTitle className={styles.policiesTitle}>
+                    <FileText className={styles.policiesTitleIcon} /> Policies (
                     {customerPolicies.length})
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {customerPolicies.length === 0 ? (
-                    <p className="text-center text-sm text-muted-foreground py-8">
+                    <p className={styles.emptyPolicies}>
                       No policies found for this client.
                     </p>
                   ) : (
-                    <div className="space-y-3">
+                    <div className={styles.policyList}>
                       {customerPolicies.map((policy) => (
                         <Link
                           key={policy.id}
                           to={`/policies/${policy.id}`}
-                          className="block"
+                          className={styles.policyLink}
                         >
-                          <div className="flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted/40">
+                          <div className={styles.policyCard}>
                             <div>
-                              <p className="text-sm font-semibold">
+                              <p className={styles.policyNumber}>
                                 {policy.policyNumber}
                               </p>
-                              <p className="text-xs text-muted-foreground">
+                              <p className={styles.policyMeta}>
                                 {policy.type} · Renews{" "}
                                 {new Date(policy.endDate).toLocaleDateString()}
                               </p>
                             </div>
-                            <div className="text-right">
+                            <div className={styles.policyRight}>
                               <Badge
                                 variant="outline"
-                                className={cx(
-                                  "text-[10px]",
-                                  policyStatusStyles[policy.status],
+                                className={clsx(
+                                  styles.policyBadge,
+                                  policyStatusClasses[policy.status],
                                 )}
                               >
                                 {policy.status}
                               </Badge>
-                              <p className="mt-1 text-sm font-semibold">
+                              <p className={styles.policyPremium}>
                                 ${policy.premium}/mo
                               </p>
                             </div>

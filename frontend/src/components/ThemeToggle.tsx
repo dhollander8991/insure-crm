@@ -2,6 +2,7 @@ import { Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useTheme } from "./ThemeProvider";
+import styles from "./ThemeToggle.module.css";
 
 import { Button } from "@/components/ui/Button";
 
@@ -22,7 +23,7 @@ export function ThemeToggle() {
           animate={{ y: 0, opacity: 1, rotate: 0 }}
           exit={{ y: 20, opacity: 0, rotate: 90 }}
           transition={{ duration: 0.2 }}
-          className="absolute inset-0 flex items-center justify-center"
+          className={styles.iconWrapper}
         >
           {theme === "dark" ? (
             <Sun className="h-4 w-4" />

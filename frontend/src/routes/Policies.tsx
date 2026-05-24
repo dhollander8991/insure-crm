@@ -18,7 +18,9 @@ import {
   FileText,
   type LucideIcon,
 } from "lucide-react";
-import { clsx as cx } from "clsx";
+import clsx from "clsx";
+
+import styles from "./Policies.module.css";
 
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -96,18 +98,18 @@ const typeIcons: Record<PolicyType, LucideIcon> = {
   Health: Stethoscope,
 };
 
-const typeColors: Record<PolicyType, string> = {
-  Life: "from-rose-500/20 to-rose-500/5 text-rose-500",
-  Auto: "from-sky-500/20 to-sky-500/5 text-sky-500",
-  Home: "from-emerald-500/20 to-emerald-500/5 text-emerald-500",
-  Health: "from-violet-500/20 to-violet-500/5 text-violet-500",
+const typeClasses: Record<PolicyType, string> = {
+  Life: styles.typeLife,
+  Auto: styles.typeAuto,
+  Home: styles.typeHome,
+  Health: styles.typeHealth,
 };
 
-const statusStyles: Record<PolicyStatus, string> = {
-  Active: "bg-success/15 text-success border-success/30",
-  Pending: "bg-warning/15 text-warning border-warning/30",
-  Expired: "bg-muted text-muted-foreground border-border",
-  Cancelled: "bg-destructive/10 text-destructive border-destructive/30",
+const statusClasses: Record<PolicyStatus, string> = {
+  Active: styles.statusActive,
+  Pending: styles.statusPending,
+  Expired: styles.statusExpired,
+  Cancelled: styles.statusCancelled,
 };
 
 const ALL_TYPES: PolicyType[] = ["Life", "Auto", "Home", "Health"];
@@ -134,24 +136,16 @@ function SortHeader({
   sortCol,
   sortDir,
   onSort,
-  className,
 }: {
   col: SortColumn;
   label: string;
   sortCol: SortColumn | null;
   sortDir: SortDirection;
   onSort: (column: SortColumn) => void;
-  className?: string;
 }) {
   const isActive = sortCol === col;
   return (
-    <button
-      onClick={() => onSort(col)}
-      className={cx(
-        "flex items-center gap-1 font-medium hover:text-foreground whitespace-nowrap",
-        className,
-      )}
-    >
+    <button onClick={() => onSort(col)} className={styles.sortButton}>
       {label}
       {isActive ? (
         sortDir === "asc" ? (
@@ -184,7 +178,7 @@ function FilterHeader({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-1">
+    <div className={styles.filterHeaderRow}>
       <SortHeader
         col={col}
         label={label}
@@ -195,9 +189,9 @@ function FilterHeader({
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className={cx(
-              "rounded p-0.5 hover:bg-muted",
-              isActive && "text-primary",
+            className={clsx(
+              styles.filterPopoverTrigger,
+              isActive && styles.filterPopoverTriggerActive,
             )}
           >
             <Filter className="h-3 w-3" />
@@ -398,27 +392,25 @@ export function PoliciesPage() {
 
   return (
     <PageTransition>
-      <div className="page-container">
+      <div className={styles.page}>
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
         <div className="relative">
-          <div className="page-header mb-6 flex-wrap">
+          <div className={styles.pageHeader}>
             <div>
-              <h1 className="page-title">Policies</h1>
-              <p className="page-subtitle">
+              <h1 className={styles.pageTitle}>Policies</h1>
+              <p className={styles.pageSubtitle}>
                 {filteredPolicies.length} of {policies.length} policies
               </p>
             </div>
-            <div className="policies-view-toggle">
-              <div className="flex rounded-lg border border-border bg-background p-0.5">
+            <div className={styles.headerActions}>
+              <div className={styles.viewToggleGroup}>
                 <button
                   onClick={() => setActiveView("table")}
-                  className={cx(
-                    "rounded px-2 py-1 transition-colors",
-                    activeView === "table"
-                      ? "bg-muted shadow-sm"
-                      : "hover:bg-muted/50",
+                  className={clsx(
+                    styles.viewToggleBtn,
+                    activeView === "table" && styles.viewToggleBtnActive,
                   )}
                   title="Table view"
                 >
@@ -426,11 +418,9 @@ export function PoliciesPage() {
                 </button>
                 <button
                   onClick={() => setActiveView("cards")}
-                  className={cx(
-                    "rounded px-2 py-1 transition-colors",
-                    activeView === "cards"
-                      ? "bg-muted shadow-sm"
-                      : "hover:bg-muted/50",
+                  className={clsx(
+                    styles.viewToggleBtn,
+                    activeView === "cards" && styles.viewToggleBtnActive,
                   )}
                   title="Card view"
                 >
@@ -448,15 +438,15 @@ export function PoliciesPage() {
           </div>
 
           {renewingSoonPolicies.length > 0 && (
-            <Card className="mb-6 border-warning/40 bg-warning/5">
-              <CardContent className="flex items-center gap-3 py-4">
-                <Calendar className="h-5 w-5 text-warning shrink-0" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">
+            <Card className={styles.renewalBanner}>
+              <CardContent className={styles.renewalContent}>
+                <Calendar className={styles.renewalIcon} />
+                <div className={styles.renewalText}>
+                  <p className={styles.renewalMessage}>
                     {renewingSoonPolicies.length} policies renewing in the next
                     60 days
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className={styles.renewalSub}>
                     Reach out proactively to maximize retention.
                   </p>
                 </div>
@@ -465,18 +455,18 @@ export function PoliciesPage() {
           )}
 
           {activeFilters.length > 0 && (
-            <div className="filter-chips-row">
+            <div className={styles.filterRow}>
               <span className="text-xs text-muted-foreground">Filters:</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
                   variant="secondary"
-                  className="gap-1 pr-1 text-xs font-normal"
+                  className={styles.filterChip}
                 >
                   {filterChip.label}
                   <button
                     onClick={filterChip.onRemove}
-                    className="ml-1 rounded hover:text-foreground"
+                    className={styles.filterChipRemove}
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -484,7 +474,7 @@ export function PoliciesPage() {
               ))}
               <button
                 onClick={clearAllFilters}
-                className="text-xs text-muted-foreground hover:text-foreground"
+                className={styles.filterClearAll}
               >
                 Clear all
               </button>
@@ -498,7 +488,7 @@ export function PoliciesPage() {
               <CardGridSkeleton count={8} />
             )
           ) : isError ? (
-            <div className="error-message">
+            <div className={styles.errorMessage}>
               Failed to load policies. Make sure policy-service is running.
             </div>
           ) : policies.length === 0 ? (
@@ -526,7 +516,7 @@ export function PoliciesPage() {
                     }
                   />
                 ) : (
-                  <div className="table-scroll-wrapper">
+                  <div className={styles.tableWrapper}>
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -564,7 +554,7 @@ export function PoliciesPage() {
                                 {ALL_TYPES.map((policyType) => (
                                   <div
                                     key={policyType}
-                                    className="flex items-center gap-2"
+                                    className={styles.filterCheckboxRow}
                                   >
                                     <Checkbox
                                       id={`type-${policyType}`}
@@ -575,7 +565,7 @@ export function PoliciesPage() {
                                     />
                                     <Label
                                       htmlFor={`type-${policyType}`}
-                                      className="text-sm font-normal cursor-pointer"
+                                      className={styles.filterLabel}
                                     >
                                       {policyType}
                                     </Label>
@@ -600,7 +590,7 @@ export function PoliciesPage() {
                                 {ALL_STATUSES.map((status) => (
                                   <div
                                     key={status}
-                                    className="flex items-center gap-2"
+                                    className={styles.filterCheckboxRow}
                                   >
                                     <Checkbox
                                       id={`pstatus-${status}`}
@@ -611,7 +601,7 @@ export function PoliciesPage() {
                                     />
                                     <Label
                                       htmlFor={`pstatus-${status}`}
-                                      className="text-sm font-normal cursor-pointer"
+                                      className={styles.filterLabel}
                                     >
                                       {status}
                                     </Label>
@@ -632,7 +622,7 @@ export function PoliciesPage() {
                               <p className="mb-2 text-xs font-medium">
                                 Premium range (₪)
                               </p>
-                              <div className="flex items-center gap-2">
+                              <div className={styles.premiumRangeRow}>
                                 <Input
                                   value={premiumMin}
                                   onChange={(event) =>
@@ -744,7 +734,7 @@ export function PoliciesPage() {
                                   duration: 0.2,
                                   delay: Math.min(index * 0.02, 0.3),
                                 }}
-                                className="border-b cursor-pointer transition-colors hover:bg-muted/50"
+                                className={styles.tableRow}
                                 onClick={() =>
                                   navigate(`/policies/${policy.id}`)
                                 }
@@ -756,11 +746,11 @@ export function PoliciesPage() {
                                   {policy.clientName}
                                 </TableCell>
                                 <TableCell>
-                                  <div className="flex items-center gap-1.5">
+                                  <div className={styles.typeIconWrap}>
                                     <div
-                                      className={cx(
-                                        "flex h-6 w-6 items-center justify-center rounded bg-gradient-to-br",
-                                        typeColors[policy.type],
+                                      className={clsx(
+                                        styles.typeIcon,
+                                        typeClasses[policy.type],
                                       )}
                                     >
                                       <TypeIcon className="h-3.5 w-3.5" />
@@ -773,9 +763,9 @@ export function PoliciesPage() {
                                 <TableCell>
                                   <Badge
                                     variant="outline"
-                                    className={cx(
+                                    className={clsx(
                                       "text-[10px]",
-                                      statusStyles[policy.status],
+                                      statusClasses[policy.status],
                                     )}
                                   >
                                     {policy.status}
@@ -815,7 +805,7 @@ export function PoliciesPage() {
               }
             />
           ) : (
-            <div className="policies-card-grid">
+            <div className={styles.cardGrid}>
               {filteredPolicies.map((policy, index) => {
                 const TypeIcon = typeIcons[policy.type];
                 return (
@@ -828,48 +818,46 @@ export function PoliciesPage() {
                       delay: Math.min(index * 0.03, 0.5),
                     }}
                     whileHover={{ y: -3 }}
-                    className="cursor-pointer"
+                    className={styles.cardCursor}
                     onClick={() => navigate(`/policies/${policy.id}`)}
                   >
-                    <Card className="h-full overflow-hidden transition-shadow hover:shadow-[var(--shadow-elegant)]">
-                      <CardContent className="p-5">
-                        <div className="flex items-start justify-between">
+                    <Card className={styles.cardRoot}>
+                      <CardContent className={styles.cardContent}>
+                        <div className={styles.cardHeader}>
                           <div
-                            className={cx(
-                              "flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br",
-                              typeColors[policy.type],
+                            className={clsx(
+                              styles.cardTypeIcon,
+                              typeClasses[policy.type],
                             )}
                           >
                             <TypeIcon className="h-5 w-5" />
                           </div>
                           <Badge
                             variant="outline"
-                            className={cx(
+                            className={clsx(
                               "text-[10px]",
-                              statusStyles[policy.status],
+                              statusClasses[policy.status],
                             )}
                           >
                             {policy.status}
                           </Badge>
                         </div>
-                        <div className="mt-3">
-                          <p className="text-xs text-muted-foreground">
+                        <div className={styles.cardInfo}>
+                          <p className={styles.cardType}>
                             {policy.type} · {policy.policyNumber}
                           </p>
-                          <p className="mt-0.5 truncate text-sm font-semibold">
+                          <p className={styles.cardClient}>
                             {policy.clientName}
                           </p>
                         </div>
-                        <div className="mt-4 flex items-end justify-between">
+                        <div className={styles.cardFooter}>
                           <div>
-                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                              Premium
-                            </p>
-                            <p className="text-lg font-semibold">
+                            <p className={styles.cardPremiumLabel}>Premium</p>
+                            <p className={styles.cardPremiumValue}>
                               ₪{policy.premium.toLocaleString()}/mo
                             </p>
                           </div>
-                          <p className="text-[11px] text-muted-foreground">
+                          <p className={styles.cardRenewal}>
                             Renews {formatDate(policy.endDate)}
                           </p>
                         </div>

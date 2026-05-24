@@ -4,6 +4,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
+import styles from "./NewClientDialog.module.css";
+
 import { emailStorage } from "@/lib/api";
 import {
   Dialog,
@@ -79,10 +81,10 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(submitNewClientForm)}
-          className="grid gap-4 py-2"
+          className={styles.form}
         >
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label htmlFor="firstName">First Name</Label>
               <Input
                 id="firstName"
@@ -90,12 +92,10 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 {...register("firstName")}
               />
               {errors.firstName && (
-                <p className="text-xs text-destructive">
-                  {errors.firstName.message}
-                </p>
+                <p className={styles.fieldError}>{errors.firstName.message}</p>
               )}
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label htmlFor="lastName">Last Name</Label>
               <Input
                 id="lastName"
@@ -103,14 +103,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 {...register("lastName")}
               />
               {errors.lastName && (
-                <p className="text-xs text-destructive">
-                  {errors.lastName.message}
-                </p>
+                <p className={styles.fieldError}>{errors.lastName.message}</p>
               )}
             </div>
           </div>
 
-          <div className="space-y-1">
+          <div className={styles.field}>
             <Label htmlFor="nc-email">Email</Label>
             <Input
               id="nc-email"
@@ -119,12 +117,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               {...register("email")}
             />
             {errors.email && (
-              <p className="text-xs text-destructive">{errors.email.message}</p>
+              <p className={styles.fieldError}>{errors.email.message}</p>
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label htmlFor="phone">Phone (05X-XXXXXXX)</Label>
               <Input
                 id="phone"
@@ -133,12 +131,10 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 placeholder="050-1234567"
               />
               {errors.phone && (
-                <p className="text-xs text-destructive">
-                  {errors.phone.message}
-                </p>
+                <p className={styles.fieldError}>{errors.phone.message}</p>
               )}
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label htmlFor="israeliId">Israeli ID</Label>
               <Input
                 id="israeliId"
@@ -148,15 +144,13 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 maxLength={9}
               />
               {errors.israeliId && (
-                <p className="text-xs text-destructive">
-                  {errors.israeliId.message}
-                </p>
+                <p className={styles.fieldError}>{errors.israeliId.message}</p>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label htmlFor="dateOfBirth">Date of Birth</Label>
               <Input
                 id="dateOfBirth"
@@ -164,12 +158,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 {...register("dateOfBirth")}
               />
               {errors.dateOfBirth && (
-                <p className="text-xs text-destructive">
+                <p className={styles.fieldError}>
                   {errors.dateOfBirth.message}
                 </p>
               )}
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label>Status</Label>
               <Select
                 defaultValue="PROSPECT"
@@ -192,17 +186,15 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
             </div>
           </div>
 
-          <div className="space-y-1">
+          <div className={styles.field}>
             <Label htmlFor="agentEmail">Agent Email</Label>
             <Input id="agentEmail" type="email" {...register("agentEmail")} />
             {errors.agentEmail && (
-              <p className="text-xs text-destructive">
-                {errors.agentEmail.message}
-              </p>
+              <p className={styles.fieldError}>{errors.agentEmail.message}</p>
             )}
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className={styles.footer}>
             <Button
               type="button"
               variant="outline"

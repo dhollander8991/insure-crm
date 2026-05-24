@@ -1,0 +1,4 @@
+@reference "../styles.css";
+.wrapper {
+  @apply min-w-0 overflow-hidden;
+}

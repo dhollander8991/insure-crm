@@ -1,5 +1,7 @@
 import { type LucideIcon } from "lucide-react";
 
+import styles from "./EmptyState.module.css";
+
 import { Button } from "@/components/ui/Button";
 
 interface EmptyStateProps {
@@ -19,16 +21,12 @@ export function EmptyState({
   action,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+    <div className={styles.root}>
+      <div className={styles.iconWrap}>
         <Icon className="h-8 w-8 text-primary/60" />
       </div>
-      <h3 className="mb-1 text-base font-semibold">{title}</h3>
-      {description && (
-        <p className="mb-6 max-w-xs text-sm text-muted-foreground">
-          {description}
-        </p>
-      )}
+      <h3 className={styles.title}>{title}</h3>
+      {description && <p className={styles.description}>{description}</p>}
       {action && (
         <Button onClick={action.onClick} className="gap-2">
           {action.label}

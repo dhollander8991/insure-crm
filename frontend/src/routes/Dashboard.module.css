@@ -1,0 +1,140 @@
+@reference "../styles.css";
+.page {
+  @apply relative flex flex-col gap-6 p-4 sm:p-6 min-h-screen overflow-x-hidden;
+}
+
+.pageHeader {
+  @apply relative mb-8 flex flex-wrap items-end justify-between gap-4;
+}
+
+.badgePill {
+  @apply mb-2 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary backdrop-blur;
+}
+
+.heading {
+  @apply text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl;
+}
+
+.headingSub {
+  @apply mt-2 max-w-xl text-sm text-muted-foreground;
+}
+
+.headingHighlight {
+  @apply font-semibold text-success;
+}
+
+.metricBadge {
+  @apply flex items-center gap-3 rounded-2xl px-4 py-3;
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  box-shadow: var(--shadow-elegant);
+}
+
+.metricIcon {
+  @apply flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-glow text-primary-foreground;
+}
+
+.metricLabel {
+  @apply text-[10px] uppercase tracking-wider text-muted-foreground;
+}
+
+.metricValue {
+  @apply text-lg font-semibold tabular-nums;
+}
+
+.kpiGrid {
+  @apply grid gap-3;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.chartGrid {
+  @apply relative mt-5 grid gap-4 lg:grid-cols-6;
+}
+
+.chartCol4 {
+  @apply lg:col-span-4;
+}
+
+.chartCol2 {
+  @apply lg:col-span-2;
+}
+
+.chartCard {
+  @apply h-full overflow-hidden bg-card/70 backdrop-blur-xl;
+  position: relative;
+}
+
+.chartCard::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle, 0deg),
+    oklch(0.70 0.22 277), oklch(0.75 0.18 230), oklch(0.78 0.18 320),
+    oklch(0.70 0.22 277));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-angle 8s linear infinite;
+  pointer-events: none;
+}
+
+.chartCardSmall {
+  @apply h-full bg-card/70 backdrop-blur-xl;
+}
+
+.chartCardHeader {
+  @apply flex flex-row items-start justify-between space-y-0;
+}
+
+.legendRow {
+  @apply flex gap-2 text-[10px];
+}
+
+.legendPillPrimary {
+  @apply flex items-center gap-1.5 rounded-full bg-primary/10 px-2 py-1 font-medium text-primary;
+}
+
+.legendDotPrimary {
+  @apply h-1.5 w-1.5 rounded-full bg-primary;
+}
+
+.legendPillDestructive {
+  @apply flex items-center gap-1.5 rounded-full bg-destructive/10 px-2 py-1 font-medium text-destructive;
+}
+
+.legendDotDestructive {
+  @apply h-1.5 w-1.5 rounded-full bg-destructive;
+}
+
+.activityCard {
+  @apply relative mt-5 bg-card/70 backdrop-blur-xl;
+}
+
+.activityGrid {
+  @apply grid gap-2 sm:grid-cols-2 lg:grid-cols-3;
+}
+
+.activityItem {
+  @apply flex items-start gap-3 rounded-xl border border-transparent p-3 transition-all hover:border-border hover:bg-muted/40;
+}
+
+.activityIcon {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary/15 to-primary/5 text-primary;
+}
+
+.activityText {
+  @apply text-sm leading-snug;
+}
+
+.activityTime {
+  @apply mt-0.5 text-xs text-muted-foreground;
+}
+
+.activityTextGroup {
+  @apply min-w-0 flex-1;
+}

@@ -1,0 +1,153 @@
+@reference "../styles.css";
+.page {
+  @apply relative px-4 py-6 md:px-6 lg:px-8;
+}
+
+.backButton {
+  @apply mb-6 gap-2;
+}
+
+.grid {
+  @apply grid gap-4 lg:grid-cols-3;
+}
+
+.profileCol {
+  @apply lg:col-span-1;
+}
+
+.policiesCol {
+  @apply lg:col-span-2;
+}
+
+.profileCard {
+  @apply bg-card/70 backdrop-blur-xl;
+}
+
+.profileCardContent {
+  @apply p-6;
+}
+
+.profileCenter {
+  @apply flex flex-col items-center text-center;
+}
+
+.avatar {
+  @apply flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary;
+}
+
+.name {
+  @apply mt-4 text-xl font-semibold;
+}
+
+.statusBadge {
+  @apply mt-2 font-medium;
+}
+
+.infoSection {
+  @apply mt-6 space-y-3 border-t pt-4;
+}
+
+.infoRow {
+  @apply flex items-center gap-3 text-sm;
+}
+
+.infoIcon {
+  @apply h-4 w-4 shrink-0 text-muted-foreground;
+}
+
+.infoBreak {
+  @apply break-all;
+}
+
+.policiesCard {
+  @apply bg-card/70 backdrop-blur-xl;
+}
+
+.policiesTitle {
+  @apply flex items-center gap-2;
+}
+
+.policiesTitleIcon {
+  @apply h-5 w-5;
+}
+
+.emptyPolicies {
+  @apply text-center text-sm text-muted-foreground py-8;
+}
+
+.policyList {
+  @apply space-y-3;
+}
+
+.policyLink {
+  @apply block;
+}
+
+.policyCard {
+  @apply flex items-center justify-between rounded-lg border p-4 transition-colors hover:bg-muted/40;
+}
+
+.policyNumber {
+  @apply text-sm font-semibold;
+}
+
+.policyMeta {
+  @apply text-xs text-muted-foreground;
+}
+
+.policyRight {
+  @apply text-right;
+}
+
+.policyBadge {
+  @apply text-[10px];
+}
+
+.policyPremium {
+  @apply mt-1 text-sm font-semibold;
+}
+
+.loadingWrap {
+  @apply flex h-64 items-center justify-center;
+}
+
+.loadingSpinner {
+  @apply h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent;
+}
+
+.errorWrap {
+  @apply px-4 py-6 md:px-6 lg:px-8;
+}
+
+.errorMessage {
+  @apply rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-center text-sm text-destructive;
+}
+
+/* Status variants */
+.statusActive {
+  @apply bg-success/15 text-success border-success/30;
+}
+
+.statusInactive {
+  @apply bg-muted text-muted-foreground border-border;
+}
+
+.statusProspect {
+  @apply bg-info/15 text-info border-info/30;
+}
+
+.policyStatusActive {
+  @apply bg-success/15 text-success border-success/30;
+}
+
+.policyStatusPending {
+  @apply bg-warning/15 text-warning border-warning/30;
+}
+
+.policyStatusExpired {
+  @apply bg-muted text-muted-foreground border-border;
+}
+
+.policyStatusCancelled {
+  @apply bg-muted text-muted-foreground border-border;
+}

@@ -1,5 +1,7 @@
 import { Outlet } from "react-router-dom";
 
+import styles from "./AppLayout.module.css";
+
 import { SidebarProvider } from "@/components/ui/Sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Topbar } from "@/components/Topbar";
@@ -14,11 +16,11 @@ export function AppLayout() {
       <AuroraBackground />
       <CommandPalette />
       <RouteProgress />
-      <div className="flex h-full w-full max-w-full overflow-x-hidden text-foreground">
+      <div className={styles.container}>
         <AppSidebar />
-        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <div className={styles.sidebar}>
           <Topbar />
-          <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden">
+          <main className={styles.main}>
             <Outlet />
           </main>
         </div>

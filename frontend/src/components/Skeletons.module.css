@@ -1,0 +1,116 @@
+@reference "../styles.css";
+.kpiGrid {
+  @apply grid gap-3;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.kpiCard {
+  @apply overflow-hidden bg-card/70 backdrop-blur-xl;
+}
+
+.kpiCardContent {
+  @apply flex items-start justify-between gap-3 p-5;
+}
+
+.kpiTextGroup {
+  @apply flex-1 space-y-3;
+}
+
+.chartCard {
+  @apply h-full bg-card/70 backdrop-blur-xl;
+}
+
+.chartInner {
+  @apply relative w-full overflow-hidden rounded-lg;
+}
+
+.chartBarsRow {
+  @apply absolute inset-x-4 bottom-4 flex items-end justify-between gap-2;
+}
+
+.chartBar {
+  @apply w-full flex-1 rounded-t bg-white/10;
+  height: var(--bar-height, 50%);
+}
+
+.tableCard {
+  @apply bg-card/70 backdrop-blur-xl;
+}
+
+.tableHeader {
+  @apply flex flex-row items-center justify-between;
+}
+
+.tableHeaderGrid {
+  @apply grid gap-4 px-4 py-3 border-b;
+  grid-template-columns: repeat(var(--grid-cols, 5), minmax(0, 1fr));
+}
+
+.tableRowGrid {
+  @apply grid gap-4 px-4 py-3;
+  grid-template-columns: repeat(var(--grid-cols, 5), minmax(0, 1fr));
+}
+
+.tableCellContent {
+  @apply flex items-center gap-3;
+}
+
+.boardGrid {
+  @apply grid gap-4 md:grid-cols-2 xl:grid-cols-4;
+}
+
+.boardColumn {
+  @apply flex flex-col;
+}
+
+.boardColumnHeader {
+  @apply mb-3 flex items-center justify-between rounded-xl border bg-muted/30 px-3 py-2.5;
+}
+
+.boardColumnBody {
+  @apply space-y-2.5 rounded-xl p-2;
+}
+
+.boardCard {
+  @apply bg-card/80;
+}
+
+.boardCardContent {
+  @apply space-y-2 p-4;
+}
+
+.boardCardHeader {
+  @apply flex items-center justify-between;
+}
+
+.boardCardFooter {
+  @apply flex items-center justify-between pt-1;
+}
+
+.cardGrid {
+  @apply grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.cardItem {
+  @apply overflow-hidden;
+}
+
+.cardItemContent {
+  @apply space-y-4 p-5;
+}
+
+.cardItemHeader {
+  @apply flex items-start justify-between;
+}
+
+.cardItemText {
+  @apply space-y-2;
+}
+
+.cardItemFooter {
+  @apply flex items-end justify-between pt-2;
+}
+
+.cardItemFooterLeft {
+  @apply space-y-1;
+}

@@ -1,0 +1,150 @@
+@reference "../styles.css";
+.page {
+  @apply relative px-4 py-6 md:px-6 lg:px-8;
+}
+
+.backButton {
+  @apply mb-6 gap-2;
+}
+
+.grid {
+  @apply grid gap-4 lg:grid-cols-2;
+}
+
+.card {
+  @apply bg-card/70 backdrop-blur-xl;
+}
+
+.policyHeader {
+  @apply flex items-start justify-between;
+}
+
+.policyMeta {
+  @apply text-xs text-muted-foreground;
+}
+
+.policyNumber {
+  @apply mt-1 text-xl;
+}
+
+.typeIcon {
+  @apply flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-lg font-bold;
+}
+
+.statusBadge {
+  @apply w-fit font-medium;
+}
+
+.holderTitle {
+  @apply flex items-center gap-2;
+}
+
+.holderLink {
+  @apply block;
+}
+
+.holderCard {
+  @apply flex items-center gap-4 rounded-xl border p-4 transition-colors hover:bg-muted/40;
+}
+
+.holderAvatar {
+  @apply flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-base font-bold text-primary;
+}
+
+.holderName {
+  @apply font-semibold;
+}
+
+.holderEmail {
+  @apply text-sm text-muted-foreground;
+}
+
+.holderPhone {
+  @apply text-xs text-muted-foreground;
+}
+
+.holderFallback {
+  @apply space-y-2;
+}
+
+.holderFallbackRow {
+  @apply flex items-center gap-2 text-sm;
+}
+
+.holderFallbackIcon {
+  @apply h-4 w-4 text-muted-foreground;
+}
+
+.infoSection {
+  @apply mt-6 space-y-3 border-t pt-4;
+}
+
+.infoRow {
+  @apply flex items-center gap-3 text-sm text-muted-foreground;
+}
+
+.infoIcon {
+  @apply h-4 w-4;
+}
+
+.detailRow {
+  @apply flex items-center justify-between border-b py-3 last:border-0;
+}
+
+.detailLabel {
+  @apply text-xs uppercase tracking-wider text-muted-foreground;
+}
+
+.detailValue {
+  @apply text-sm font-medium;
+}
+
+.loadingWrap {
+  @apply flex h-64 items-center justify-center;
+}
+
+.loadingSpinner {
+  @apply h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent;
+}
+
+.errorWrap {
+  @apply px-4 py-6 md:px-6 lg:px-8;
+}
+
+.errorMessage {
+  @apply rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-center text-sm text-destructive;
+}
+
+/* Policy status variants */
+.statusActive {
+  @apply bg-success/15 text-success border-success/30;
+}
+
+.statusPending {
+  @apply bg-warning/15 text-warning border-warning/30;
+}
+
+.statusExpired {
+  @apply bg-muted text-muted-foreground border-border;
+}
+
+.statusCancelled {
+  @apply bg-muted text-muted-foreground border-border;
+}
+
+/* Type color variants */
+.typeCAR {
+  @apply from-sky-500/20 to-sky-500/5 text-sky-500;
+}
+
+.typeAPARTMENT {
+  @apply from-emerald-500/20 to-emerald-500/5 text-emerald-500;
+}
+
+.typeLIFE {
+  @apply from-rose-500/20 to-rose-500/5 text-rose-500;
+}
+
+.typeHEALTH {
+  @apply from-violet-500/20 to-violet-500/5 text-violet-500;
+}

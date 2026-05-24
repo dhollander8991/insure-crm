@@ -1,6 +1,8 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { motion } from "framer-motion";
 
+import styles from "./PoliciesDonut.module.css";
+
 const POLICY_TYPE_DATA = [
   { type: "Life", count: 10 },
   { type: "Auto", count: 13 },
@@ -18,12 +20,12 @@ const COLORS = [
 export function PoliciesDonut() {
   const total = POLICY_TYPE_DATA.reduce((s, d) => s + d.count, 0);
   return (
-    <div className="flex flex-col">
+    <div className={styles.root}>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="relative h-56 w-full"
+        className={styles.chartWrap}
       >
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -51,20 +53,20 @@ export function PoliciesDonut() {
             />
           </PieChart>
         </ResponsiveContainer>
-        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-3xl font-semibold tracking-tight">{total}</span>
-          <span className="text-xs text-muted-foreground">Total Policies</span>
+        <div className={styles.centerLabel}>
+          <span className={styles.centerValue}>{total}</span>
+          <span className={styles.centerSubtitle}>Total Policies</span>
         </div>
       </motion.div>
-      <div className="mt-2 flex flex-wrap justify-center gap-3 pb-4 text-xs">
+      <div className={styles.legend}>
         {POLICY_TYPE_DATA.map((d, i) => (
-          <div key={d.type} className="flex items-center gap-1.5">
+          <div key={d.type} className={styles.legendItem}>
             <span
-              className="h-2.5 w-2.5 rounded-full"
+              className={styles.legendDot}
               style={{ background: COLORS[i] }}
             />
-            <span className="text-muted-foreground">{d.type}</span>
-            <span className="font-medium">{d.count}</span>
+            <span className={styles.legendType}>{d.type}</span>
+            <span className={styles.legendCount}>{d.count}</span>
           </div>
         ))}
       </div>

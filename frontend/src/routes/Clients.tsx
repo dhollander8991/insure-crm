@@ -13,7 +13,9 @@ import {
   Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { clsx as cx } from "clsx";
+import clsx from "clsx";
+
+import styles from "./Clients.module.css";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -49,10 +51,10 @@ const STATUS_MAP: Record<CustomerResponse["status"], ClientStatus> = {
   PROSPECT: "Lead",
 };
 
-const statusStyles: Record<ClientStatus, string> = {
-  Lead: "bg-info/15 text-info border-info/30",
-  Active: "bg-success/15 text-success border-success/30",
-  Churned: "bg-muted text-muted-foreground border-border",
+const statusClasses: Record<ClientStatus, string> = {
+  Lead: styles.statusLead,
+  Active: styles.statusActive,
+  Churned: styles.statusChurned,
 };
 
 interface MappedClient {
@@ -86,24 +88,16 @@ function SortHeader({
   sortCol,
   sortDir,
   onSort,
-  className,
 }: {
   col: SortColumn;
   label: string;
   sortCol: SortColumn | null;
   sortDir: SortDirection;
   onSort: (column: SortColumn) => void;
-  className?: string;
 }) {
   const isActive = sortCol === col;
   return (
-    <button
-      onClick={() => onSort(col)}
-      className={cx(
-        "flex items-center gap-1 font-medium hover:text-foreground",
-        className,
-      )}
-    >
+    <button onClick={() => onSort(col)} className={styles.sortButton}>
       {label}
       {isActive ? (
         sortDir === "asc" ? (
@@ -147,9 +141,9 @@ function FilterHeader({
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className={cx(
-              "rounded p-0.5 hover:bg-muted",
-              isActive && "text-primary",
+            className={clsx(
+              styles.filterPopoverTrigger,
+              isActive && styles.filterPopoverTriggerActive,
             )}
           >
             <Filter className="h-3 w-3" />
@@ -273,15 +267,15 @@ export function ClientsPage() {
 
   return (
     <PageTransition>
-      <div className="page-container">
+      <div className={styles.page}>
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
         <div className="relative">
-          <div className="page-header mb-6 flex-wrap">
+          <div className={styles.pageHeader}>
             <div>
-              <h1 className="page-title">Clients</h1>
-              <p className="page-subtitle">
+              <h1 className={styles.pageTitle}>Clients</h1>
+              <p className={styles.pageSubtitle}>
                 {filteredClients.length} of {clients.length} contacts
               </p>
             </div>
@@ -295,18 +289,18 @@ export function ClientsPage() {
           </div>
 
           {activeFilters.length > 0 && (
-            <div className="filter-chips-row">
+            <div className={styles.filterRow}>
               <span className="text-xs text-muted-foreground">Filters:</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
                   variant="secondary"
-                  className="gap-1 pr-1 text-xs font-normal"
+                  className={styles.filterChip}
                 >
                   {filterChip.label}
                   <button
                     onClick={filterChip.onRemove}
-                    className="ml-1 rounded hover:text-foreground"
+                    className={styles.filterChipRemove}
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -314,7 +308,7 @@ export function ClientsPage() {
               ))}
               <button
                 onClick={clearAllFilters}
-                className="text-xs text-muted-foreground hover:text-foreground"
+                className={styles.filterClearAll}
               >
                 Clear all
               </button>
@@ -324,7 +318,7 @@ export function ClientsPage() {
           {isLoading ? (
             <TableSkeleton rows={7} cols={5} />
           ) : isError ? (
-            <div className="error-message">
+            <div className={styles.errorMessage}>
               Failed to load clients. Make sure customer-service is running.
             </div>
           ) : clients.length === 0 ? (
@@ -340,8 +334,8 @@ export function ClientsPage() {
           ) : (
             <Card>
               <CardHeader className="pb-0">
-                <div className="relative w-full sm:max-w-xs">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <div className={styles.searchWrapper}>
+                  <Search className={styles.searchIcon} />
                   <Input
                     value={nameFilter}
                     onChange={(event) => setNameFilter(event.target.value)}
@@ -364,7 +358,7 @@ export function ClientsPage() {
                     }
                   />
                 ) : (
-                  <div className="table-scroll-wrapper">
+                  <div className={styles.tableWrapper}>
                     <Table data-testid="customers-table">
                       <TableHeader>
                         <TableRow>
@@ -438,7 +432,7 @@ export function ClientsPage() {
                                 {ALL_STATUSES.map((status) => (
                                   <div
                                     key={status}
-                                    className="flex items-center gap-2"
+                                    className={styles.filterCheckboxRow}
                                   >
                                     <Checkbox
                                       id={`status-${status}`}
@@ -449,7 +443,7 @@ export function ClientsPage() {
                                     />
                                     <Label
                                       htmlFor={`status-${status}`}
-                                      className="text-sm font-normal cursor-pointer"
+                                      className={styles.filterLabel}
                                     >
                                       {status}
                                     </Label>
@@ -481,36 +475,36 @@ export function ClientsPage() {
                                 duration: 0.2,
                                 delay: Math.min(index * 0.02, 0.3),
                               }}
-                              className="border-b cursor-pointer transition-colors hover:bg-muted/50"
+                              className={styles.tableRow}
                               onClick={() => navigate(`/clients/${client.id}`)}
                             >
                               <TableCell>
-                                <div className="flex items-center gap-3">
-                                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary shrink-0">
+                                <div className={styles.avatarCell}>
+                                  <div className={styles.avatarCircle}>
                                     {client.name
                                       .split(" ")
                                       .map((namePart) => namePart[0])
                                       .join("")
                                       .slice(0, 2)}
                                   </div>
-                                  <div className="min-w-0">
-                                    <div className="font-medium truncate">
+                                  <div className={styles.avatarTextGroup}>
+                                    <div className={styles.avatarName}>
                                       {client.name}
                                     </div>
-                                    <div className="text-xs text-muted-foreground">
+                                    <div className={styles.avatarId}>
                                       #{client.id}
                                     </div>
                                   </div>
                                 </div>
                               </TableCell>
                               <TableCell className="text-xs">
-                                <span className="flex items-center gap-1.5">
+                                <span className={styles.cellIconText}>
                                   <Mail className="h-3 w-3 text-muted-foreground shrink-0" />
                                   {client.email}
                                 </span>
                               </TableCell>
                               <TableCell className="text-xs text-muted-foreground">
-                                <span className="flex items-center gap-1.5">
+                                <span className={styles.cellIconText}>
                                   <Phone className="h-3 w-3 shrink-0" />
                                   {client.phone}
                                 </span>
@@ -518,10 +512,7 @@ export function ClientsPage() {
                               <TableCell>
                                 <Badge
                                   variant="outline"
-                                  className={cx(
-                                    "font-medium",
-                                    statusStyles[client.status],
-                                  )}
+                                  className={statusClasses[client.status]}
                                 >
                                   {client.status}
                                 </Badge>

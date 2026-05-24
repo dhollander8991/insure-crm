@@ -1,0 +1,46 @@
+@reference "../styles.css";
+.root {
+  @apply relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 bg-background py-10;
+}
+
+.contentWrapper {
+  @apply relative z-10 w-full max-w-sm;
+}
+
+.logoLink {
+  @apply mb-6 flex items-center justify-center gap-2 no-underline;
+}
+
+.logoIcon {
+  @apply mb-0 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-primary-foreground shadow-lg;
+  background: var(--gradient-primary);
+}
+
+.logoText {
+  @apply text-lg font-semibold tracking-tight;
+}
+
+.card {
+  @apply rounded-2xl border bg-card/80 p-6 shadow-[var(--shadow-elegant)];
+  backdrop-filter: blur(24px);
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+}
+
+.cardHeader {
+  @apply mb-6 text-center;
+}
+
+.cardTitle {
+  @apply mb-1 text-lg font-semibold;
+}
+
+.cardSubtitle {
+  @apply mb-6 text-sm text-muted-foreground;
+}
+
+.footer {
+  @apply mt-6 text-center text-sm text-muted-foreground;
+}

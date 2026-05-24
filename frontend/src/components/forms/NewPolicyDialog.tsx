@@ -4,6 +4,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
+import styles from "./NewPolicyDialog.module.css";
+
 import { emailStorage } from "@/lib/api";
 import {
   Dialog,
@@ -89,10 +91,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
         </DialogHeader>
         <form
           onSubmit={handleSubmit(submitNewPolicyForm)}
-          className="grid gap-4 py-2"
+          className={styles.form}
         >
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label htmlFor="customerId">Customer ID</Label>
               <Input
                 id="customerId"
@@ -101,12 +103,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("customerId")}
               />
               {errors.customerId && (
-                <p className="text-xs text-destructive">
-                  {errors.customerId.message}
-                </p>
+                <p className={styles.fieldError}>{errors.customerId.message}</p>
               )}
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label htmlFor="customerName">Customer Name</Label>
               <Input
                 id="customerName"
@@ -114,15 +114,15 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("customerName")}
               />
               {errors.customerName && (
-                <p className="text-xs text-destructive">
+                <p className={styles.fieldError}>
                   {errors.customerName.message}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label>Type</Label>
               <Select
                 defaultValue="CAR"
@@ -144,7 +144,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label>Status</Label>
               <Select
                 defaultValue="PENDING"
@@ -167,8 +167,8 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label htmlFor="startDate">Start Date</Label>
               <Input
                 id="startDate"
@@ -177,12 +177,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("startDate")}
               />
               {errors.startDate && (
-                <p className="text-xs text-destructive">
-                  {errors.startDate.message}
-                </p>
+                <p className={styles.fieldError}>{errors.startDate.message}</p>
               )}
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label htmlFor="endDate">End Date</Label>
               <Input
                 id="endDate"
@@ -191,15 +189,13 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("endDate")}
               />
               {errors.endDate && (
-                <p className="text-xs text-destructive">
-                  {errors.endDate.message}
-                </p>
+                <p className={styles.fieldError}>{errors.endDate.message}</p>
               )}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
+          <div className={styles.twoCol}>
+            <div className={styles.field}>
               <Label htmlFor="premium">Premium ($/mo)</Label>
               <Input
                 id="premium"
@@ -210,12 +206,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("premium")}
               />
               {errors.premium && (
-                <p className="text-xs text-destructive">
-                  {errors.premium.message}
-                </p>
+                <p className={styles.fieldError}>{errors.premium.message}</p>
               )}
             </div>
-            <div className="space-y-1">
+            <div className={styles.field}>
               <Label htmlFor="np-agentEmail">Agent Email</Label>
               <Input
                 id="np-agentEmail"
@@ -223,14 +217,12 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("agentEmail")}
               />
               {errors.agentEmail && (
-                <p className="text-xs text-destructive">
-                  {errors.agentEmail.message}
-                </p>
+                <p className={styles.fieldError}>{errors.agentEmail.message}</p>
               )}
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className={styles.footer}>
             <Button
               type="button"
               variant="outline"

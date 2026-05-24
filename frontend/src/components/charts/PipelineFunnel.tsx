@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 
+import styles from "./PipelineFunnel.module.css";
+
 const PIPELINE_DATA = [
   { stage: "New Leads", count: 48 },
   { stage: "Contacted", count: 34 },
@@ -11,16 +13,16 @@ const PIPELINE_DATA = [
 export function PipelineFunnel() {
   const max = Math.max(...PIPELINE_DATA.map((d) => d.count));
   return (
-    <div className="space-y-3 py-2">
+    <div className={styles.root}>
       {PIPELINE_DATA.map((d, i) => {
         const pct = (d.count / max) * 100;
         return (
-          <div key={d.stage} className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-medium">{d.stage}</span>
-              <span className="text-muted-foreground">{d.count}</span>
+          <div key={d.stage} className={styles.row}>
+            <div className={styles.rowHeader}>
+              <span className={styles.rowLabel}>{d.stage}</span>
+              <span className={styles.rowCount}>{d.count}</span>
             </div>
-            <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
+            <div className={styles.track}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${pct}%` }}
@@ -29,8 +31,7 @@ export function PipelineFunnel() {
                   delay: 0.3 + i * 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="h-full rounded-full"
-                style={{ background: "var(--gradient-primary)" }}
+                className={styles.fill}
               />
             </div>
           </div>

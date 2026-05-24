@@ -1,0 +1,67 @@
+@reference "../styles.css";
+.perspective {
+  perspective: 1200px;
+}
+
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.card {
+  @apply relative overflow-hidden p-5 transition-shadow duration-300 hover:shadow-[var(--shadow-lifted)];
+}
+
+.glowTop {
+  @apply pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-20 blur-2xl;
+  background: var(--gradient-primary);
+}
+
+.glowHover {
+  @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500;
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--primary) 15%, transparent), transparent 60%);
+}
+
+.tilt:hover .glowHover {
+  opacity: 1;
+}
+
+.inner {
+  @apply relative flex items-start justify-between gap-3;
+  transform: translateZ(30px);
+}
+
+.textGroup {
+  @apply min-w-0 flex-1 space-y-1.5;
+}
+
+.label {
+  @apply text-xs font-medium uppercase tracking-wider text-muted-foreground;
+}
+
+.valueLg {
+  @apply text-4xl font-semibold tracking-tight tabular-nums leading-none;
+}
+
+.valueSm {
+  @apply text-3xl font-semibold tracking-tight tabular-nums leading-none;
+}
+
+.delta {
+  @apply inline-flex flex-wrap items-center gap-1 text-xs font-medium;
+}
+
+.deltaUp {
+  @apply text-success;
+}
+
+.deltaDown {
+  @apply text-destructive;
+}
+
+.iconWrap {
+  @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-primary-foreground shadow-[var(--shadow-elegant)];
+  background: var(--gradient-primary);
+  transform: translateZ(50px);
+}

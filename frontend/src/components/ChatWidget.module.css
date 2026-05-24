@@ -1,0 +1,90 @@
+@reference "../styles.css";
+.toggleButton {
+  @apply fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-all bg-primary text-primary-foreground ring-1 ring-primary/40;
+}
+
+.panel {
+  @apply fixed bottom-24 right-6 z-50 flex flex-col overflow-hidden rounded-2xl border bg-background shadow-2xl transition-all duration-300;
+  height: min(560px, calc(100svh - 6rem));
+  width: 360px;
+}
+
+.panelOpen {
+  @apply pointer-events-auto scale-100 opacity-100;
+}
+
+.panelClosed {
+  @apply pointer-events-none scale-95 opacity-0;
+}
+
+.panelHeader {
+  @apply flex items-center gap-2 border-b px-4 py-3 bg-gradient-to-r from-primary/10 to-transparent;
+}
+
+.panelAvatar {
+  @apply flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary;
+}
+
+.panelTitleGroup {
+  @apply min-w-0;
+}
+
+.panelTitle {
+  @apply text-sm font-semibold;
+}
+
+.panelStatus {
+  @apply text-xs text-muted-foreground;
+}
+
+.messagesArea {
+  @apply flex-1 space-y-3 overflow-y-auto p-4;
+}
+
+.messageRow {
+  @apply flex;
+}
+
+.messageRowUser {
+  @apply justify-end;
+}
+
+.messageRowAi {
+  @apply justify-start;
+}
+
+.bubble {
+  @apply max-w-[80%] rounded-2xl px-3 py-2 text-sm;
+}
+
+.bubbleUser {
+  @apply rounded-br-sm bg-primary text-primary-foreground;
+}
+
+.bubbleAi {
+  @apply rounded-bl-sm bg-muted;
+}
+
+.bubbleContent {
+  @apply text-sm max-w-none;
+}
+
+.loadingRow {
+  @apply flex justify-start;
+}
+
+.loadingBubble {
+  @apply rounded-2xl bg-muted px-3 py-2 text-sm text-muted-foreground;
+}
+
+.inputArea {
+  @apply border-t p-3;
+}
+
+.inputRow {
+  @apply flex gap-2;
+}
+
+.textarea {
+  @apply min-h-[40px] max-h-32 resize-none;
+}

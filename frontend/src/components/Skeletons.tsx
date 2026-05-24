@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import clsx from "clsx";
+
+import styles from "./Skeletons.module.css";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { cn } from "@/lib/utils";
 
 export function useMountLoading(durationMs = 350) {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,9 +17,9 @@ export function useMountLoading(durationMs = 350) {
 
 export function KpiCardSkeleton() {
   return (
-    <Card className="overflow-hidden bg-card/70 backdrop-blur-xl">
-      <CardContent className="flex items-start justify-between gap-3 p-5">
-        <div className="flex-1 space-y-3">
+    <Card className={styles.kpiCard}>
+      <CardContent className={styles.kpiCardContent}>
+        <div className={styles.kpiTextGroup}>
           <Skeleton className="h-3 w-24" />
           <Skeleton className="h-8 w-32" />
           <Skeleton className="h-3 w-16" />
@@ -30,7 +32,7 @@ export function KpiCardSkeleton() {
 
 export function KpiGridSkeleton({ count = 4 }: { count?: number }) {
   return (
-    <div className="skeleton-kpi-grid">
+    <div className={styles.kpiGrid}>
       {Array.from({ length: count }).map((_, index) => (
         <KpiCardSkeleton key={index} />
       ))}
@@ -48,7 +50,7 @@ export function ChartSkeleton({
   height?: string;
 }) {
   return (
-    <Card className={cn("h-full bg-card/70 backdrop-blur-xl", className)}>
+    <Card className={clsx(styles.chartCard, className)}>
       {title && (
         <CardHeader className="space-y-2">
           <Skeleton className="h-4 w-40" />
@@ -56,16 +58,14 @@ export function ChartSkeleton({
         </CardHeader>
       )}
       <CardContent>
-        <div
-          className={cn("relative w-full overflow-hidden rounded-lg", height)}
-        >
+        <div className={clsx(styles.chartInner, height)}>
           <Skeleton className="absolute inset-0" />
-          <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-2">
+          <div className={styles.chartBarsRow}>
             {[40, 65, 50, 78, 55, 82, 60, 70, 90, 68, 75, 88].map(
               (barHeightPercent, index) => (
                 <div
                   key={index}
-                  className="skeleton-chart-bar"
+                  className={styles.chartBar}
                   style={
                     {
                       "--bar-height": `${barHeightPercent}%`,
@@ -89,15 +89,15 @@ export function TableSkeleton({
   cols?: number;
 }) {
   return (
-    <Card className="bg-card/70 backdrop-blur-xl">
-      <CardHeader className="flex flex-row items-center justify-between">
+    <Card className={styles.tableCard}>
+      <CardHeader className={styles.tableHeader}>
         <Skeleton className="h-9 w-64" />
         <Skeleton className="h-9 w-40" />
       </CardHeader>
       <CardContent className="p-0">
         <div className="divide-y">
           <div
-            className="skeleton-table-header-grid"
+            className={styles.tableHeaderGrid}
             style={{ "--grid-cols": cols } as React.CSSProperties}
           >
             {Array.from({ length: cols }).map((_, index) => (
@@ -107,19 +107,18 @@ export function TableSkeleton({
           {Array.from({ length: rows }).map((_, rowIndex) => (
             <div
               key={rowIndex}
-              className="skeleton-table-row-grid"
+              className={styles.tableRowGrid}
               style={{ "--grid-cols": cols } as React.CSSProperties}
             >
               {Array.from({ length: cols }).map((_, colIndex) => (
-                <div key={colIndex} className="flex items-center gap-3">
+                <div key={colIndex} className={styles.tableCellContent}>
                   {colIndex === 0 && (
                     <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
                   )}
                   <Skeleton
-                    className={cn(
-                      "h-3",
-                      colIndex === 0 ? "w-28" : "w-full max-w-[140px]",
-                    )}
+                    className={
+                      colIndex === 0 ? "h-3 w-28" : "h-3 w-full max-w-[140px]"
+                    }
                   />
                 </div>
               ))}
@@ -133,20 +132,20 @@ export function TableSkeleton({
 
 export function CardGridSkeleton({ count = 8 }: { count?: number }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className={styles.cardGrid}>
       {Array.from({ length: count }).map((_, index) => (
-        <Card key={index} className="overflow-hidden">
-          <CardContent className="space-y-4 p-5">
-            <div className="flex items-start justify-between">
+        <Card key={index} className={styles.cardItem}>
+          <CardContent className={styles.cardItemContent}>
+            <div className={styles.cardItemHeader}>
               <Skeleton className="h-10 w-10 rounded-lg" />
               <Skeleton className="h-5 w-14 rounded-full" />
             </div>
-            <div className="space-y-2">
+            <div className={styles.cardItemText}>
               <Skeleton className="h-3 w-24" />
               <Skeleton className="h-4 w-36" />
             </div>
-            <div className="flex items-end justify-between pt-2">
-              <div className="space-y-1">
+            <div className={styles.cardItemFooter}>
+              <div className={styles.cardItemFooterLeft}>
                 <Skeleton className="h-2 w-12" />
                 <Skeleton className="h-5 w-20" />
               </div>
@@ -167,24 +166,24 @@ export function BoardSkeleton({
   perCol?: number;
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className={styles.boardGrid}>
       {Array.from({ length: columns }).map((_, columnIndex) => (
-        <div key={columnIndex} className="flex flex-col">
-          <div className="mb-3 flex items-center justify-between rounded-xl border bg-muted/30 px-3 py-2.5">
+        <div key={columnIndex} className={styles.boardColumn}>
+          <div className={styles.boardColumnHeader}>
             <Skeleton className="h-4 w-20" />
             <Skeleton className="h-4 w-6 rounded-full" />
           </div>
-          <div className="space-y-2.5 rounded-xl p-2">
+          <div className={styles.boardColumnBody}>
             {Array.from({ length: perCol }).map((_, rowIndex) => (
-              <Card key={rowIndex} className="bg-card/80">
-                <CardContent className="space-y-2 p-4">
-                  <div className="flex items-center justify-between">
+              <Card key={rowIndex} className={styles.boardCard}>
+                <CardContent className={styles.boardCardContent}>
+                  <div className={styles.boardCardHeader}>
                     <Skeleton className="h-3 w-16" />
                     <Skeleton className="h-4 w-14 rounded-full" />
                   </div>
                   <Skeleton className="h-4 w-32" />
                   <Skeleton className="h-3 w-full" />
-                  <div className="flex items-center justify-between pt-1">
+                  <div className={styles.boardCardFooter}>
                     <Skeleton className="h-4 w-16" />
                     <Skeleton className="h-3 w-10" />
                   </div>

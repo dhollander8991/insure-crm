@@ -1,0 +1,100 @@
+@reference "../../styles.css";
+.card {
+  @apply relative h-full overflow-hidden border-0 p-6 text-primary-foreground;
+  background: var(--gradient-primary);
+}
+
+.aurora {
+  @apply absolute inset-0 opacity-40 mix-blend-screen;
+  background-image: var(--gradient-aurora);
+}
+
+.header {
+  @apply relative flex items-start justify-between;
+}
+
+.headerTitle {
+  @apply text-xs font-medium uppercase tracking-wider opacity-80;
+}
+
+.headerHeading {
+  @apply mt-1 text-xl font-semibold tracking-tight;
+}
+
+.globeWrap {
+  @apply relative mx-auto my-6 flex h-56 w-56 items-center justify-center;
+}
+
+.glow {
+  @apply absolute inset-0 rounded-full bg-white/10 blur-2xl;
+}
+
+.sphere {
+  @apply absolute inset-0 rounded-full border border-white/30;
+}
+
+.wireframe {
+  @apply absolute inset-0;
+  animation: spin-slow 30s linear infinite;
+}
+
+.wireRingOuter {
+  @apply absolute inset-0 rounded-full border border-white/15;
+}
+
+.wireRingMid {
+  @apply absolute inset-4 rounded-full border border-white/15;
+}
+
+.wireRingInner {
+  @apply absolute inset-10 rounded-full border border-white/20;
+}
+
+.meridianV {
+  @apply absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white/15;
+}
+
+.meridianH {
+  @apply absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-white/15;
+}
+
+.orbit {
+  @apply absolute inset-0;
+  animation: spin-slow 60s linear infinite;
+}
+
+.orbitDotWrap {
+  @apply absolute left-1/2 top-0 -translate-x-1/2;
+}
+
+.orbitDot {
+  @apply h-2 w-2 rounded-full bg-white shadow-[0_0_12px_3px_rgba(255,255,255,0.7)];
+}
+
+.pin {
+  @apply absolute;
+}
+
+.pinPulse {
+  @apply absolute -inset-1 rounded-full bg-white;
+}
+
+.pinDot {
+  @apply relative block h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_10px_2px_rgba(255,255,255,0.8)];
+}
+
+.footer {
+  @apply relative flex items-end justify-between text-xs;
+}
+
+.footerLabel {
+  @apply opacity-70;
+}
+
+.footerValue {
+  @apply text-lg font-semibold tabular-nums;
+}
+
+.footerBadge {
+  @apply rounded-full bg-white/15 px-2.5 py-1 font-medium backdrop-blur-sm;
+}

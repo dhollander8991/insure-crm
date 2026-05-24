@@ -2,6 +2,7 @@ import { Bell, Search, LogOut, User as UserIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeToggle } from "./ThemeToggle";
+import styles from "./Topbar.module.css";
 
 import { SidebarTrigger } from "@/components/ui/Sidebar";
 import { Button } from "@/components/ui/Button";
@@ -40,30 +41,28 @@ export function Topbar() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/60 px-2 backdrop-blur-md sm:gap-3 sm:px-4">
+    <header className={styles.header}>
       <SidebarTrigger />
       <button
         type="button"
         onClick={openCommandPalette}
-        className="relative hidden flex-1 max-w-md items-center gap-2 rounded-md border border-transparent bg-muted/40 px-3 py-2 text-left text-sm text-muted-foreground transition hover:bg-muted/60 md:flex"
+        className={styles.searchButton}
       >
         <Search className="h-4 w-4" />
         <span className="flex-1 truncate">
           Search clients, policies, claims…
         </span>
-        <kbd className="pointer-events-none rounded border bg-background px-1.5 py-0.5 font-mono text-[10px] font-medium">
-          ⌘K
-        </kbd>
+        <kbd className={styles.searchKbd}>⌘K</kbd>
       </button>
-      <div className="ml-auto flex items-center gap-1">
+      <div className={styles.actions}>
         <ThemeToggle />
-        <Button variant="ghost" size="icon" className="relative">
+        <Button variant="ghost" size="icon" className={styles.bellButton}>
           <Bell className="h-4 w-4" />
-          <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-destructive" />
+          <span className={styles.bellDot} />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="ml-1 rounded-full outline-none ring-offset-background transition focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+            <button className={styles.avatarTrigger}>
               <Avatar className="h-8 w-8">
                 <AvatarFallback className="bg-primary text-primary-foreground text-xs">
                   {userInitials}
@@ -73,13 +72,9 @@ export function Topbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium leading-none">
-                  {displayName}
-                </span>
-                <span className="mt-1 text-xs font-normal text-muted-foreground">
-                  {user}
-                </span>
+              <div className={styles.menuName}>
+                <span className={styles.menuDisplayName}>{displayName}</span>
+                <span className={styles.menuEmail}>{user}</span>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

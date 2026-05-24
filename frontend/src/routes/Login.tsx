@@ -4,6 +4,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
+import styles from "./Login.module.css";
+
 import { authApi, tokenStorage, emailStorage } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -55,17 +57,14 @@ export function LoginPage() {
       footer={
         <>
           New here?{" "}
-          <Link
-            to="/signup"
-            className="font-medium text-primary hover:underline"
-          >
+          <Link to="/signup" className={styles.footerLink}>
             Create an account
           </Link>
         </>
       }
     >
-      <form onSubmit={handleLoginFormSubmit} className="space-y-4">
-        <div className="space-y-1.5">
+      <form onSubmit={handleLoginFormSubmit} className={styles.form}>
+        <div className={styles.field}>
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
@@ -77,13 +76,10 @@ export function LoginPage() {
             data-testid="email-input"
           />
         </div>
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
+        <div className={styles.field}>
+          <div className={styles.passwordHeader}>
             <Label htmlFor="password">Password</Label>
-            <Link
-              to="/forgot-password"
-              className="text-xs text-muted-foreground hover:text-foreground"
-            >
+            <Link to="/forgot-password" className={styles.forgotLink}>
               Forgot?
             </Link>
           </div>
@@ -99,7 +95,7 @@ export function LoginPage() {
         </div>
         <Button
           type="submit"
-          className="w-full"
+          className={styles.submitButton}
           disabled={isSubmitting}
           data-testid="login-button"
         >

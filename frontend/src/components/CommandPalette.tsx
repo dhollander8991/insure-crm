@@ -13,6 +13,8 @@ import {
   Loader2,
 } from "lucide-react";
 
+import styles from "./CommandPalette.module.css";
+
 import {
   CommandDialog,
   CommandEmpty,
@@ -122,7 +124,7 @@ export function CommandPalette() {
       />
       <CommandList>
         {hasActiveSearch && isSearchLoading ? (
-          <div className="flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground">
+          <div className={styles.loadingRow}>
             <Loader2 className="h-4 w-4 animate-spin" />
             Searching…
           </div>

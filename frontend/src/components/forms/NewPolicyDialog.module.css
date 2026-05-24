@@ -1,0 +1,20 @@
+@reference "../../styles.css";
+.form {
+  @apply grid gap-4 py-2;
+}
+
+.twoCol {
+  @apply grid grid-cols-2 gap-3;
+}
+
+.field {
+  @apply space-y-1;
+}
+
+.fieldError {
+  @apply text-xs text-destructive;
+}
+
+.footer {
+  @apply flex justify-end gap-2 pt-2;
+}

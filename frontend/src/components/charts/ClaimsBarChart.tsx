@@ -10,6 +10,8 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 
+import styles from "./ClaimsBarChart.module.css";
+
 const CLAIM_STATUS_DATA = [
   { status: "Open", count: 6 },
   { status: "In Review", count: 4 },
@@ -30,7 +32,7 @@ export function ClaimsBarChart() {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.4 }}
-      className="h-72 w-full"
+      className={styles.chart}
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart

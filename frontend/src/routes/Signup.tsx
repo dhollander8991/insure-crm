@@ -4,44 +4,49 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
+import styles from "./Signup.module.css";
+
 import { authApi, tokenStorage, emailStorage } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { AuthShell } from "@/components/AuthShell";
 
-const schema = z.object({
+const signupSchema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   password: z.string().min(6, "At least 6 characters").max(72),
 });
 
 export function SignupPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const parsed = schema.safeParse({ email, password });
+  const handleSignupFormSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const parsed = signupSchema.safeParse({
+      email: emailInput,
+      password: passwordInput,
+    });
     if (!parsed.success) {
       toast.error(parsed.error.issues[0].message);
       return;
     }
-    setLoading(true);
+    setIsSubmitting(true);
     try {
-      const res = await authApi.register(
+      const authResponse = await authApi.register(
         parsed.data.email,
         parsed.data.password,
       );
-      tokenStorage.set(res.token);
-      emailStorage.set(res.email);
+      tokenStorage.set(authResponse.token);
+      emailStorage.set(authResponse.email);
       toast.success("Account created");
       navigate("/");
     } catch (err) {
       toast.error((err as Error).message);
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -52,40 +57,41 @@ export function SignupPage() {
       footer={
         <>
           Already have one?{" "}
-          <Link
-            to="/login"
-            className="font-medium text-primary hover:underline"
-          >
+          <Link to="/login" className={styles.footerLink}>
             Sign in
           </Link>
         </>
       }
     >
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div className="space-y-1.5">
+      <form onSubmit={handleSignupFormSubmit} className={styles.form}>
+        <div className={styles.field}>
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
             type="email"
             autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={emailInput}
+            onChange={(event) => setEmailInput(event.target.value)}
             required
           />
         </div>
-        <div className="space-y-1.5">
+        <div className={styles.field}>
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"
             type="password"
             autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={passwordInput}
+            onChange={(event) => setPasswordInput(event.target.value)}
             required
           />
         </div>
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        <Button
+          type="submit"
+          className={styles.submitButton}
+          disabled={isSubmitting}
+        >
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Create account
         </Button>
       </form>

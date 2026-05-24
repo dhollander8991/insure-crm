@@ -7,9 +7,11 @@ import {
 } from "framer-motion";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowDownRight, ArrowUpRight, type LucideIcon } from "lucide-react";
+import clsx from "clsx";
+
+import styles from "./KpiCard.module.css";
 
 import { Card } from "@/components/ui/Card";
-import { cn } from "@/lib/utils";
 
 function CountUp({
   to,
@@ -95,44 +97,28 @@ export function KpiCard({
         delay: index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="perspective-1200"
+      className={styles.perspective}
     >
       <motion.div
         ref={ref}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="tilt-card"
+        className={styles.tilt}
       >
-        <Card className="relative overflow-hidden p-5 transition-shadow duration-300 hover:shadow-[var(--shadow-lifted)]">
-          <div
-            className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-20 blur-2xl"
-            style={{ background: "var(--gradient-primary)" }}
-          />
-          <div
-            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            style={{
-              background:
-                "radial-gradient(400px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, var(--primary) 15%, transparent), transparent 60%)",
-            }}
-          />
-          <div className="kpi-card-inner relative flex items-start justify-between gap-3">
-            <div className="min-w-0 flex-1 space-y-1.5">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                {label}
-              </p>
-              <p
-                className={cn(
-                  "font-semibold tracking-tight tabular-nums leading-none",
-                  isLargeValue ? "text-3xl" : "text-4xl",
-                )}
-              >
+        <Card className={styles.card}>
+          <div className={styles.glowTop} />
+          <div className={styles.glowHover} />
+          <div className={styles.inner}>
+            <div className={styles.textGroup}>
+              <p className={styles.label}>{label}</p>
+              <p className={isLargeValue ? styles.valueSm : styles.valueLg}>
                 <CountUp to={value} prefix={prefix} suffix={suffix} />
               </p>
               <div
-                className={cn(
-                  "inline-flex flex-wrap items-center gap-1 text-xs font-medium",
-                  up ? "text-success" : "text-destructive",
+                className={clsx(
+                  styles.delta,
+                  up ? styles.deltaUp : styles.deltaDown,
                 )}
               >
                 {up ? (
@@ -144,13 +130,7 @@ export function KpiCard({
                 {delta}% vs last month
               </div>
             </div>
-            <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-primary-foreground shadow-[var(--shadow-elegant)]"
-              style={{
-                background: "var(--gradient-primary)",
-                transform: "translateZ(50px)",
-              }}
-            >
+            <div className={styles.iconWrap}>
               <Icon className="h-5 w-5" />
             </div>
           </div>

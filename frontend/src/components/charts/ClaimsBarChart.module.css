@@ -1,0 +1,4 @@
+@reference "../../styles.css";
+.chart {
+  @apply h-72 w-full;
+}

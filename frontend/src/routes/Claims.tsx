@@ -14,7 +14,9 @@ import {
 } from "@dnd-kit/core";
 import { Clock, AlertCircle, GripVertical, Layers, Plus } from "lucide-react";
 import { toast } from "sonner";
-import { clsx as cx } from "clsx";
+import clsx from "clsx";
+
+import styles from "./Claims.module.css";
 
 import { EmptyState } from "@/components/EmptyState";
 import { Card, CardContent } from "@/components/ui/Card";
@@ -291,33 +293,17 @@ const seedClaims: Claim[] = [
   },
 ];
 
-const boardColumns: { status: ClaimStatus; accent: string; ring: string }[] = [
-  {
-    status: "Open",
-    accent: "from-sky-500/15 to-sky-500/0",
-    ring: "border-info/30",
-  },
-  {
-    status: "In Review",
-    accent: "from-amber-500/15 to-amber-500/0",
-    ring: "border-warning/30",
-  },
-  {
-    status: "Approved",
-    accent: "from-emerald-500/15 to-emerald-500/0",
-    ring: "border-success/30",
-  },
-  {
-    status: "Rejected",
-    accent: "from-rose-500/15 to-rose-500/0",
-    ring: "border-destructive/30",
-  },
+const boardColumns: { status: ClaimStatus; columnClass: string }[] = [
+  { status: "Open", columnClass: styles.columnOpen },
+  { status: "In Review", columnClass: styles.columnInReview },
+  { status: "Approved", columnClass: styles.columnApproved },
+  { status: "Rejected", columnClass: styles.columnRejected },
 ];
 
-const severityStripeColors: Record<ClaimSeverity, string> = {
-  Low: "bg-success",
-  Medium: "bg-warning",
-  High: "bg-destructive",
+const severityStripeClasses: Record<ClaimSeverity, string> = {
+  Low: styles.severityLow,
+  Medium: styles.severityMedium,
+  High: styles.severityHigh,
 };
 
 export function ClaimsPage() {
@@ -439,48 +425,36 @@ export function ClaimsPage() {
 
   return (
     <PageTransition>
-      <div className="relative px-4 py-6 md:px-6 lg:px-8">
+      <div className={styles.page}>
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
 
-        <div className="relative mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div className={styles.pageHeader}>
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Claims Board
-            </h1>
-            <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
-              Drag to reassign. Hold{" "}
-              <kbd className="rounded border bg-muted px-1.5 py-0.5 text-[10px]">
-                ⌘
-              </kbd>{" "}
-              /
-              <kbd className="ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px]">
-                Ctrl
-              </kbd>{" "}
-              to multi-select,
-              <kbd className="ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px]">
-                Shift
-              </kbd>{" "}
-              for a range.
+            <h1 className={styles.pageTitle}>Claims Board</h1>
+            <p className={styles.pageSubtitle}>
+              Drag to reassign. Hold <kbd className={styles.kbd}>⌘</kbd> /
+              <kbd className={styles.kbd}>Ctrl</kbd> to multi-select,
+              <kbd className={styles.kbd}>Shift</kbd> for a range.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className={styles.headerActions}>
             <AnimatePresence>
               {selectedClaimIds.size > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
-                  className="glass-strong flex items-center gap-3 rounded-full px-4 py-2 shadow-[var(--shadow-elegant)]"
+                  className={styles.selectionPill}
                 >
-                  <Layers className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium tabular-nums">
+                  <Layers className={styles.selectionIcon} />
+                  <span className={styles.selectionCount}>
                     {selectedClaimIds.size} selected
                   </span>
                   <button
                     onClick={clearClaimSelection}
-                    className="text-xs text-muted-foreground hover:text-foreground"
+                    className={styles.selectionClear}
                   >
                     Clear
                   </button>
@@ -521,13 +495,12 @@ export function ClaimsPage() {
               setDragOverColumn(null);
             }}
           >
-            <div className="relative grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className={styles.board}>
               {boardColumns.map((column) => (
                 <BoardColumn
                   key={column.status}
                   status={column.status}
-                  accent={column.accent}
-                  ring={column.ring}
+                  columnClass={column.columnClass}
                   columnClaims={claimsByStatus[column.status]}
                   selectedClaimIds={selectedClaimIds}
                   onClaimSelect={handleClaimSelect}
@@ -567,13 +540,13 @@ export function ClaimsPage() {
                 transition={{ duration: 0.3 }}
               >
                 <SheetHeader>
-                  <SheetTitle className="flex items-center gap-2">
-                    <AlertCircle className="h-5 w-5 text-primary" />
+                  <SheetTitle className={styles.sheetTitle}>
+                    <AlertCircle className={styles.sheetTitleIcon} />
                     Claim {detailClaim.id}
                   </SheetTitle>
                   <SheetDescription>{detailClaim.description}</SheetDescription>
                 </SheetHeader>
-                <div className="mt-6 space-y-4 px-4">
+                <div className={styles.detailSheetContent}>
                   <ClaimDetailRow
                     label="Client"
                     value={detailClaim.clientName}
@@ -611,8 +584,7 @@ export function ClaimsPage() {
 
 function BoardColumn({
   status,
-  accent,
-  ring,
+  columnClass,
   columnClaims,
   selectedClaimIds,
   onClaimSelect,
@@ -620,8 +592,7 @@ function BoardColumn({
   activeDragId,
 }: {
   status: ClaimStatus;
-  accent: string;
-  ring: string;
+  columnClass: string;
   columnClaims: Claim[];
   selectedClaimIds: Set<string>;
   onClaimSelect: (claim: Claim, mouseEvent: MouseEvent) => void;
@@ -637,27 +608,15 @@ function BoardColumn({
       initial={false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0 }}
-      className="flex flex-col"
+      className={styles.column}
     >
-      <div
-        className={cx(
-          "mb-3 flex items-center justify-between rounded-xl border bg-gradient-to-b px-3 py-2.5",
-          accent,
-          ring,
-        )}
-      >
-        <span className="text-sm font-semibold tracking-tight">{status}</span>
-        <span className="rounded-full bg-background/70 px-2 py-0.5 text-xs font-medium tabular-nums">
-          {columnClaims.length}
-        </span>
+      <div className={clsx(styles.columnHeader, columnClass)}>
+        <span className={styles.columnTitle}>{status}</span>
+        <span className={styles.columnCount}>{columnClaims.length}</span>
       </div>
       <div
         ref={setNodeRef}
-        className={cx(
-          "relative min-h-[180px] flex-1 space-y-2.5 rounded-xl p-2 transition-all duration-300",
-          isOver &&
-            "bg-primary/5 ring-2 ring-primary/40 ring-offset-2 ring-offset-background",
-        )}
+        className={clsx(styles.columnBody, isOver && styles.columnBodyOver)}
       >
         {columnClaims.map((columnClaim) => {
           const isDimmed =
@@ -675,9 +634,7 @@ function BoardColumn({
           );
         })}
         {columnClaims.length === 0 && (
-          <div className="rounded-lg border border-dashed py-10 text-center text-xs text-muted-foreground">
-            Drop here
-          </div>
+          <div className={styles.emptyDrop}>Drop here</div>
         )}
       </div>
     </motion.div>
@@ -704,49 +661,36 @@ function DraggableCard({
       {...attributes}
       {...listeners}
       onClick={(mouseEvent) => onSelect(claim, mouseEvent)}
-      className={cx(
-        "group relative cursor-grab select-none transition-opacity duration-200 active:cursor-grabbing",
-        isDragging && "opacity-30",
-        isDimmed && "opacity-30",
+      className={clsx(
+        styles.cardWrapper,
+        isDragging && styles.cardWrapperDragging,
+        isDimmed && styles.cardWrapperDimmed,
       )}
     >
-      <Card
-        className={cx(
-          "relative overflow-hidden border bg-card/80 backdrop-blur-sm transition-all duration-200",
-          "hover:-translate-y-0.5 hover:shadow-[var(--shadow-elegant)]",
-          isSelected &&
-            "ring-2 ring-primary ring-offset-2 ring-offset-background shadow-[var(--shadow-elegant)]",
-        )}
-      >
+      <Card className={clsx(styles.card, isSelected && styles.cardSelected)}>
         <span
-          className={cx(
-            "absolute left-0 top-0 h-full w-1",
-            severityStripeColors[claim.severity],
+          className={clsx(
+            styles.severityStripe,
+            severityStripeClasses[claim.severity],
           )}
         />
-        <div className="absolute right-2 top-2 text-muted-foreground/30 opacity-0 transition-opacity group-hover:opacity-100">
+        <div className={styles.gripIcon}>
           <GripVertical className="h-3.5 w-3.5" />
         </div>
-        <CardContent className="space-y-2 p-4 pl-5">
-          <div className="flex items-center justify-between pr-5">
-            <span className="text-xs font-medium text-muted-foreground tabular-nums">
-              {claim.id}
-            </span>
+        <CardContent className={styles.cardContent}>
+          <div className={styles.cardTopRow}>
+            <span className={styles.cardId}>{claim.id}</span>
             <Badge variant="outline" className="text-[10px]">
               {claim.policyType}
             </Badge>
           </div>
-          <p className="text-sm font-semibold leading-tight">
-            {claim.clientName}
-          </p>
-          <p className="line-clamp-2 text-xs text-muted-foreground">
-            {claim.description}
-          </p>
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-sm font-semibold tabular-nums">
+          <p className={styles.cardClient}>{claim.clientName}</p>
+          <p className={styles.cardDescription}>{claim.description}</p>
+          <div className={styles.cardFooter}>
+            <span className={styles.cardAmount}>
               ${claim.amount.toLocaleString()}
             </span>
-            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+            <span className={styles.cardDays}>
               <Clock className="h-3 w-3" />
               {claim.daysOpen}d
             </span>
@@ -759,37 +703,33 @@ function DraggableCard({
 
 function DragStack({ claim, stackSize }: { claim: Claim; stackSize: number }) {
   return (
-    <div className="relative w-[280px]">
+    <div className={styles.dragStack}>
       {stackSize > 1 && (
         <>
-          <div className="absolute inset-0 translate-x-2 translate-y-2 rounded-xl border bg-card/60 backdrop-blur" />
-          <div className="absolute inset-0 translate-x-1 translate-y-1 rounded-xl border bg-card/80 backdrop-blur" />
+          <div className={styles.dragShadow2} />
+          <div className={styles.dragShadow1} />
         </>
       )}
-      <Card className="relative overflow-hidden border drag-glow bg-card/95 backdrop-blur">
+      <Card className={styles.dragCard}>
         <span
-          className={cx(
-            "absolute left-0 top-0 h-full w-1",
-            severityStripeColors[claim.severity],
+          className={clsx(
+            styles.severityStripe,
+            severityStripeClasses[claim.severity],
           )}
         />
-        <CardContent className="space-y-2 p-4 pl-5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground tabular-nums">
-              {claim.id}
-            </span>
+        <CardContent className={styles.cardContent}>
+          <div className={styles.cardTopRow}>
+            <span className={styles.cardId}>{claim.id}</span>
             <Badge variant="outline" className="text-[10px]">
               {claim.policyType}
             </Badge>
           </div>
-          <p className="text-sm font-semibold leading-tight">
-            {claim.clientName}
-          </p>
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-sm font-semibold tabular-nums">
+          <p className={styles.cardClient}>{claim.clientName}</p>
+          <div className={styles.cardFooter}>
+            <span className={styles.cardAmount}>
               ${claim.amount.toLocaleString()}
             </span>
-            <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+            <span className={styles.cardDays}>
               <Clock className="h-3 w-3" />
               {claim.daysOpen}d
             </span>
@@ -797,9 +737,7 @@ function DragStack({ claim, stackSize }: { claim: Claim; stackSize: number }) {
         </CardContent>
       </Card>
       {stackSize > 1 && (
-        <div className="absolute -right-2 -top-2 flex h-7 min-w-7 items-center justify-center rounded-full bg-primary px-2 text-xs font-semibold text-primary-foreground shadow-[var(--shadow-lifted)]">
-          +{stackSize - 1}
-        </div>
+        <div className={styles.dragBadge}>+{stackSize - 1}</div>
       )}
     </div>
   );
@@ -807,11 +745,9 @@ function DragStack({ claim, stackSize }: { claim: Claim; stackSize: number }) {
 
 function ClaimDetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between border-b pb-2 last:border-0">
-      <span className="text-xs uppercase tracking-wider text-muted-foreground">
-        {label}
-      </span>
-      <span className="text-sm font-medium">{value}</span>
+    <div className={styles.detailRow}>
+      <span className={styles.detailLabel}>{label}</span>
+      <span className={styles.detailValue}>{value}</span>
     </div>
   );
 }

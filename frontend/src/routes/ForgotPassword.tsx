@@ -3,6 +3,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 
+import styles from "./ForgotPassword.module.css";
+
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -11,12 +13,12 @@ import { AuthShell } from "@/components/AuthShell";
 const schema = z.string().trim().email("Enter a valid email").max(255);
 
 export function ForgotPasswordPage() {
-  const [email, setEmail] = useState("");
+  const [emailInput, setEmailInput] = useState("");
   const [sent, setSent] = useState(false);
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const parsed = schema.safeParse(email);
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const parsed = schema.safeParse(emailInput);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0].message);
       return;
@@ -30,30 +32,30 @@ export function ForgotPasswordPage() {
       title="Forgot password"
       subtitle="Contact your administrator to reset your password"
       footer={
-        <Link to="/login" className="font-medium text-primary hover:underline">
+        <Link to="/login" className={styles.footerLink}>
           Back to sign in
         </Link>
       }
     >
       {sent ? (
-        <p className="rounded-lg border bg-muted/40 p-4 text-center text-sm text-muted-foreground">
+        <p className={styles.successMessage}>
           Please contact your administrator to reset the password for{" "}
-          <span className="font-medium text-foreground">{email}</span>.
+          <span className={styles.successEmail}>{emailInput}</span>.
         </p>
       ) : (
-        <form onSubmit={onSubmit} className="space-y-4">
-          <div className="space-y-1.5">
+        <form onSubmit={onSubmit} className={styles.form}>
+          <div className={styles.field}>
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
               autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={emailInput}
+              onChange={(event) => setEmailInput(event.target.value)}
               required
             />
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className={styles.submitButton}>
             Send reset request
           </Button>
         </form>

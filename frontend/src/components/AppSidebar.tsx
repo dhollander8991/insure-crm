@@ -6,7 +6,9 @@ import {
   ShieldAlert,
   ShieldCheck,
 } from "lucide-react";
-import { clsx as cx } from "clsx";
+import clsx from "clsx";
+
+import styles from "./AppSidebar.module.css";
 
 import {
   Sidebar,
@@ -41,13 +43,15 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border group-data-[collapsible=icon]:p-0">
-        <div className="sidebar-logo-wrapper">
-          <div className="sidebar-logo-icon">
+        <div className={styles.logoWrapper}>
+          <div className={styles.logoIcon}>
             <ShieldCheck className="h-5 w-5" />
           </div>
-          <div className="flex flex-col leading-tight overflow-hidden group-data-[collapsible=icon]:hidden">
-            <span className="sidebar-logo-title">Aegis CRM</span>
-            <span className="sidebar-logo-subtitle">Insurance Suite</span>
+          <div className="group-data-[collapsible=icon]:hidden">
+            <div className={styles.logoTextGroup}>
+              <span className={styles.logoTitle}>Aegis CRM</span>
+              <span className={styles.logoSubtitle}>Insurance Suite</span>
+            </div>
           </div>
         </div>
       </SidebarHeader>
@@ -69,14 +73,11 @@ export function AppSidebar() {
                       tooltip={navItem.title}
                       className="group/menu-button transition-all"
                     >
-                      <Link
-                        to={navItem.url}
-                        className="flex items-center gap-2"
-                      >
+                      <Link to={navItem.url} className={styles.navLink}>
                         <navItem.icon
-                          className={cx(
-                            "sidebar-nav-icon group-hover/menu-button:scale-110",
-                            isNavItemActive && "sidebar-nav-icon--active",
+                          className={clsx(
+                            styles.navIcon,
+                            isNavItemActive && styles.navIconActive,
                           )}
                         />
                         {!isSidebarCollapsed && <span>{navItem.title}</span>}
