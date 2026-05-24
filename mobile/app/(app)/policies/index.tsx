@@ -109,7 +109,7 @@ export default function PoliciesScreen() {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[styles.filterRow, { paddingTop: 0, paddingBottom: 8 }]}
+        contentContainerStyle={[styles.filterRow, styles.filterRowType]}
       >
         {TYPE_FILTERS.map((f) => (
           <Pressable
@@ -166,7 +166,11 @@ const styles = StyleSheet.create({
     fontSize: 14, fontWeight: '600', color: colors.primary,
     backgroundColor: colors.primaryLight, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 20,
   },
-  filterRow: { paddingHorizontal: 16, paddingTop: 4, paddingBottom: 4, gap: 8 },
+  filterRow: {
+    flexDirection: 'row', paddingLeft: 16, paddingRight: 16,
+    paddingTop: 4, paddingBottom: 4, gap: 8,
+  },
+  filterRowType: { paddingTop: 0, paddingBottom: 8 },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
     backgroundColor: colors.card, borderWidth: 1, borderColor: colors.border,
