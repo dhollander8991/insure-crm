@@ -219,14 +219,14 @@ export function CommandPalette() {
                 <CommandGroup heading="Quick actions">
                   <CommandItem
                     onSelect={() =>
-                      executeCommandAndClose(() => navigate("/clients"))
+                      executeCommandAndClose(() => navigate("/clients?new=true"))
                     }
                   >
                     <PlusCircle className={styles.commandIcon} /> New client
                   </CommandItem>
                   <CommandItem
                     onSelect={() =>
-                      executeCommandAndClose(() => navigate("/policies"))
+                      executeCommandAndClose(() => navigate("/policies?new=true"))
                     }
                   >
                     <PlusCircle className={styles.commandIcon} /> New policy

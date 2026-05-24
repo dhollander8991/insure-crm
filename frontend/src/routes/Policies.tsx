@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Heart,
   Car,
@@ -217,8 +217,16 @@ function formatDate(dateString: string) {
 
 export function PoliciesPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeView, setActiveView] = useState<"table" | "cards">("table");
   const [isNewPolicyModalOpen, setIsNewPolicyModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("new") === "true") {
+      setIsNewPolicyModalOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const [sortCol, setSortCol] = useState<SortColumn | null>(null);
   const [sortDir, setSortDir] = useState<SortDirection>("asc");
