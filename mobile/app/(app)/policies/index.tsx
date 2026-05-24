@@ -103,6 +103,7 @@ export default function PoliciesScreen() {
             </Text>
           </Pressable>
         ))}
+        <View style={styles.filterTrail} />
       </ScrollView>
 
       {/* Type filters */}
@@ -122,6 +123,7 @@ export default function PoliciesScreen() {
             </Text>
           </Pressable>
         ))}
+        <View style={styles.filterTrail} />
       </ScrollView>
 
       {/* List */}
@@ -167,13 +169,15 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryLight, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 20,
   },
   filterRow: {
-    flexDirection: 'row', paddingLeft: 16, paddingRight: 16,
-    paddingTop: 4, paddingBottom: 4, gap: 8,
+    flexDirection: 'row', alignItems: 'center',
+    paddingLeft: 16, paddingTop: 4, paddingBottom: 4,
   },
   filterRowType: { paddingTop: 0, paddingBottom: 8 },
+  filterTrail: { width: 16 },
   chip: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
     backgroundColor: colors.card, borderWidth: 1, borderColor: colors.border,
+    marginRight: 8,
   },
   chipType: { backgroundColor: colors.background },
   chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
