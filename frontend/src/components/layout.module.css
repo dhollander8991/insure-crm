@@ -134,7 +134,7 @@
 }
 
 .main {
-  @apply min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden;
+  @apply min-h-0 min-w-0 flex-1 overflow-y-auto;
 }
 
 /* ── RouteProgress ── */
@@ -148,5 +148,5 @@
 
 /* ── PageTransition ── */
 .wrapper {
-  @apply min-w-0 overflow-hidden;
+  @apply min-w-0;
 }
