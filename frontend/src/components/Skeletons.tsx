@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 
-import styles from "./Skeletons.module.css";
+import styles from "./widgets.module.css";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";

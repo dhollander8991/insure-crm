@@ -3,7 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 
-import styles from "./ForgotPassword.module.css";
+import styles from "./auth.module.css";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -32,7 +32,7 @@ export function ForgotPasswordPage() {
       title="Forgot password"
       subtitle="Contact your administrator to reset your password"
       footer={
-        <Link to="/login" className={styles.footerLink}>
+        <Link to="/login" className={styles.forgotFooterLink}>
           Back to sign in
         </Link>
       }
@@ -43,8 +43,8 @@ export function ForgotPasswordPage() {
           <span className={styles.successEmail}>{emailInput}</span>.
         </p>
       ) : (
-        <form onSubmit={onSubmit} className={styles.form}>
-          <div className={styles.field}>
+        <form onSubmit={onSubmit} className={styles.forgotForm}>
+          <div className={styles.forgotField}>
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -55,7 +55,7 @@ export function ForgotPasswordPage() {
               required
             />
           </div>
-          <Button type="submit" className={styles.submitButton}>
+          <Button type="submit" className={styles.forgotSubmit}>
             Send reset request
           </Button>
         </form>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import styles from "./ResetPassword.module.css";
+import styles from "./auth.module.css";
 
 import { AuthShell } from "@/components/AuthShell";
 
@@ -10,7 +10,7 @@ export function ResetPasswordPage() {
       title="Password reset"
       subtitle="Password reset is managed by your administrator"
       footer={
-        <Link to="/login" className={styles.footerLink}>
+        <Link to="/login" className={styles.resetFooterLink}>
           Back to sign in
         </Link>
       }

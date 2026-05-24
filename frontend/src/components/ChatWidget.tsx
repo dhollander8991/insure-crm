@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
 import clsx from "clsx";
 
-import styles from "./ChatWidget.module.css";
+import styles from "./widgets.module.css";
 
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
@@ -128,9 +128,9 @@ export function ChatWidget() {
             </div>
           ))}
           {sendChatMessageMutation.isPending && (
-            <div className={styles.loadingRow}>
+            <div className={styles.chatLoadingRow}>
               <div className={styles.loadingBubble}>
-                <Loader2 className={styles.spinner} />
+                <Loader2 className={styles.chatSpinner} />
               </div>
             </div>
           )}

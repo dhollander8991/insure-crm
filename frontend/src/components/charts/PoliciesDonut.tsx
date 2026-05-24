@@ -1,7 +1,7 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { motion } from "framer-motion";
 
-import styles from "./PoliciesDonut.module.css";
+import styles from "../charts.module.css";
 
 const POLICY_TYPE_DATA = [
   { type: "Life", count: 10 },
@@ -20,7 +20,7 @@ const COLORS = [
 export function PoliciesDonut() {
   const total = POLICY_TYPE_DATA.reduce((s, d) => s + d.count, 0);
   return (
-    <div className={styles.root}>
+    <div className={styles.donutRoot}>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

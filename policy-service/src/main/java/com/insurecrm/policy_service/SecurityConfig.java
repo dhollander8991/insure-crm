@@ -24,9 +24,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(List.of(
-                "http://localhost:5173",
-                "http://localhost:3000",
-                "http://localhost:4173",
+                "http://localhost:*",
                 "https://insurecrm-navy.vercel.app",
                 "https://*.vercel.app"
         ));

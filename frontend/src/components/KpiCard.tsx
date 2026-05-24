@@ -9,7 +9,7 @@ import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowDownRight, ArrowUpRight, type LucideIcon } from "lucide-react";
 import clsx from "clsx";
 
-import styles from "./KpiCard.module.css";
+import styles from "./widgets.module.css";
 
 import { Card } from "@/components/ui/Card";
 
@@ -130,7 +130,7 @@ export function KpiCard({
                 {delta}% vs last month
               </div>
             </div>
-            <div className={styles.iconWrap}>
+            <div className={styles.kpiIconWrap}>
               <Icon className={styles.kpiIcon} />
             </div>
           </div>

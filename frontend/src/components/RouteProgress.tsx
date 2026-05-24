@@ -2,7 +2,7 @@ import { useNavigation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import styles from "./RouteProgress.module.css";
+import styles from "./layout.module.css";
 
 export function RouteProgress() {
   const navigation = useNavigation();

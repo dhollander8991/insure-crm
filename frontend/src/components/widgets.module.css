@@ -1,0 +1,521 @@
+@reference "../styles.css";
+
+/* ── KpiCard ── */
+.perspective {
+  perspective: 1200px;
+}
+
+.tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.card {
+  @apply relative overflow-hidden p-5 transition-shadow duration-300 hover:shadow-[var(--shadow-lifted)];
+}
+
+.glowTop {
+  @apply pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-20 blur-2xl;
+  background: var(--gradient-primary);
+}
+
+.glowHover {
+  @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500;
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--primary) 15%, transparent), transparent 60%);
+}
+
+.tilt:hover .glowHover {
+  opacity: 1;
+}
+
+.inner {
+  @apply relative flex items-start justify-between gap-3;
+  transform: translateZ(30px);
+}
+
+.textGroup {
+  @apply min-w-0 flex-1 space-y-1.5;
+}
+
+.label {
+  @apply text-xs font-medium uppercase tracking-wider text-muted-foreground;
+}
+
+.valueLg {
+  @apply text-4xl font-semibold tracking-tight tabular-nums leading-none;
+}
+
+.valueSm {
+  @apply text-3xl font-semibold tracking-tight tabular-nums leading-none;
+}
+
+.delta {
+  @apply inline-flex flex-wrap items-center gap-1 text-xs font-medium;
+}
+
+.deltaUp {
+  @apply text-success;
+}
+
+.deltaDown {
+  @apply text-destructive;
+}
+
+.kpiIconWrap {
+  @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-primary-foreground shadow-[var(--shadow-elegant)];
+  background: var(--gradient-primary);
+  transform: translateZ(50px);
+}
+
+.countUp {
+  @apply tabular-nums;
+}
+
+.deltaIcon {
+  @apply h-3.5 w-3.5;
+}
+
+.kpiIcon {
+  @apply h-5 w-5;
+}
+
+/* ── EmptyState ── */
+.emptyRoot {
+  @apply flex flex-col items-center justify-center py-20 text-center;
+}
+
+.emptyIconWrap {
+  @apply mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted;
+}
+
+.title {
+  @apply mb-2 text-base font-semibold;
+}
+
+.description {
+  @apply mb-6 max-w-xs text-sm text-muted-foreground;
+}
+
+.action {
+  @apply text-sm font-medium text-primary hover:underline;
+}
+
+.icon {
+  @apply h-8 w-8 text-primary/60;
+}
+
+.actionButton {
+  @apply gap-2;
+}
+
+/* ── ThemeToggle ── */
+.iconWrapper {
+  @apply absolute inset-0 flex items-center justify-center;
+}
+
+.button {
+  @apply relative overflow-hidden;
+}
+
+.themeIcon {
+  @apply h-4 w-4;
+}
+
+/* ── Skeletons ── */
+.kpiGrid {
+  @apply grid gap-3;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.kpiCard {
+  @apply overflow-hidden bg-card/70 backdrop-blur-xl;
+}
+
+.kpiCardContent {
+  @apply flex items-start justify-between gap-3 p-5;
+}
+
+.kpiTextGroup {
+  @apply flex-1 space-y-3;
+}
+
+.chartCard {
+  @apply h-full bg-card/70 backdrop-blur-xl;
+}
+
+.chartInner {
+  @apply relative w-full overflow-hidden rounded-lg;
+}
+
+.chartBarsRow {
+  @apply absolute inset-x-4 bottom-4 flex items-end justify-between gap-2;
+}
+
+.chartBar {
+  @apply w-full flex-1 rounded-t bg-white/10;
+  height: var(--bar-height, 50%);
+}
+
+.tableCard {
+  @apply bg-card/70 backdrop-blur-xl;
+}
+
+.tableHeader {
+  @apply flex flex-row items-center justify-between;
+}
+
+.tableHeaderGrid {
+  @apply grid gap-4 px-4 py-3 border-b;
+  grid-template-columns: repeat(var(--grid-cols, 5), minmax(0, 1fr));
+}
+
+.tableRowGrid {
+  @apply grid gap-4 px-4 py-3;
+  grid-template-columns: repeat(var(--grid-cols, 5), minmax(0, 1fr));
+}
+
+.tableCellContent {
+  @apply flex items-center gap-3;
+}
+
+.boardGrid {
+  @apply grid gap-4 md:grid-cols-2 xl:grid-cols-4;
+}
+
+.boardColumn {
+  @apply flex flex-col;
+}
+
+.boardColumnHeader {
+  @apply mb-3 flex items-center justify-between rounded-xl border bg-muted/30 px-3 py-2.5;
+}
+
+.boardColumnBody {
+  @apply space-y-2.5 rounded-xl p-2;
+}
+
+.boardCard {
+  @apply bg-card/80;
+}
+
+.boardCardContent {
+  @apply space-y-2 p-4;
+}
+
+.boardCardHeader {
+  @apply flex items-center justify-between;
+}
+
+.boardCardFooter {
+  @apply flex items-center justify-between pt-1;
+}
+
+.cardGrid {
+  @apply grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.cardItem {
+  @apply overflow-hidden;
+}
+
+.cardItemContent {
+  @apply space-y-4 p-5;
+}
+
+.cardItemHeader {
+  @apply flex items-start justify-between;
+}
+
+.cardItemText {
+  @apply space-y-2;
+}
+
+.cardItemFooter {
+  @apply flex items-end justify-between pt-2;
+}
+
+.cardItemFooterLeft {
+  @apply space-y-1;
+}
+
+/* Chart skeleton */
+.chartSkeletonHeader {
+  @apply space-y-2;
+}
+
+/* Table skeleton */
+.tableCardContent {
+  @apply p-0;
+}
+
+.tableRows {
+  @apply divide-y;
+}
+
+.skelTableHeaderSearch {
+  @apply h-9 w-64;
+}
+
+.skelTableHeaderAction {
+  @apply h-9 w-40;
+}
+
+.skelColHead {
+  @apply h-3 w-20;
+}
+
+.skelRowAvatar {
+  @apply h-9 w-9 shrink-0 rounded-full;
+}
+
+.skelRowName {
+  @apply h-3 w-28;
+}
+
+.skelRowCell {
+  @apply h-3 w-full max-w-[140px];
+}
+
+/* KPI card skeleton */
+.skelKpiLabel {
+  @apply h-3 w-24;
+}
+
+.skelKpiValue {
+  @apply h-8 w-32;
+}
+
+.skelKpiDelta {
+  @apply h-3 w-16;
+}
+
+.skelKpiIcon {
+  @apply h-10 w-10 rounded-xl;
+}
+
+/* Chart skeleton content */
+.skelChartTitle {
+  @apply h-4 w-40;
+}
+
+.skelChartSub {
+  @apply h-3 w-24;
+}
+
+.skelChartFill {
+  @apply absolute inset-0;
+}
+
+/* Card grid skeleton */
+.skelCardIcon {
+  @apply h-10 w-10 rounded-lg;
+}
+
+.skelCardBadge {
+  @apply h-5 w-14 rounded-full;
+}
+
+.skelCardName {
+  @apply h-3 w-24;
+}
+
+.skelCardTitle {
+  @apply h-4 w-36;
+}
+
+.skelCardLabelSm {
+  @apply h-2 w-12;
+}
+
+.skelCardValue {
+  @apply h-5 w-20;
+}
+
+.skelCardDate {
+  @apply h-3 w-24;
+}
+
+/* Board skeleton */
+.skelBoardColHead {
+  @apply h-4 w-20;
+}
+
+.skelBoardColCount {
+  @apply h-4 w-6 rounded-full;
+}
+
+.skelBoardCardId {
+  @apply h-3 w-16;
+}
+
+.skelBoardCardBadge {
+  @apply h-4 w-14 rounded-full;
+}
+
+.skelBoardCardName {
+  @apply h-4 w-32;
+}
+
+.skelBoardCardDesc {
+  @apply h-3 w-full;
+}
+
+.skelBoardCardAmount {
+  @apply h-4 w-16;
+}
+
+.skelBoardCardDate {
+  @apply h-3 w-10;
+}
+
+/* ── ChatWidget ── */
+.toggleButton {
+  @apply fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full shadow-lg transition-all bg-primary text-primary-foreground ring-1 ring-primary/40;
+}
+
+.panel {
+  @apply fixed bottom-24 right-6 z-50 flex flex-col overflow-hidden rounded-2xl border bg-background shadow-2xl transition-all duration-300;
+  height: min(560px, calc(100svh - 6rem));
+  width: 360px;
+}
+
+.panelOpen {
+  @apply pointer-events-auto scale-100 opacity-100;
+}
+
+.panelClosed {
+  @apply pointer-events-none scale-95 opacity-0;
+}
+
+.panelHeader {
+  @apply flex items-center gap-2 border-b px-4 py-3 bg-gradient-to-r from-primary/10 to-transparent;
+}
+
+.panelAvatar {
+  @apply flex h-8 w-8 items-center justify-center rounded-full bg-primary/15 text-primary;
+}
+
+.panelTitleGroup {
+  @apply min-w-0;
+}
+
+.panelTitle {
+  @apply text-sm font-semibold;
+}
+
+.panelStatus {
+  @apply text-xs text-muted-foreground;
+}
+
+.messagesArea {
+  @apply flex-1 space-y-3 overflow-y-auto p-4;
+}
+
+.messageRow {
+  @apply flex;
+}
+
+.messageRowUser {
+  @apply justify-end;
+}
+
+.messageRowAi {
+  @apply justify-start;
+}
+
+.bubble {
+  @apply max-w-[80%] rounded-2xl px-3 py-2 text-sm;
+}
+
+.bubbleUser {
+  @apply rounded-br-sm bg-primary text-primary-foreground;
+}
+
+.bubbleAi {
+  @apply rounded-bl-sm bg-muted;
+}
+
+.bubbleContent {
+  @apply text-sm max-w-none;
+}
+
+.chatLoadingRow {
+  @apply flex justify-start;
+}
+
+.loadingBubble {
+  @apply rounded-2xl bg-muted px-3 py-2 text-sm text-muted-foreground;
+}
+
+.inputArea {
+  @apply border-t p-3;
+}
+
+.inputRow {
+  @apply flex gap-2;
+}
+
+.textarea {
+  @apply min-h-[40px] max-h-32 resize-none;
+}
+
+.iconLg {
+  @apply h-5 w-5;
+}
+
+.iconMd {
+  @apply h-4 w-4;
+}
+
+.chatSpinner {
+  @apply h-4 w-4 animate-spin;
+}
+
+/* ── CommandPalette ── */
+.paletteLoadingRow {
+  @apply flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground;
+}
+
+.commandIcon {
+  @apply mr-2 h-4 w-4;
+}
+
+.paletteSpinner {
+  @apply h-4 w-4 animate-spin;
+}
+
+.resultName {
+  @apply font-medium;
+}
+
+.resultMeta {
+  @apply ml-2 text-xs text-muted-foreground;
+}
+
+/* ── AuroraBackground ── */
+.auroraRoot {
+  @apply pointer-events-none fixed inset-0 -z-10 overflow-hidden;
+}
+
+.base {
+  @apply absolute inset-0 bg-background;
+}
+
+.blobA {
+  @apply absolute -top-1/3 -left-1/4 h-[60vmax] w-[60vmax] rounded-full opacity-40 blur-3xl animate-[float-a_22s_ease-in-out_infinite] dark:opacity-30;
+}
+
+.blobB {
+  @apply absolute top-1/4 -right-1/4 h-[55vmax] w-[55vmax] rounded-full opacity-35 blur-3xl animate-[float-b_28s_ease-in-out_infinite] dark:opacity-25;
+}
+
+.blobC {
+  @apply absolute -bottom-1/4 left-1/4 h-[50vmax] w-[50vmax] rounded-full opacity-30 blur-3xl animate-[float-c_34s_ease-in-out_infinite] dark:opacity-25;
+}
+
+.grain {
+  @apply absolute inset-0 opacity-[0.035] mix-blend-overlay;
+  background-image: radial-gradient(currentColor 1px, transparent 1px);
+  background-size: 3px 3px;
+}

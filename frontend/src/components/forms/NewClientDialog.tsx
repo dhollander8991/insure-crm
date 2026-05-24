@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-import styles from "./NewClientDialog.module.css";
+import styles from "../forms.module.css";
 
 import { emailStorage } from "@/lib/api";
 import {
@@ -74,17 +74,17 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={styles.dialogContent}>
+      <DialogContent className={styles.ncDialogContent}>
         <DialogHeader>
           <DialogTitle>New Client</DialogTitle>
           <DialogDescription>Add a new client to your CRM.</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(submitNewClientForm)}
-          className={styles.form}
+          className={styles.ncForm}
         >
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.ncTwoCol}>
+            <div className={styles.ncField}>
               <Label htmlFor="firstName">First Name</Label>
               <Input
                 id="firstName"
@@ -92,10 +92,10 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 {...register("firstName")}
               />
               {errors.firstName && (
-                <p className={styles.fieldError}>{errors.firstName.message}</p>
+                <p className={styles.ncFieldError}>{errors.firstName.message}</p>
               )}
             </div>
-            <div className={styles.field}>
+            <div className={styles.ncField}>
               <Label htmlFor="lastName">Last Name</Label>
               <Input
                 id="lastName"
@@ -103,12 +103,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 {...register("lastName")}
               />
               {errors.lastName && (
-                <p className={styles.fieldError}>{errors.lastName.message}</p>
+                <p className={styles.ncFieldError}>{errors.lastName.message}</p>
               )}
             </div>
           </div>
 
-          <div className={styles.field}>
+          <div className={styles.ncField}>
             <Label htmlFor="nc-email">Email</Label>
             <Input
               id="nc-email"
@@ -117,12 +117,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               {...register("email")}
             />
             {errors.email && (
-              <p className={styles.fieldError}>{errors.email.message}</p>
+              <p className={styles.ncFieldError}>{errors.email.message}</p>
             )}
           </div>
 
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.ncTwoCol}>
+            <div className={styles.ncField}>
               <Label htmlFor="phone">Phone (05X-XXXXXXX)</Label>
               <Input
                 id="phone"
@@ -131,10 +131,10 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 placeholder="050-1234567"
               />
               {errors.phone && (
-                <p className={styles.fieldError}>{errors.phone.message}</p>
+                <p className={styles.ncFieldError}>{errors.phone.message}</p>
               )}
             </div>
-            <div className={styles.field}>
+            <div className={styles.ncField}>
               <Label htmlFor="israeliId">Israeli ID</Label>
               <Input
                 id="israeliId"
@@ -144,13 +144,13 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 maxLength={9}
               />
               {errors.israeliId && (
-                <p className={styles.fieldError}>{errors.israeliId.message}</p>
+                <p className={styles.ncFieldError}>{errors.israeliId.message}</p>
               )}
             </div>
           </div>
 
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.ncTwoCol}>
+            <div className={styles.ncField}>
               <Label htmlFor="dateOfBirth">Date of Birth</Label>
               <Input
                 id="dateOfBirth"
@@ -158,12 +158,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 {...register("dateOfBirth")}
               />
               {errors.dateOfBirth && (
-                <p className={styles.fieldError}>
+                <p className={styles.ncFieldError}>
                   {errors.dateOfBirth.message}
                 </p>
               )}
             </div>
-            <div className={styles.field}>
+            <div className={styles.ncField}>
               <Label>Status</Label>
               <Select
                 defaultValue="PROSPECT"
@@ -186,15 +186,15 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
             </div>
           </div>
 
-          <div className={styles.field}>
+          <div className={styles.ncField}>
             <Label htmlFor="agentEmail">Agent Email</Label>
             <Input id="agentEmail" type="email" {...register("agentEmail")} />
             {errors.agentEmail && (
-              <p className={styles.fieldError}>{errors.agentEmail.message}</p>
+              <p className={styles.ncFieldError}>{errors.agentEmail.message}</p>
             )}
           </div>
 
-          <div className={styles.footer}>
+          <div className={styles.ncFooter}>
             <Button
               type="button"
               variant="outline"
@@ -208,7 +208,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               data-testid="submit-button"
             >
               {createCustomerMutation.isPending && (
-                <Loader2 className={styles.spinner} />
+                <Loader2 className={styles.ncSpinner} />
               )}
               Create Client
             </Button>

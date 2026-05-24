@@ -1,6 +1,7 @@
 @reference "../styles.css";
 .page {
   @apply relative flex flex-col gap-6 p-4 sm:p-6 min-h-screen overflow-x-hidden;
+  contain: layout;
 }
 
 .pageHeader {

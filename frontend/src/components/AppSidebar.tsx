@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 
-import styles from "./AppSidebar.module.css";
+import styles from "./layout.module.css";
 
 import {
   Sidebar,

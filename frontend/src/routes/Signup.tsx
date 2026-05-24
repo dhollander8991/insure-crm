@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-import styles from "./Signup.module.css";
+import styles from "./auth.module.css";
 
 import { authApi, tokenStorage, emailStorage } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
@@ -57,14 +57,14 @@ export function SignupPage() {
       footer={
         <>
           Already have one?{" "}
-          <Link to="/login" className={styles.footerLink}>
+          <Link to="/login" className={styles.signupFooterLink}>
             Sign in
           </Link>
         </>
       }
     >
-      <form onSubmit={handleSignupFormSubmit} className={styles.form}>
-        <div className={styles.field}>
+      <form onSubmit={handleSignupFormSubmit} className={styles.signupForm}>
+        <div className={styles.signupField}>
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
@@ -75,7 +75,7 @@ export function SignupPage() {
             required
           />
         </div>
-        <div className={styles.field}>
+        <div className={styles.signupField}>
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"
@@ -88,10 +88,10 @@ export function SignupPage() {
         </div>
         <Button
           type="submit"
-          className={styles.submitButton}
+          className={styles.signupSubmit}
           disabled={isSubmitting}
         >
-          {isSubmitting && <Loader2 className={styles.spinner} />}
+          {isSubmitting && <Loader2 className={styles.signupSpinner} />}
           Create account
         </Button>
       </form>

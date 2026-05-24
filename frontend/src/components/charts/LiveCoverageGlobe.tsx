@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Globe2 } from "lucide-react";
 
-import styles from "./LiveCoverageGlobe.module.css";
+import styles from "../charts.module.css";
 
 import { Card } from "@/components/ui/Card";
 
@@ -16,10 +16,10 @@ const pins = [
 
 export function LiveCoverageGlobe() {
   return (
-    <Card className={styles.card}>
+    <Card className={styles.globeCard}>
       <div className={styles.aurora} />
 
-      <div className={styles.header}>
+      <div className={styles.globeHeader}>
         <div>
           <p className={styles.headerTitle}>Live Coverage</p>
           <h3 className={styles.headerHeading}>Global Reach</h3>
@@ -76,7 +76,7 @@ export function LiveCoverageGlobe() {
         ))}
       </div>
 
-      <div className={styles.footer}>
+      <div className={styles.globeFooter}>
         <div>
           <p className={styles.footerLabel}>Active regions</p>
           <p className={styles.footerValue}>24</p>

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-import styles from "./PipelineFunnel.module.css";
+import styles from "../charts.module.css";
 
 const PIPELINE_DATA = [
   { stage: "New Leads", count: 48 },
@@ -13,7 +13,7 @@ const PIPELINE_DATA = [
 export function PipelineFunnel() {
   const max = Math.max(...PIPELINE_DATA.map((d) => d.count));
   return (
-    <div className={styles.root}>
+    <div className={styles.funnelRoot}>
       {PIPELINE_DATA.map((d, i) => {
         const pct = (d.count / max) * 100;
         return (

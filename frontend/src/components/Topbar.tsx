@@ -2,7 +2,7 @@ import { Bell, Search, LogOut, User as UserIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeToggle } from "./ThemeToggle";
-import styles from "./Topbar.module.css";
+import styles from "./layout.module.css";
 
 import { SidebarTrigger } from "@/components/ui/Sidebar";
 import { Button } from "@/components/ui/Button";

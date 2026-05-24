@@ -2,7 +2,7 @@ import { Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useTheme } from "./ThemeProvider";
-import styles from "./ThemeToggle.module.css";
+import styles from "./widgets.module.css";
 
 import { Button } from "@/components/ui/Button";
 

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-import styles from "./Login.module.css";
+import styles from "./auth.module.css";
 
 import { authApi, tokenStorage, emailStorage } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
@@ -57,14 +57,14 @@ export function LoginPage() {
       footer={
         <>
           New here?{" "}
-          <Link to="/signup" className={styles.footerLink}>
+          <Link to="/signup" className={styles.loginFooterLink}>
             Create an account
           </Link>
         </>
       }
     >
-      <form onSubmit={handleLoginFormSubmit} className={styles.form}>
-        <div className={styles.field}>
+      <form onSubmit={handleLoginFormSubmit} className={styles.loginForm}>
+        <div className={styles.loginField}>
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
@@ -76,7 +76,7 @@ export function LoginPage() {
             data-testid="email-input"
           />
         </div>
-        <div className={styles.field}>
+        <div className={styles.loginField}>
           <div className={styles.passwordHeader}>
             <Label htmlFor="password">Password</Label>
             <Link to="/forgot-password" className={styles.forgotLink}>
@@ -95,11 +95,11 @@ export function LoginPage() {
         </div>
         <Button
           type="submit"
-          className={styles.submitButton}
+          className={styles.loginSubmit}
           disabled={isSubmitting}
           data-testid="login-button"
         >
-          {isSubmitting && <Loader2 className={styles.spinner} />}
+          {isSubmitting && <Loader2 className={styles.loginSpinner} />}
           Sign in
         </Button>
       </form>

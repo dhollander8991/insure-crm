@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import { motion } from "framer-motion";
 
-import styles from "./RevenueAreaChart.module.css";
+import styles from "../charts.module.css";
 
 const REVENUE_DATA = [
   { month: "Jun", premiums: 88500, claims: 28000 },
@@ -32,7 +32,7 @@ export function RevenueAreaChart() {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className={styles.chart}
+      className={styles.revenueChart}
     >
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart

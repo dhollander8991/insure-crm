@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
-import styles from "./PageTransition.module.css";
+import styles from "./layout.module.css";
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();

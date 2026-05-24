@@ -1,0 +1,85 @@
+@reference "../styles.css";
+
+/* ── Login ── */
+.loginForm {
+  @apply space-y-4;
+}
+
+.loginField {
+  @apply space-y-1.5;
+}
+
+.passwordHeader {
+  @apply flex items-center justify-between;
+}
+
+.forgotLink {
+  @apply text-xs text-muted-foreground hover:text-foreground;
+}
+
+.loginSubmit {
+  @apply w-full;
+}
+
+.loginFooterLink {
+  @apply font-medium text-primary hover:underline;
+}
+
+.loginSpinner {
+  @apply mr-2 h-4 w-4 animate-spin;
+}
+
+/* ── Signup ── */
+.signupForm {
+  @apply space-y-4;
+}
+
+.signupField {
+  @apply space-y-1.5;
+}
+
+.signupSubmit {
+  @apply w-full;
+}
+
+.signupFooterLink {
+  @apply font-medium text-primary hover:underline;
+}
+
+.signupSpinner {
+  @apply mr-2 h-4 w-4 animate-spin;
+}
+
+/* ── ForgotPassword ── */
+.successMessage {
+  @apply rounded-lg border bg-muted/40 p-4 text-center text-sm text-muted-foreground;
+}
+
+.successEmail {
+  @apply font-medium text-foreground;
+}
+
+.forgotForm {
+  @apply space-y-4;
+}
+
+.forgotField {
+  @apply space-y-1.5;
+}
+
+.forgotSubmit {
+  @apply w-full;
+}
+
+.forgotFooterLink {
+  @apply font-medium text-primary hover:underline;
+}
+
+/* ── ResetPassword ── */
+.message {
+  @apply rounded-lg border bg-muted/40 p-4 text-center text-sm text-muted-foreground;
+}
+
+.resetFooterLink {
+  @apply font-medium text-primary hover:underline;
+}

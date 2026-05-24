@@ -13,7 +13,7 @@ import {
   Loader2,
 } from "lucide-react";
 
-import styles from "./CommandPalette.module.css";
+import styles from "./widgets.module.css";
 
 import {
   CommandDialog,
@@ -124,8 +124,8 @@ export function CommandPalette() {
       />
       <CommandList>
         {hasActiveSearch && isSearchLoading ? (
-          <div className={styles.loadingRow}>
-            <Loader2 className={styles.spinner} />
+          <div className={styles.paletteLoadingRow}>
+            <Loader2 className={styles.paletteSpinner} />
             Searching…
           </div>
         ) : (

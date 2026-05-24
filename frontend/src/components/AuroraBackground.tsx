@@ -1,8 +1,8 @@
-import styles from "./AuroraBackground.module.css";
+import styles from "./widgets.module.css";
 
 export function AuroraBackground() {
   return (
-    <div aria-hidden className={styles.root}>
+    <div aria-hidden className={styles.auroraRoot}>
       <div className={styles.base} />
       <div
         className={styles.blobA}

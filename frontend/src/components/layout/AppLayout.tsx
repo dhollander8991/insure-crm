@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import styles from "./AppLayout.module.css";
+import styles from "../layout.module.css";
 
 import { SidebarProvider } from "@/components/ui/Sidebar";
 import { AppSidebar } from "@/components/AppSidebar";

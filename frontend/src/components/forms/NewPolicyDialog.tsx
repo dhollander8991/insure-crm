@@ -4,7 +4,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-import styles from "./NewPolicyDialog.module.css";
+import styles from "../forms.module.css";
 
 import { emailStorage } from "@/lib/api";
 import {
@@ -84,17 +84,17 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={styles.dialogContent}>
+      <DialogContent className={styles.npDialogContent}>
         <DialogHeader>
           <DialogTitle>New Policy</DialogTitle>
           <DialogDescription>Create a new insurance policy.</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(submitNewPolicyForm)}
-          className={styles.form}
+          className={styles.npForm}
         >
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.npTwoCol}>
+            <div className={styles.npField}>
               <Label htmlFor="customerId">Customer ID</Label>
               <Input
                 id="customerId"
@@ -103,10 +103,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("customerId")}
               />
               {errors.customerId && (
-                <p className={styles.fieldError}>{errors.customerId.message}</p>
+                <p className={styles.npFieldError}>{errors.customerId.message}</p>
               )}
             </div>
-            <div className={styles.field}>
+            <div className={styles.npField}>
               <Label htmlFor="customerName">Customer Name</Label>
               <Input
                 id="customerName"
@@ -114,15 +114,15 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("customerName")}
               />
               {errors.customerName && (
-                <p className={styles.fieldError}>
+                <p className={styles.npFieldError}>
                   {errors.customerName.message}
                 </p>
               )}
             </div>
           </div>
 
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.npTwoCol}>
+            <div className={styles.npField}>
               <Label>Type</Label>
               <Select
                 defaultValue="CAR"
@@ -144,7 +144,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 </SelectContent>
               </Select>
             </div>
-            <div className={styles.field}>
+            <div className={styles.npField}>
               <Label>Status</Label>
               <Select
                 defaultValue="PENDING"
@@ -167,8 +167,8 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
             </div>
           </div>
 
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.npTwoCol}>
+            <div className={styles.npField}>
               <Label htmlFor="startDate">Start Date</Label>
               <Input
                 id="startDate"
@@ -177,10 +177,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("startDate")}
               />
               {errors.startDate && (
-                <p className={styles.fieldError}>{errors.startDate.message}</p>
+                <p className={styles.npFieldError}>{errors.startDate.message}</p>
               )}
             </div>
-            <div className={styles.field}>
+            <div className={styles.npField}>
               <Label htmlFor="endDate">End Date</Label>
               <Input
                 id="endDate"
@@ -189,13 +189,13 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("endDate")}
               />
               {errors.endDate && (
-                <p className={styles.fieldError}>{errors.endDate.message}</p>
+                <p className={styles.npFieldError}>{errors.endDate.message}</p>
               )}
             </div>
           </div>
 
-          <div className={styles.twoCol}>
-            <div className={styles.field}>
+          <div className={styles.npTwoCol}>
+            <div className={styles.npField}>
               <Label htmlFor="premium">Premium ($/mo)</Label>
               <Input
                 id="premium"
@@ -206,10 +206,10 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("premium")}
               />
               {errors.premium && (
-                <p className={styles.fieldError}>{errors.premium.message}</p>
+                <p className={styles.npFieldError}>{errors.premium.message}</p>
               )}
             </div>
-            <div className={styles.field}>
+            <div className={styles.npField}>
               <Label htmlFor="np-agentEmail">Agent Email</Label>
               <Input
                 id="np-agentEmail"
@@ -217,12 +217,12 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                 {...register("agentEmail")}
               />
               {errors.agentEmail && (
-                <p className={styles.fieldError}>{errors.agentEmail.message}</p>
+                <p className={styles.npFieldError}>{errors.agentEmail.message}</p>
               )}
             </div>
           </div>
 
-          <div className={styles.footer}>
+          <div className={styles.npFooter}>
             <Button
               type="button"
               variant="outline"
@@ -236,7 +236,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               data-testid="submit-button"
             >
               {createPolicyMutation.isPending && (
-                <Loader2 className={styles.spinner} />
+                <Loader2 className={styles.npSpinner} />
               )}
               Create Policy
             </Button>

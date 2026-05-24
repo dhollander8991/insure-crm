@@ -1,6 +1,6 @@
 import { type LucideIcon } from "lucide-react";
 
-import styles from "./EmptyState.module.css";
+import styles from "./widgets.module.css";
 
 import { Button } from "@/components/ui/Button";
 
@@ -21,8 +21,8 @@ export function EmptyState({
   action,
 }: EmptyStateProps) {
   return (
-    <div className={styles.root}>
-      <div className={styles.iconWrap}>
+    <div className={styles.emptyRoot}>
+      <div className={styles.emptyIconWrap}>
         <Icon className={styles.icon} />
       </div>
       <h3 className={styles.title}>{title}</h3>

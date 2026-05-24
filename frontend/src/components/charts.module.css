@@ -1,5 +1,7 @@
-@reference "../../styles.css";
-.card {
+@reference "../styles.css";
+
+/* ── LiveCoverageGlobe ── */
+.globeCard {
   @apply relative h-full overflow-hidden border-0 p-6 text-primary-foreground;
   background: var(--gradient-primary);
 }
@@ -9,7 +11,7 @@
   background-image: var(--gradient-aurora);
 }
 
-.header {
+.globeHeader {
   @apply relative flex items-start justify-between;
 }
 
@@ -91,7 +93,7 @@
   @apply relative block h-1.5 w-1.5 rounded-full bg-white shadow-[0_0_10px_2px_rgba(255,255,255,0.8)];
 }
 
-.footer {
+.globeFooter {
   @apply relative flex items-end justify-between text-xs;
 }
 
@@ -105,4 +107,85 @@
 
 .footerBadge {
   @apply rounded-full bg-white/15 px-2.5 py-1 font-medium backdrop-blur-sm;
+}
+
+/* ── ClaimsBarChart ── */
+.claimsChart {
+  @apply h-72 w-full;
+}
+
+/* ── PipelineFunnel ── */
+.funnelRoot {
+  @apply space-y-3 py-2;
+}
+
+.row {
+  @apply space-y-1.5;
+}
+
+.rowHeader {
+  @apply flex items-center justify-between text-xs;
+}
+
+.rowLabel {
+  @apply font-medium;
+}
+
+.rowCount {
+  @apply text-muted-foreground;
+}
+
+.track {
+  @apply h-2.5 w-full overflow-hidden rounded-full bg-muted;
+}
+
+.fill {
+  @apply h-full rounded-full;
+  background: var(--gradient-primary);
+}
+
+/* ── PoliciesDonut ── */
+.donutRoot {
+  @apply flex flex-col;
+}
+
+.chartWrap {
+  @apply relative h-56 w-full;
+}
+
+.centerLabel {
+  @apply pointer-events-none absolute inset-0 flex flex-col items-center justify-center;
+}
+
+.centerValue {
+  @apply text-3xl font-semibold tracking-tight;
+}
+
+.centerSubtitle {
+  @apply text-xs text-muted-foreground;
+}
+
+.legend {
+  @apply mt-2 flex flex-wrap justify-center gap-3 pb-4 text-xs;
+}
+
+.legendItem {
+  @apply flex items-center gap-1.5;
+}
+
+.legendDot {
+  @apply h-2.5 w-2.5 rounded-full;
+}
+
+.legendType {
+  @apply text-muted-foreground;
+}
+
+.legendCount {
+  @apply font-medium;
+}
+
+/* ── RevenueAreaChart ── */
+.revenueChart {
+  @apply h-72 w-full;
 }

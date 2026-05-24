@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
 import type { ReactNode } from "react";
 
-import styles from "./AuthShell.module.css";
+import styles from "./forms.module.css";
 
 export function AuthShell({
   title,
@@ -16,25 +16,25 @@ export function AuthShell({
   footer?: ReactNode;
 }) {
   return (
-    <div className={styles.root}>
+    <div className={styles.authRoot}>
       <div className="mesh-bg">
         <div className="mesh-orb" />
       </div>
-      <div className={styles.contentWrapper}>
-        <Link to="/" className={styles.logoLink}>
-          <div className={styles.logoIcon}>
-            <ShieldCheck className={styles.shieldIcon} />
+      <div className={styles.authContentWrapper}>
+        <Link to="/" className={styles.authLogoLink}>
+          <div className={styles.authLogoIcon}>
+            <ShieldCheck className={styles.authShieldIcon} />
           </div>
-          <span className={styles.logoText}>Aegis CRM</span>
+          <span className={styles.authLogoText}>Aegis CRM</span>
         </Link>
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <h1 className={styles.cardTitle}>{title}</h1>
-            {subtitle && <p className={styles.cardSubtitle}>{subtitle}</p>}
+        <div className={styles.authCard}>
+          <div className={styles.authCardHeader}>
+            <h1 className={styles.authCardTitle}>{title}</h1>
+            {subtitle && <p className={styles.authCardSubtitle}>{subtitle}</p>}
           </div>
           {children}
         </div>
-        {footer && <div className={styles.footer}>{footer}</div>}
+        {footer && <div className={styles.authFooter}>{footer}</div>}
       </div>
     </div>
   );
