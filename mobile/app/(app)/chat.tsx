@@ -4,7 +4,7 @@ import {
   Pressable, ScrollView, StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Markdown from 'react-native-markdown-display';
+import Markdown from '@ronradtke/react-native-markdown-display';
 import { aiApi, type ChatMessage } from '../../src/lib/api';
 import { colors, cardShadow } from '../../src/lib/theme';
 
