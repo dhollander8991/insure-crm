@@ -1,9 +1,10 @@
 import * as SecureStore from 'expo-secure-store';
 
-const AUTH_URL = 'http://35.157.14.12:8081';
-const CUSTOMER_URL = 'http://35.157.14.12:8082';
-const POLICY_URL = 'http://35.157.14.12:8083';
-const AI_URL = 'http://35.157.14.12:8084';
+const BASE = 'https://insurecrm-navy.vercel.app';
+const AUTH_URL = `${BASE}/api/auth`;
+const CUSTOMER_URL = `${BASE}/api/customers`;
+const POLICY_URL = `${BASE}/api/policies`;
+const AI_URL = `${BASE}/api/ai`;
 
 export const tokenStorage = {
   get: () => SecureStore.getItemAsync('insurecrm_token'),
@@ -134,11 +135,11 @@ export const policyApi = {
 
 export interface ChatMessage { role: 'user' | 'assistant'; content: string; }
 export interface ChatRequest { message: string; history: ChatMessage[]; }
-export interface ChatResponse { response: string; }
+export interface ChatResponse { message?: string; response?: string; }
 
 export const aiApi = {
   chat: (data: ChatRequest) =>
-    request<ChatResponse>(`${AI_URL}/ai/chat`, {
+    request<ChatResponse>(`${AI_URL}/chat`, {
       method: 'POST', body: JSON.stringify(data),
     }),
 };

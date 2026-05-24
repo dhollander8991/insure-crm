@@ -61,7 +61,7 @@ export default function ChatScreen() {
       const res = await aiApi.chat({ message: trimmed, history });
       setMessages((prev) => [
         ...prev,
-        { id: Date.now().toString() + '_ai', role: 'assistant', content: res.response },
+        { id: Date.now().toString() + '_ai', role: 'assistant', content: res.message ?? res.response ?? '' },
       ]);
     } catch (err) {
       setMessages((prev) => [
