@@ -42,25 +42,30 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border group-data-[collapsible=icon]:p-0">
+      <SidebarHeader
+        className={clsx(
+          styles.sidebarHeader,
+          isSidebarCollapsed && styles.sidebarHeaderCollapsed,
+        )}
+      >
         <div className={styles.logoWrapper}>
           <div className={styles.logoIcon}>
-            <ShieldCheck className="h-5 w-5" />
+            <ShieldCheck className={styles.shieldIcon} />
           </div>
-          <div className="group-data-[collapsible=icon]:hidden">
+          {!isSidebarCollapsed && (
             <div className={styles.logoTextGroup}>
               <span className={styles.logoTitle}>Aegis CRM</span>
               <span className={styles.logoSubtitle}>Insurance Suite</span>
             </div>
-          </div>
+          )}
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
-            Workspace
-          </SidebarGroupLabel>
+          {!isSidebarCollapsed && (
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          )}
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((navItem) => {
@@ -71,7 +76,7 @@ export function AppSidebar() {
                       asChild
                       isActive={isNavItemActive}
                       tooltip={navItem.title}
-                      className="group/menu-button transition-all"
+                      className={styles.menuButton}
                     >
                       <Link to={navItem.url} className={styles.navLink}>
                         <navItem.icon

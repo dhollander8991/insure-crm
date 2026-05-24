@@ -99,7 +99,7 @@ export function LoginPage() {
           disabled={isSubmitting}
           data-testid="login-button"
         >
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isSubmitting && <Loader2 className={styles.spinner} />}
           Sign in
         </Button>
       </form>

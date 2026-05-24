@@ -2,3 +2,11 @@
 .iconWrapper {
   @apply absolute inset-0 flex items-center justify-center;
 }
+
+.button {
+  @apply relative overflow-hidden;
+}
+
+.themeIcon {
+  @apply h-4 w-4;
+}

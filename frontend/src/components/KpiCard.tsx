@@ -39,7 +39,7 @@ function CountUp({
   useEffect(() => rounded.on("change", setDisplay), [rounded]);
 
   return (
-    <span ref={ref} className="tabular-nums">
+    <span ref={ref} className={styles.countUp}>
       {display}
     </span>
   );
@@ -122,16 +122,16 @@ export function KpiCard({
                 )}
               >
                 {up ? (
-                  <ArrowUpRight className="h-3.5 w-3.5" />
+                  <ArrowUpRight className={styles.deltaIcon} />
                 ) : (
-                  <ArrowDownRight className="h-3.5 w-3.5" />
+                  <ArrowDownRight className={styles.deltaIcon} />
                 )}
                 {up ? "+" : ""}
                 {delta}% vs last month
               </div>
             </div>
             <div className={styles.iconWrap}>
-              <Icon className="h-5 w-5" />
+              <Icon className={styles.kpiIcon} />
             </div>
           </div>
         </Card>

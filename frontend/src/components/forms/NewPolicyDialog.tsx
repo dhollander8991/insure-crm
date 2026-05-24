@@ -84,7 +84,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className={styles.dialogContent}>
         <DialogHeader>
           <DialogTitle>New Policy</DialogTitle>
           <DialogDescription>Create a new insurance policy.</DialogDescription>
@@ -236,7 +236,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               data-testid="submit-button"
             >
               {createPolicyMutation.isPending && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className={styles.spinner} />
               )}
               Create Policy
             </Button>

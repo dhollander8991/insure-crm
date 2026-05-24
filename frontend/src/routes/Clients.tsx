@@ -101,12 +101,12 @@ function SortHeader({
       {label}
       {isActive ? (
         sortDir === "asc" ? (
-          <ChevronUp className="h-3 w-3" />
+          <ChevronUp className={styles.sortIconSm} />
         ) : (
-          <ChevronDown className="h-3 w-3" />
+          <ChevronDown className={styles.sortIconSm} />
         )
       ) : (
-        <ChevronsUpDown className="h-3 w-3 opacity-40" />
+        <ChevronsUpDown className={styles.sortIconSmInactive} />
       )}
     </button>
   );
@@ -130,7 +130,7 @@ function FilterHeader({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-1">
+    <div className={styles.filterHeaderRow}>
       <SortHeader
         col={col}
         label={label}
@@ -146,10 +146,10 @@ function FilterHeader({
               isActive && styles.filterPopoverTriggerActive,
             )}
           >
-            <Filter className="h-3 w-3" />
+            <Filter className={styles.filterIcon} />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-64 p-3" align="start">
+        <PopoverContent className={styles.filterPopoverContent} align="start">
           {children}
         </PopoverContent>
       </Popover>
@@ -271,7 +271,7 @@ export function ClientsPage() {
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
-        <div className="relative">
+        <div className={styles.contentArea}>
           <div className={styles.pageHeader}>
             <div>
               <h1 className={styles.pageTitle}>Clients</h1>
@@ -281,16 +281,16 @@ export function ClientsPage() {
             </div>
             <Button
               onClick={() => setIsNewClientModalOpen(true)}
-              className="gap-2 shadow-[var(--shadow-elegant)]"
+              className={styles.addButton}
               data-testid="add-customer-button"
             >
-              <Plus className="h-4 w-4" /> Add Client
+              <Plus className={styles.addBtnIcon} /> Add Client
             </Button>
           </div>
 
           {activeFilters.length > 0 && (
             <div className={styles.filterRow}>
-              <span className="text-xs text-muted-foreground">Filters:</span>
+              <span className={styles.filtersLabel}>Filters:</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
@@ -302,7 +302,7 @@ export function ClientsPage() {
                     onClick={filterChip.onRemove}
                     className={styles.filterChipRemove}
                   >
-                    <X className="h-3 w-3" />
+                    <X className={styles.removeChipIcon} />
                   </button>
                 </Badge>
               ))}
@@ -333,19 +333,19 @@ export function ClientsPage() {
             />
           ) : (
             <Card>
-              <CardHeader className="pb-0">
+              <CardHeader className={styles.cardHeaderNoPb}>
                 <div className={styles.searchWrapper}>
                   <Search className={styles.searchIcon} />
                   <Input
                     value={nameFilter}
                     onChange={(event) => setNameFilter(event.target.value)}
                     placeholder="Search by name…"
-                    className="pl-9"
+                    className={styles.searchInput}
                     data-testid="customer-search"
                   />
                 </div>
               </CardHeader>
-              <CardContent className="p-0 pt-2">
+              <CardContent className={styles.cardContentPadded}>
                 {filteredClients.length === 0 ? (
                   <EmptyState
                     icon={Users}
@@ -371,7 +371,7 @@ export function ClientsPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-1.5 text-xs font-medium">
+                              <p className={styles.filterGroupTitleSm}>
                                 Filter by name
                               </p>
                               <Input
@@ -381,7 +381,7 @@ export function ClientsPage() {
                                   setNameFilter(event.target.value)
                                 }
                                 placeholder="Search name…"
-                                className="h-8 text-sm"
+                                className={styles.filterInput}
                               />
                             </FilterHeader>
                           </TableHead>
@@ -394,7 +394,7 @@ export function ClientsPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-1.5 text-xs font-medium">
+                              <p className={styles.filterGroupTitleSm}>
                                 Filter by email
                               </p>
                               <Input
@@ -403,7 +403,7 @@ export function ClientsPage() {
                                   setEmailFilter(event.target.value)
                                 }
                                 placeholder="Search email…"
-                                className="h-8 text-sm"
+                                className={styles.filterInput}
                               />
                             </FilterHeader>
                           </TableHead>
@@ -425,10 +425,10 @@ export function ClientsPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-2 text-xs font-medium">
+                              <p className={styles.filterGroupTitle}>
                                 Filter by status
                               </p>
-                              <div className="space-y-2">
+                              <div className={styles.filterCheckboxGroup}>
                                 {ALL_STATUSES.map((status) => (
                                   <div
                                     key={status}
@@ -497,15 +497,15 @@ export function ClientsPage() {
                                   </div>
                                 </div>
                               </TableCell>
-                              <TableCell className="text-xs">
+                              <TableCell className={styles.cellXs}>
                                 <span className={styles.cellIconText}>
-                                  <Mail className="h-3 w-3 text-muted-foreground shrink-0" />
+                                  <Mail className={styles.cellMailIcon} />
                                   {client.email}
                                 </span>
                               </TableCell>
-                              <TableCell className="text-xs text-muted-foreground">
+                              <TableCell className={styles.cellXsMuted}>
                                 <span className={styles.cellIconText}>
-                                  <Phone className="h-3 w-3 shrink-0" />
+                                  <Phone className={styles.cellPhoneIcon} />
                                   {client.phone}
                                 </span>
                               </TableCell>
@@ -517,7 +517,7 @@ export function ClientsPage() {
                                   {client.status}
                                 </Badge>
                               </TableCell>
-                              <TableCell className="text-xs text-muted-foreground">
+                              <TableCell className={styles.cellXsMuted}>
                                 {client.dateOfBirth
                                   ? new Date(
                                       client.dateOfBirth,

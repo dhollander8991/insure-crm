@@ -125,7 +125,7 @@ export function CommandPalette() {
       <CommandList>
         {hasActiveSearch && isSearchLoading ? (
           <div className={styles.loadingRow}>
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className={styles.spinner} />
             Searching…
           </div>
         ) : (
@@ -146,11 +146,11 @@ export function CommandPalette() {
                       )
                     }
                   >
-                    <User className="mr-2 h-4 w-4" />
-                    <span className="font-medium">
+                    <User className={styles.commandIcon} />
+                    <span className={styles.resultName}>
                       {customer.firstName} {customer.lastName}
                     </span>
-                    <span className="ml-2 text-xs text-muted-foreground">
+                    <span className={styles.resultMeta}>
                       {customer.email}
                     </span>
                   </CommandItem>
@@ -170,9 +170,9 @@ export function CommandPalette() {
                       )
                     }
                   >
-                    <FileText className="mr-2 h-4 w-4" />
-                    <span className="font-medium">{policy.policyNumber}</span>
-                    <span className="ml-2 text-xs text-muted-foreground">
+                    <FileText className={styles.commandIcon} />
+                    <span className={styles.resultName}>{policy.policyNumber}</span>
+                    <span className={styles.resultMeta}>
                       {policy.customerName} · {policy.type}
                     </span>
                   </CommandItem>
@@ -187,7 +187,7 @@ export function CommandPalette() {
                   <CommandItem
                     onSelect={() => executeCommandAndClose(() => navigate("/"))}
                   >
-                    <LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard
+                    <LayoutDashboard className={styles.commandIcon} /> Dashboard
                     <CommandShortcut>G D</CommandShortcut>
                   </CommandItem>
                   <CommandItem
@@ -195,7 +195,7 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/clients"))
                     }
                   >
-                    <Users className="mr-2 h-4 w-4" /> Clients
+                    <Users className={styles.commandIcon} /> Clients
                     <CommandShortcut>G C</CommandShortcut>
                   </CommandItem>
                   <CommandItem
@@ -203,7 +203,7 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/policies"))
                     }
                   >
-                    <FileText className="mr-2 h-4 w-4" /> Policies
+                    <FileText className={styles.commandIcon} /> Policies
                     <CommandShortcut>G P</CommandShortcut>
                   </CommandItem>
                   <CommandItem
@@ -211,7 +211,7 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/claims"))
                     }
                   >
-                    <ShieldAlert className="mr-2 h-4 w-4" /> Claims
+                    <ShieldAlert className={styles.commandIcon} /> Claims
                     <CommandShortcut>G L</CommandShortcut>
                   </CommandItem>
                 </CommandGroup>
@@ -222,14 +222,14 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/clients"))
                     }
                   >
-                    <PlusCircle className="mr-2 h-4 w-4" /> New client
+                    <PlusCircle className={styles.commandIcon} /> New client
                   </CommandItem>
                   <CommandItem
                     onSelect={() =>
                       executeCommandAndClose(() => navigate("/policies"))
                     }
                   >
-                    <PlusCircle className="mr-2 h-4 w-4" /> New policy
+                    <PlusCircle className={styles.commandIcon} /> New policy
                   </CommandItem>
                 </CommandGroup>
                 <CommandSeparator />
@@ -238,16 +238,16 @@ export function CommandPalette() {
                     onSelect={() => executeCommandAndClose(toggleTheme)}
                   >
                     {theme === "dark" ? (
-                      <Sun className="mr-2 h-4 w-4" />
+                      <Sun className={styles.commandIcon} />
                     ) : (
-                      <Moon className="mr-2 h-4 w-4" />
+                      <Moon className={styles.commandIcon} />
                     )}
                     Toggle theme
                   </CommandItem>
                   <CommandItem
                     onSelect={() => executeCommandAndClose(handleSignOut)}
                   >
-                    <LogOut className="mr-2 h-4 w-4" /> Sign out
+                    <LogOut className={styles.commandIcon} /> Sign out
                   </CommandItem>
                 </CommandGroup>
               </>

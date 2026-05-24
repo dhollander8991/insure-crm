@@ -48,8 +48,8 @@ export function Topbar() {
         onClick={openCommandPalette}
         className={styles.searchButton}
       >
-        <Search className="h-4 w-4" />
-        <span className="flex-1 truncate">
+        <Search className={styles.searchBtnIcon} />
+        <span className={styles.searchText}>
           Search clients, policies, claims…
         </span>
         <kbd className={styles.searchKbd}>⌘K</kbd>
@@ -57,20 +57,20 @@ export function Topbar() {
       <div className={styles.actions}>
         <ThemeToggle />
         <Button variant="ghost" size="icon" className={styles.bellButton}>
-          <Bell className="h-4 w-4" />
+          <Bell className={styles.bellIcon} />
           <span className={styles.bellDot} />
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className={styles.avatarTrigger}>
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+              <Avatar className={styles.avatar}>
+                <AvatarFallback className={styles.avatarFallback}>
                   {userInitials}
                 </AvatarFallback>
               </Avatar>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuContent align="end" className={styles.dropdownContent}>
             <DropdownMenuLabel>
               <div className={styles.menuName}>
                 <span className={styles.menuDisplayName}>{displayName}</span>
@@ -79,11 +79,11 @@ export function Topbar() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled>
-              <UserIcon className="mr-2 h-4 w-4" /> Profile
+              <UserIcon className={styles.menuIcon} /> Profile
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut}>
-              <LogOut className="mr-2 h-4 w-4" /> Sign out
+              <LogOut className={styles.menuIcon} /> Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

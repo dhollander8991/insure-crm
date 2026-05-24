@@ -463,9 +463,9 @@ export function ClaimsPage() {
             </AnimatePresence>
             <Button
               onClick={() => toast.info("Claims management coming soon")}
-              className="gap-2 shadow-[var(--shadow-elegant)]"
+              className={styles.newClaimButton}
             >
-              <Plus className="h-4 w-4" /> New Claim
+              <Plus className={styles.plusIcon} /> New Claim
             </Button>
           </div>
         </div>
@@ -531,7 +531,7 @@ export function ClaimsPage() {
         open={!!detailClaim}
         onOpenChange={(isSheetOpen) => !isSheetOpen && setDetailClaim(null)}
       >
-        <SheetContent className="overflow-y-auto sm:max-w-md">
+        <SheetContent className={styles.sheetContent}>
           <AnimatePresence>
             {detailClaim && (
               <motion.div
@@ -675,12 +675,12 @@ function DraggableCard({
           )}
         />
         <div className={styles.gripIcon}>
-          <GripVertical className="h-3.5 w-3.5" />
+          <GripVertical className={styles.gripIconSvg} />
         </div>
         <CardContent className={styles.cardContent}>
           <div className={styles.cardTopRow}>
             <span className={styles.cardId}>{claim.id}</span>
-            <Badge variant="outline" className="text-[10px]">
+            <Badge variant="outline" className={styles.policyTypeBadge}>
               {claim.policyType}
             </Badge>
           </div>
@@ -691,7 +691,7 @@ function DraggableCard({
               ${claim.amount.toLocaleString()}
             </span>
             <span className={styles.cardDays}>
-              <Clock className="h-3 w-3" />
+              <Clock className={styles.clockIcon} />
               {claim.daysOpen}d
             </span>
           </div>
@@ -720,7 +720,7 @@ function DragStack({ claim, stackSize }: { claim: Claim; stackSize: number }) {
         <CardContent className={styles.cardContent}>
           <div className={styles.cardTopRow}>
             <span className={styles.cardId}>{claim.id}</span>
-            <Badge variant="outline" className="text-[10px]">
+            <Badge variant="outline" className={styles.policyTypeBadge}>
               {claim.policyType}
             </Badge>
           </div>
@@ -730,7 +730,7 @@ function DragStack({ claim, stackSize }: { claim: Claim; stackSize: number }) {
               ${claim.amount.toLocaleString()}
             </span>
             <span className={styles.cardDays}>
-              <Clock className="h-3 w-3" />
+              <Clock className={styles.clockIcon} />
               {claim.daysOpen}d
             </span>
           </div>

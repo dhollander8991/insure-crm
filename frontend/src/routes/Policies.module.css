@@ -204,3 +204,104 @@
 .statusCancelled {
   @apply bg-destructive/10 text-destructive border-destructive/30;
 }
+
+.contentArea {
+  position: relative;
+}
+
+.filterPopoverContent {
+  @apply w-64 p-3;
+}
+
+.tableCardContent {
+  @apply p-0;
+}
+
+.filterInput {
+  @apply h-8 text-sm;
+}
+
+.filtersLabel {
+  @apply text-xs text-muted-foreground;
+}
+
+.filterGroupTitle {
+  @apply mb-2 text-xs font-medium;
+}
+
+.filterCheckboxGroup {
+  @apply space-y-2;
+}
+
+.filterDateGroup {
+  @apply space-y-1.5;
+}
+
+.premiumSeparator {
+  @apply text-muted-foreground;
+}
+
+.addButton {
+  @apply gap-2;
+  box-shadow: var(--shadow-elegant);
+}
+
+.addBtnIcon {
+  @apply h-4 w-4;
+}
+
+.viewBtnIcon {
+  @apply h-4 w-4;
+}
+
+.filterIcon {
+  @apply h-3 w-3;
+}
+
+.removeChipIcon {
+  @apply h-3 w-3;
+}
+
+.sortIconSm {
+  @apply h-3 w-3;
+}
+
+.sortIconSmInactive {
+  @apply h-3 w-3 opacity-40;
+}
+
+.statusBadge {
+  @apply text-[10px];
+}
+
+.cellMono {
+  @apply font-mono text-xs;
+}
+
+.cellMedium {
+  @apply font-medium;
+}
+
+.cellPremium {
+  @apply font-semibold tabular-nums;
+}
+
+.cellMuted {
+  @apply text-xs text-muted-foreground;
+}
+
+.cellAgent {
+  @apply max-w-[120px] truncate text-xs text-muted-foreground;
+}
+
+.headMuted {
+  @apply text-xs text-muted-foreground;
+}
+
+.typeIconSm {
+  @apply h-3.5 w-3.5;
+}
+
+.typeIconLg {
+  @apply h-5 w-5;
+}

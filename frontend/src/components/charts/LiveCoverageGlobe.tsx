@@ -24,7 +24,7 @@ export function LiveCoverageGlobe() {
           <p className={styles.headerTitle}>Live Coverage</p>
           <h3 className={styles.headerHeading}>Global Reach</h3>
         </div>
-        <Globe2 className="h-5 w-5 opacity-80" />
+        <Globe2 className={styles.globeIcon} />
       </div>
 
       <div className={styles.globeWrap}>
@@ -44,11 +44,11 @@ export function LiveCoverageGlobe() {
           <div className={styles.meridianV} />
           <div className={styles.meridianH} />
           <div
-            className="absolute inset-0 rounded-full border-x border-white/10"
+            className={styles.wireRingAngled}
             style={{ transform: "rotateY(60deg)" }}
           />
           <div
-            className="absolute inset-0 rounded-full border-x border-white/10"
+            className={styles.wireRingAngled}
             style={{ transform: "rotateY(-60deg)" }}
           />
         </div>

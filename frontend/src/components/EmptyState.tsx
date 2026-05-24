@@ -23,12 +23,12 @@ export function EmptyState({
   return (
     <div className={styles.root}>
       <div className={styles.iconWrap}>
-        <Icon className="h-8 w-8 text-primary/60" />
+        <Icon className={styles.icon} />
       </div>
       <h3 className={styles.title}>{title}</h3>
       {description && <p className={styles.description}>{description}</p>}
       {action && (
-        <Button onClick={action.onClick} className="gap-2">
+        <Button onClick={action.onClick} className={styles.actionButton}>
           {action.label}
         </Button>
       )}

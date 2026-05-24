@@ -74,9 +74,9 @@ export function ChatWidget() {
         className={styles.toggleButton}
       >
         {isChatOpen ? (
-          <X className="h-5 w-5" />
+          <X className={styles.iconLg} />
         ) : (
-          <MessageCircle className="h-5 w-5" />
+          <MessageCircle className={styles.iconLg} />
         )}
       </button>
 
@@ -89,7 +89,7 @@ export function ChatWidget() {
       >
         <div className={styles.panelHeader}>
           <div className={styles.panelAvatar}>
-            <Sparkles className="h-4 w-4" />
+            <Sparkles className={styles.iconMd} />
           </div>
           <div className={styles.panelTitleGroup}>
             <div className={styles.panelTitle}>Aegis Assistant</div>
@@ -130,7 +130,7 @@ export function ChatWidget() {
           {sendChatMessageMutation.isPending && (
             <div className={styles.loadingRow}>
               <div className={styles.loadingBubble}>
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className={styles.spinner} />
               </div>
             </div>
           )}
@@ -155,7 +155,7 @@ export function ChatWidget() {
               }
               data-testid="ai-chat-send"
             >
-              <Send className="h-4 w-4" />
+              <Send className={styles.iconMd} />
             </Button>
           </div>
         </div>

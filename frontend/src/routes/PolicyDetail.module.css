@@ -148,3 +148,15 @@
 .typeHEALTH {
   @apply from-violet-500/20 to-violet-500/5 text-violet-500;
 }
+
+.contentArea {
+  position: relative;
+}
+
+.backIcon {
+  @apply h-4 w-4;
+}
+
+.holderTitleIcon {
+  @apply h-5 w-5;
+}

@@ -151,3 +151,11 @@
 .policyStatusCancelled {
   @apply bg-muted text-muted-foreground border-border;
 }
+
+.contentArea {
+  position: relative;
+}
+
+.backIcon {
+  @apply h-4 w-4;
+}

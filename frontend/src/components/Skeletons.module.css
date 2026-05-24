@@ -114,3 +114,133 @@
 .cardItemFooterLeft {
   @apply space-y-1;
 }
+
+/* Chart skeleton */
+.chartSkeletonHeader {
+  @apply space-y-2;
+}
+
+/* Table skeleton */
+.tableCardContent {
+  @apply p-0;
+}
+
+.tableRows {
+  @apply divide-y;
+}
+
+.skelTableHeaderSearch {
+  @apply h-9 w-64;
+}
+
+.skelTableHeaderAction {
+  @apply h-9 w-40;
+}
+
+.skelColHead {
+  @apply h-3 w-20;
+}
+
+.skelRowAvatar {
+  @apply h-9 w-9 shrink-0 rounded-full;
+}
+
+.skelRowName {
+  @apply h-3 w-28;
+}
+
+.skelRowCell {
+  @apply h-3 w-full max-w-[140px];
+}
+
+/* KPI card skeleton */
+.skelKpiLabel {
+  @apply h-3 w-24;
+}
+
+.skelKpiValue {
+  @apply h-8 w-32;
+}
+
+.skelKpiDelta {
+  @apply h-3 w-16;
+}
+
+.skelKpiIcon {
+  @apply h-10 w-10 rounded-xl;
+}
+
+/* Chart skeleton content */
+.skelChartTitle {
+  @apply h-4 w-40;
+}
+
+.skelChartSub {
+  @apply h-3 w-24;
+}
+
+.skelChartFill {
+  @apply absolute inset-0;
+}
+
+/* Card grid skeleton */
+.skelCardIcon {
+  @apply h-10 w-10 rounded-lg;
+}
+
+.skelCardBadge {
+  @apply h-5 w-14 rounded-full;
+}
+
+.skelCardName {
+  @apply h-3 w-24;
+}
+
+.skelCardTitle {
+  @apply h-4 w-36;
+}
+
+.skelCardLabelSm {
+  @apply h-2 w-12;
+}
+
+.skelCardValue {
+  @apply h-5 w-20;
+}
+
+.skelCardDate {
+  @apply h-3 w-24;
+}
+
+/* Board skeleton */
+.skelBoardColHead {
+  @apply h-4 w-20;
+}
+
+.skelBoardColCount {
+  @apply h-4 w-6 rounded-full;
+}
+
+.skelBoardCardId {
+  @apply h-3 w-16;
+}
+
+.skelBoardCardBadge {
+  @apply h-4 w-14 rounded-full;
+}
+
+.skelBoardCardName {
+  @apply h-4 w-32;
+}
+
+.skelBoardCardDesc {
+  @apply h-3 w-full;
+}
+
+.skelBoardCardAmount {
+  @apply h-4 w-16;
+}
+
+.skelBoardCardDate {
+  @apply h-3 w-10;
+}

@@ -97,7 +97,7 @@ export function Dashboard() {
         >
           <div>
             <div className={styles.badgePill}>
-              <Sparkles className="h-3 w-3" /> Live insights · Updated just now
+              <Sparkles className={styles.sparklesIcon} /> Live insights · Updated just now
             </div>
             <h1 className={styles.heading}>
               <span className="shimmer-text">Good morning</span>
@@ -112,7 +112,7 @@ export function Dashboard() {
           </div>
           <div className={styles.metricBadge}>
             <div className={styles.metricIcon}>
-              <TrendingUp className="h-4 w-4" />
+              <TrendingUp className={styles.trendIcon} />
             </div>
             <div>
               <p className={styles.metricLabel}>Active Policies</p>
@@ -186,7 +186,7 @@ export function Dashboard() {
               <Card className={styles.chartCard}>
                 <CardHeader className={styles.chartCardHeader}>
                   <div>
-                    <CardTitle className="text-lg">Revenue vs Claims</CardTitle>
+                    <CardTitle className={styles.chartTitle}>Revenue vs Claims</CardTitle>
                     <CardDescription>Last 12 months · live</CardDescription>
                   </div>
                   <div className={styles.legendRow}>
@@ -288,7 +288,7 @@ export function Dashboard() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.16 }}
-          className="relative mt-5"
+          className={styles.activityWrapper}
         >
           <Card className={styles.activityCard}>
             <CardHeader>
@@ -307,7 +307,7 @@ export function Dashboard() {
                   className={styles.activityItem}
                 >
                   <div className={styles.activityIcon}>
-                    <Activity className="h-4 w-4" />
+                    <Activity className={styles.activityIconSvg} />
                   </div>
                   <div className={styles.activityTextGroup}>
                     <p className={styles.activityText}>{activityItem.text}</p>

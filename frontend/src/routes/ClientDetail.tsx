@@ -65,7 +65,7 @@ export function ClientDetailPage() {
             onClick={() => navigate("/clients")}
             className={styles.backButton}
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Clients
+            <ArrowLeft className={styles.backIcon} /> Back to Clients
           </Button>
           <div className={styles.errorMessage}>
             Client not found or failed to load.
@@ -85,13 +85,13 @@ export function ClientDetailPage() {
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
-        <div className="relative">
+        <div className={styles.contentArea}>
           <Button
             variant="ghost"
             onClick={() => navigate("/clients")}
             className={styles.backButton}
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Clients
+            <ArrowLeft className={styles.backIcon} /> Back to Clients
           </Button>
 
           <motion.div

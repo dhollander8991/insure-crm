@@ -107,3 +107,88 @@
 .statusChurned {
   @apply bg-muted text-muted-foreground border-border font-medium;
 }
+
+.contentArea {
+  position: relative;
+}
+
+.filterHeaderRow {
+  @apply flex items-center gap-1;
+}
+
+.filterPopoverContent {
+  @apply w-64 p-3;
+}
+
+.cardHeaderNoPb {
+  @apply pb-0;
+}
+
+.cardContentPadded {
+  @apply p-0 pt-2;
+}
+
+.searchInput {
+  @apply pl-9;
+}
+
+.filterInput {
+  @apply h-8 text-sm;
+}
+
+.filtersLabel {
+  @apply text-xs text-muted-foreground;
+}
+
+.filterGroupTitleSm {
+  @apply mb-1.5 text-xs font-medium;
+}
+
+.filterGroupTitle {
+  @apply mb-2 text-xs font-medium;
+}
+
+.filterCheckboxGroup {
+  @apply space-y-2;
+}
+
+.addButton {
+  @apply gap-2;
+  box-shadow: var(--shadow-elegant);
+}
+
+.addBtnIcon {
+  @apply h-4 w-4;
+}
+
+.filterIcon {
+  @apply h-3 w-3;
+}
+
+.removeChipIcon {
+  @apply h-3 w-3;
+}
+
+.sortIconSm {
+  @apply h-3 w-3;
+}
+
+.sortIconSmInactive {
+  @apply h-3 w-3 opacity-40;
+}
+
+.cellXs {
+  @apply text-xs;
+}
+
+.cellXsMuted {
+  @apply text-xs text-muted-foreground;
+}
+
+.cellMailIcon {
+  @apply h-3 w-3 text-muted-foreground shrink-0;
+}
+
+.cellPhoneIcon {
+  @apply h-3 w-3 shrink-0;
+}

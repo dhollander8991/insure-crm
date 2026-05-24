@@ -138,3 +138,23 @@
 .activityTextGroup {
   @apply min-w-0 flex-1;
 }
+
+.sparklesIcon {
+  @apply h-3 w-3;
+}
+
+.trendIcon {
+  @apply h-4 w-4;
+}
+
+.chartTitle {
+  @apply text-lg;
+}
+
+.activityWrapper {
+  @apply relative mt-5;
+}
+
+.activityIconSvg {
+  @apply h-4 w-4;
+}

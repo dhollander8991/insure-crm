@@ -44,3 +44,7 @@
 .footer {
   @apply mt-6 text-center text-sm text-muted-foreground;
 }
+
+.shieldIcon {
+  @apply h-5 w-5;
+}

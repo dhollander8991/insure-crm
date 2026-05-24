@@ -88,3 +88,15 @@
 .textarea {
   @apply min-h-[40px] max-h-32 resize-none;
 }
+
+.iconLg {
+  @apply h-5 w-5;
+}
+
+.iconMd {
+  @apply h-4 w-4;
+}
+
+.spinner {
+  @apply h-4 w-4 animate-spin;
+}

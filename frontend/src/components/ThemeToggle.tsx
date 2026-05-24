@@ -14,7 +14,7 @@ export function ThemeToggle() {
       size="icon"
       onClick={toggle}
       aria-label="Toggle theme"
-      className="relative overflow-hidden"
+      className={styles.button}
     >
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
@@ -26,9 +26,9 @@ export function ThemeToggle() {
           className={styles.iconWrapper}
         >
           {theme === "dark" ? (
-            <Sun className="h-4 w-4" />
+            <Sun className={styles.themeIcon} />
           ) : (
-            <Moon className="h-4 w-4" />
+            <Moon className={styles.themeIcon} />
           )}
         </motion.span>
       </AnimatePresence>

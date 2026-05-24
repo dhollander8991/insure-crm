@@ -18,3 +18,11 @@
 .action {
   @apply text-sm font-medium text-primary hover:underline;
 }
+
+.icon {
+  @apply h-8 w-8 text-primary/60;
+}
+
+.actionButton {
+  @apply gap-2;
+}

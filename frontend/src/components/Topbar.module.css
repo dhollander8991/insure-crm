@@ -1,5 +1,4 @@
 @reference "../styles.css";
-@reference "../styles.css";
 .header {
   @apply sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/60 px-2 backdrop-blur-md sm:gap-3 sm:px-4;
 }
@@ -38,4 +37,32 @@
 
 .menuEmail {
   @apply mt-1 text-xs font-normal text-muted-foreground;
+}
+
+.searchBtnIcon {
+  @apply h-4 w-4;
+}
+
+.searchText {
+  @apply flex-1 truncate;
+}
+
+.avatar {
+  @apply h-8 w-8;
+}
+
+.avatarFallback {
+  @apply bg-primary text-primary-foreground text-xs;
+}
+
+.dropdownContent {
+  @apply w-56;
+}
+
+.menuIcon {
+  @apply mr-2 h-4 w-4;
+}
+
+.bellIcon {
+  @apply h-4 w-4;
 }

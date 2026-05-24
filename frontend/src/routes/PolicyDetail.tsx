@@ -68,7 +68,7 @@ export function PolicyDetailPage() {
             onClick={() => navigate("/policies")}
             className={styles.backButton}
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Policies
+            <ArrowLeft className={styles.backIcon} /> Back to Policies
           </Button>
           <div className={styles.errorMessage}>
             Policy not found or failed to load.
@@ -84,13 +84,13 @@ export function PolicyDetailPage() {
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
-        <div className="relative">
+        <div className={styles.contentArea}>
           <Button
             variant="ghost"
             onClick={() => navigate("/policies")}
             className={styles.backButton}
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Policies
+            <ArrowLeft className={styles.backIcon} /> Back to Policies
           </Button>
 
           <motion.div
@@ -145,7 +145,7 @@ export function PolicyDetailPage() {
             <Card className={styles.card}>
               <CardHeader>
                 <CardTitle className={styles.holderTitle}>
-                  <User className="h-5 w-5" /> Policy Holder
+                  <User className={styles.holderTitleIcon} /> Policy Holder
                 </CardTitle>
               </CardHeader>
               <CardContent>

@@ -13,6 +13,14 @@
   @apply relative flex items-start justify-between;
 }
 
+.globeIcon {
+  @apply h-5 w-5 opacity-80;
+}
+
+.wireRingAngled {
+  @apply absolute inset-0 rounded-full border-x border-white/10;
+}
+
 .headerTitle {
   @apply text-xs font-medium uppercase tracking-wider opacity-80;
 }

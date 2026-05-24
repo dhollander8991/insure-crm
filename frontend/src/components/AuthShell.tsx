@@ -23,7 +23,7 @@ export function AuthShell({
       <div className={styles.contentWrapper}>
         <Link to="/" className={styles.logoLink}>
           <div className={styles.logoIcon}>
-            <ShieldCheck className="h-5 w-5" />
+            <ShieldCheck className={styles.shieldIcon} />
           </div>
           <span className={styles.logoText}>Aegis CRM</span>
         </Link>

@@ -91,7 +91,7 @@ export function SignupPage() {
           className={styles.submitButton}
           disabled={isSubmitting}
         >
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isSubmitting && <Loader2 className={styles.spinner} />}
           Create account
         </Button>
       </form>

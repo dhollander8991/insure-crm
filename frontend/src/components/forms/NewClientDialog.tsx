@@ -74,7 +74,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className={styles.dialogContent}>
         <DialogHeader>
           <DialogTitle>New Client</DialogTitle>
           <DialogDescription>Add a new client to your CRM.</DialogDescription>
@@ -208,7 +208,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               data-testid="submit-button"
             >
               {createCustomerMutation.isPending && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <Loader2 className={styles.spinner} />
               )}
               Create Client
             </Button>

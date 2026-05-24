@@ -149,12 +149,12 @@ function SortHeader({
       {label}
       {isActive ? (
         sortDir === "asc" ? (
-          <ChevronUp className="h-3 w-3" />
+          <ChevronUp className={styles.sortIconSm} />
         ) : (
-          <ChevronDown className="h-3 w-3" />
+          <ChevronDown className={styles.sortIconSm} />
         )
       ) : (
-        <ChevronsUpDown className="h-3 w-3 opacity-40" />
+        <ChevronsUpDown className={styles.sortIconSmInactive} />
       )}
     </button>
   );
@@ -194,10 +194,10 @@ function FilterHeader({
               isActive && styles.filterPopoverTriggerActive,
             )}
           >
-            <Filter className="h-3 w-3" />
+            <Filter className={styles.filterIcon} />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-64 p-3" align="start">
+        <PopoverContent className={styles.filterPopoverContent} align="start">
           {children}
         </PopoverContent>
       </Popover>
@@ -396,7 +396,7 @@ export function PoliciesPage() {
         <div className="mesh-bg">
           <div className="mesh-orb" />
         </div>
-        <div className="relative">
+        <div className={styles.contentArea}>
           <div className={styles.pageHeader}>
             <div>
               <h1 className={styles.pageTitle}>Policies</h1>
@@ -414,7 +414,7 @@ export function PoliciesPage() {
                   )}
                   title="Table view"
                 >
-                  <Table2 className="h-4 w-4" />
+                  <Table2 className={styles.viewBtnIcon} />
                 </button>
                 <button
                   onClick={() => setActiveView("cards")}
@@ -424,15 +424,15 @@ export function PoliciesPage() {
                   )}
                   title="Card view"
                 >
-                  <LayoutGrid className="h-4 w-4" />
+                  <LayoutGrid className={styles.viewBtnIcon} />
                 </button>
               </div>
               <Button
                 onClick={() => setIsNewPolicyModalOpen(true)}
-                className="gap-2 shadow-[var(--shadow-elegant)]"
+                className={styles.addButton}
                 data-testid="add-policy-button"
               >
-                <Plus className="h-4 w-4" /> New Policy
+                <Plus className={styles.addBtnIcon} /> New Policy
               </Button>
             </div>
           </div>
@@ -456,7 +456,7 @@ export function PoliciesPage() {
 
           {activeFilters.length > 0 && (
             <div className={styles.filterRow}>
-              <span className="text-xs text-muted-foreground">Filters:</span>
+              <span className={styles.filtersLabel}>Filters:</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
@@ -468,7 +468,7 @@ export function PoliciesPage() {
                     onClick={filterChip.onRemove}
                     className={styles.filterChipRemove}
                   >
-                    <X className="h-3 w-3" />
+                    <X className={styles.removeChipIcon} />
                   </button>
                 </Badge>
               ))}
@@ -503,7 +503,7 @@ export function PoliciesPage() {
             />
           ) : activeView === "table" ? (
             <Card>
-              <CardContent className="p-0">
+              <CardContent className={styles.tableCardContent}>
                 {filteredPolicies.length === 0 ? (
                   <EmptyState
                     icon={FileText}
@@ -547,10 +547,10 @@ export function PoliciesPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-2 text-xs font-medium">
+                              <p className={styles.filterGroupTitle}>
                                 Filter by type
                               </p>
-                              <div className="space-y-2">
+                              <div className={styles.filterCheckboxGroup}>
                                 {ALL_TYPES.map((policyType) => (
                                   <div
                                     key={policyType}
@@ -583,10 +583,10 @@ export function PoliciesPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-2 text-xs font-medium">
+                              <p className={styles.filterGroupTitle}>
                                 Filter by status
                               </p>
-                              <div className="space-y-2">
+                              <div className={styles.filterCheckboxGroup}>
                                 {ALL_STATUSES.map((status) => (
                                   <div
                                     key={status}
@@ -619,7 +619,7 @@ export function PoliciesPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-2 text-xs font-medium">
+                              <p className={styles.filterGroupTitle}>
                                 Premium range (₪)
                               </p>
                               <div className={styles.premiumRangeRow}>
@@ -629,18 +629,18 @@ export function PoliciesPage() {
                                     setPremiumMin(event.target.value)
                                   }
                                   placeholder="Min"
-                                  className="h-8 text-sm"
+                                  className={styles.filterInput}
                                   type="number"
                                   min="0"
                                 />
-                                <span className="text-muted-foreground">–</span>
+                                <span className={styles.premiumSeparator}>–</span>
                                 <Input
                                   value={premiumMax}
                                   onChange={(event) =>
                                     setPremiumMax(event.target.value)
                                   }
                                   placeholder="Max"
-                                  className="h-8 text-sm"
+                                  className={styles.filterInput}
                                   type="number"
                                   min="0"
                                 />
@@ -656,17 +656,17 @@ export function PoliciesPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-2 text-xs font-medium">
+                              <p className={styles.filterGroupTitle}>
                                 Start date range
                               </p>
-                              <div className="space-y-1.5">
+                              <div className={styles.filterDateGroup}>
                                 <Input
                                   value={startDateFrom}
                                   onChange={(event) =>
                                     setStartDateFrom(event.target.value)
                                   }
                                   placeholder="From"
-                                  className="h-8 text-sm"
+                                  className={styles.filterInput}
                                   type="date"
                                 />
                                 <Input
@@ -675,7 +675,7 @@ export function PoliciesPage() {
                                     setStartDateTo(event.target.value)
                                   }
                                   placeholder="To"
-                                  className="h-8 text-sm"
+                                  className={styles.filterInput}
                                   type="date"
                                 />
                               </div>
@@ -690,17 +690,17 @@ export function PoliciesPage() {
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
-                              <p className="mb-2 text-xs font-medium">
+                              <p className={styles.filterGroupTitle}>
                                 End date range
                               </p>
-                              <div className="space-y-1.5">
+                              <div className={styles.filterDateGroup}>
                                 <Input
                                   value={endDateFrom}
                                   onChange={(event) =>
                                     setEndDateFrom(event.target.value)
                                   }
                                   placeholder="From"
-                                  className="h-8 text-sm"
+                                  className={styles.filterInput}
                                   type="date"
                                 />
                                 <Input
@@ -709,13 +709,13 @@ export function PoliciesPage() {
                                     setEndDateTo(event.target.value)
                                   }
                                   placeholder="To"
-                                  className="h-8 text-sm"
+                                  className={styles.filterInput}
                                   type="date"
                                 />
                               </div>
                             </FilterHeader>
                           </TableHead>
-                          <TableHead className="text-xs text-muted-foreground">
+                          <TableHead className={styles.headMuted}>
                             Agent
                           </TableHead>
                         </TableRow>
@@ -739,10 +739,10 @@ export function PoliciesPage() {
                                   navigate(`/policies/${policy.id}`)
                                 }
                               >
-                                <TableCell className="font-mono text-xs">
+                                <TableCell className={styles.cellMono}>
                                   {policy.policyNumber}
                                 </TableCell>
-                                <TableCell className="font-medium">
+                                <TableCell className={styles.cellMedium}>
                                   {policy.clientName}
                                 </TableCell>
                                 <TableCell>
@@ -753,34 +753,32 @@ export function PoliciesPage() {
                                         typeClasses[policy.type],
                                       )}
                                     >
-                                      <TypeIcon className="h-3.5 w-3.5" />
+                                      <TypeIcon className={styles.typeIconSm} />
                                     </div>
-                                    <span className="text-sm">
-                                      {policy.type}
-                                    </span>
+                                    <span>{policy.type}</span>
                                   </div>
                                 </TableCell>
                                 <TableCell>
                                   <Badge
                                     variant="outline"
                                     className={clsx(
-                                      "text-[10px]",
+                                      styles.statusBadge,
                                       statusClasses[policy.status],
                                     )}
                                   >
                                     {policy.status}
                                   </Badge>
                                 </TableCell>
-                                <TableCell className="font-semibold tabular-nums">
+                                <TableCell className={styles.cellPremium}>
                                   ₪{policy.premium.toLocaleString()}/mo
                                 </TableCell>
-                                <TableCell className="text-xs text-muted-foreground">
+                                <TableCell className={styles.cellMuted}>
                                   {formatDate(policy.startDate)}
                                 </TableCell>
-                                <TableCell className="text-xs text-muted-foreground">
+                                <TableCell className={styles.cellMuted}>
                                   {formatDate(policy.endDate)}
                                 </TableCell>
-                                <TableCell className="max-w-[120px] truncate text-xs text-muted-foreground">
+                                <TableCell className={styles.cellAgent}>
                                   {policy.agentEmail}
                                 </TableCell>
                               </motion.tr>
@@ -830,12 +828,12 @@ export function PoliciesPage() {
                               typeClasses[policy.type],
                             )}
                           >
-                            <TypeIcon className="h-5 w-5" />
+                            <TypeIcon className={styles.typeIconLg} />
                           </div>
                           <Badge
                             variant="outline"
                             className={clsx(
-                              "text-[10px]",
+                              styles.statusBadge,
                               statusClasses[policy.status],
                             )}
                           >

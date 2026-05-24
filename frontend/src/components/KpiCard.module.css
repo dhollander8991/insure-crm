@@ -65,3 +65,15 @@
   background: var(--gradient-primary);
   transform: translateZ(50px);
 }
+
+.countUp {
+  @apply tabular-nums;
+}
+
+.deltaIcon {
+  @apply h-3.5 w-3.5;
+}
+
+.kpiIcon {
+  @apply h-5 w-5;
+}

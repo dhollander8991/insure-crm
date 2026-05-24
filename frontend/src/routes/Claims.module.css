@@ -221,3 +221,28 @@
 .sheetTitleIcon {
   @apply h-5 w-5 text-primary;
 }
+
+.newClaimButton {
+  @apply gap-2;
+  box-shadow: var(--shadow-elegant);
+}
+
+.sheetContent {
+  @apply overflow-y-auto sm:max-w-md;
+}
+
+.policyTypeBadge {
+  @apply text-[10px];
+}
+
+.gripIconSvg {
+  @apply h-3.5 w-3.5;
+}
+
+.clockIcon {
+  @apply h-3 w-3;
+}
+
+.plusIcon {
+  @apply h-4 w-4;
+}
