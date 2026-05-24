@@ -39,12 +39,60 @@ export interface Claim {
   filedAt: string;
 }
 
-const firstNames = ["Olivia", "Liam", "Emma", "Noah", "Ava", "Elijah", "Sophia", "Lucas", "Isabella", "Mason", "Mia", "Logan", "Charlotte", "Ethan", "Amelia", "James", "Harper", "Benjamin", "Evelyn", "Henry", "Abigail", "Alexander", "Emily", "Daniel", "Ella"];
-const lastNames = ["Carter", "Bennett", "Hayes", "Reed", "Brooks", "Foster", "Hughes", "Morgan", "Russell", "Stone", "Walker", "Parker", "Coleman", "Ward", "Bell", "Murphy", "Cooper", "Rivera", "Sanders", "Price", "Bennett", "Powell", "Long", "Patterson", "Hughes"];
-
-function rand<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+const firstNames = [
+  "Olivia",
+  "Liam",
+  "Emma",
+  "Noah",
+  "Ava",
+  "Elijah",
+  "Sophia",
+  "Lucas",
+  "Isabella",
+  "Mason",
+  "Mia",
+  "Logan",
+  "Charlotte",
+  "Ethan",
+  "Amelia",
+  "James",
+  "Harper",
+  "Benjamin",
+  "Evelyn",
+  "Henry",
+  "Abigail",
+  "Alexander",
+  "Emily",
+  "Daniel",
+  "Ella",
+];
+const lastNames = [
+  "Carter",
+  "Bennett",
+  "Hayes",
+  "Reed",
+  "Brooks",
+  "Foster",
+  "Hughes",
+  "Morgan",
+  "Russell",
+  "Stone",
+  "Walker",
+  "Parker",
+  "Coleman",
+  "Ward",
+  "Bell",
+  "Murphy",
+  "Cooper",
+  "Rivera",
+  "Sanders",
+  "Price",
+  "Bennett",
+  "Powell",
+  "Long",
+  "Patterson",
+  "Hughes",
+];
 
 // Seeded-ish so output is stable across renders
 let seed = 42;
@@ -52,13 +100,15 @@ const r = () => {
   seed = (seed * 9301 + 49297) % 233280;
   return seed / 233280;
 };
-const pick = <T,>(arr: T[]) => arr[Math.floor(r() * arr.length)];
-const rint = (min: number, max: number) => Math.floor(r() * (max - min + 1)) + min;
+const pick = <T>(arr: T[]) => arr[Math.floor(r() * arr.length)];
+const rint = (min: number, max: number) =>
+  Math.floor(r() * (max - min + 1)) + min;
 
 export const clients: Client[] = Array.from({ length: 25 }, (_, i) => {
   const first = pick(firstNames);
   const last = pick(lastNames);
-  const status: ClientStatus = r() < 0.7 ? "Active" : r() < 0.7 ? "Lead" : "Churned";
+  const status: ClientStatus =
+    r() < 0.7 ? "Active" : r() < 0.7 ? "Lead" : "Churned";
   return {
     id: `CL-${1000 + i}`,
     name: `${first} ${last}`,
@@ -78,7 +128,8 @@ export const policies: Policy[] = Array.from({ length: 40 }, (_, i) => {
   const type = pick(policyTypes);
   const start = new Date(Date.now() - rint(30, 800) * 86400000);
   const end = new Date(start.getTime() + 365 * 86400000);
-  const status: PolicyStatus = end.getTime() < Date.now() ? "Expired" : r() < 0.1 ? "Pending" : "Active";
+  const status: PolicyStatus =
+    end.getTime() < Date.now() ? "Expired" : r() < 0.1 ? "Pending" : "Active";
   return {
     id: `P-${2000 + i}`,
     policyNumber: `POL-${rint(100000, 999999)}`,
@@ -92,7 +143,12 @@ export const policies: Policy[] = Array.from({ length: 40 }, (_, i) => {
   };
 });
 
-const claimStatuses: ClaimStatus[] = ["Open", "In Review", "Approved", "Rejected"];
+const claimStatuses: ClaimStatus[] = [
+  "Open",
+  "In Review",
+  "Approved",
+  "Rejected",
+];
 const severities: ClaimSeverity[] = ["Low", "Medium", "High"];
 const claimDescriptions = [
   "Vehicle collision on highway",
@@ -121,7 +177,20 @@ export const claims: Claim[] = Array.from({ length: 22 }, (_, i) => {
 });
 
 // 12 months revenue
-const months = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May"];
+const months = [
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+];
 export const revenueData = months.map((m, i) => ({
   month: m,
   premiums: 80000 + i * 4500 + rint(-8000, 12000),
@@ -147,16 +216,43 @@ export const pipelineData = [
 ];
 
 export const recentActivity = [
-  { id: 1, type: "policy", text: "New auto policy issued for Olivia Carter", time: "2m ago" },
-  { id: 2, type: "claim", text: "Claim CLM-3012 approved — $4,200", time: "18m ago" },
-  { id: 3, type: "lead", text: "New lead: Noah Bennett requested a quote", time: "1h ago" },
-  { id: 4, type: "renewal", text: "Home policy POL-482910 renewed", time: "3h ago" },
-  { id: 5, type: "claim", text: "Claim CLM-3007 moved to In Review", time: "5h ago" },
+  {
+    id: 1,
+    type: "policy",
+    text: "New auto policy issued for Olivia Carter",
+    time: "2m ago",
+  },
+  {
+    id: 2,
+    type: "claim",
+    text: "Claim CLM-3012 approved — $4,200",
+    time: "18m ago",
+  },
+  {
+    id: 3,
+    type: "lead",
+    text: "New lead: Noah Bennett requested a quote",
+    time: "1h ago",
+  },
+  {
+    id: 4,
+    type: "renewal",
+    text: "Home policy POL-482910 renewed",
+    time: "3h ago",
+  },
+  {
+    id: 5,
+    type: "claim",
+    text: "Claim CLM-3007 moved to In Review",
+    time: "5h ago",
+  },
 ];
 
 export const kpis = {
   totalPremium: revenueData.reduce((s, m) => s + m.premiums, 0),
   activePolicies: policies.filter((p) => p.status === "Active").length,
-  openClaims: claims.filter((c) => c.status === "Open" || c.status === "In Review").length,
+  openClaims: claims.filter(
+    (c) => c.status === "Open" || c.status === "In Review",
+  ).length,
   newLeads: clients.filter((c) => c.status === "Lead").length,
 };

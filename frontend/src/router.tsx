@@ -1,16 +1,17 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+
 import { tokenStorage } from "@/lib/api";
-import { AppLayout } from "@/components/layout/app-layout";
-import { LoginPage } from "@/routes/login";
-import { SignupPage } from "@/routes/signup";
-import { ForgotPasswordPage } from "@/routes/forgot-password";
-import { ResetPasswordPage } from "@/routes/reset-password";
-import { Dashboard } from "@/routes/index";
-import { ClientsPage } from "@/routes/clients";
-import { ClientDetailPage } from "@/routes/client-detail";
-import { PoliciesPage } from "@/routes/policies";
-import { PolicyDetailPage } from "@/routes/policy-detail";
-import { ClaimsPage } from "@/routes/claims";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { LoginPage } from "@/routes/Login";
+import { SignupPage } from "@/routes/Signup";
+import { ForgotPasswordPage } from "@/routes/ForgotPassword";
+import { ResetPasswordPage } from "@/routes/ResetPassword";
+import { Dashboard } from "@/routes/Dashboard";
+import { ClientsPage } from "@/routes/Clients";
+import { ClientDetailPage } from "@/routes/ClientDetail";
+import { PoliciesPage } from "@/routes/Policies";
+import { PolicyDetailPage } from "@/routes/PolicyDetail";
+import { ClaimsPage } from "@/routes/Claims";
 
 function ProtectedRoute() {
   const token = tokenStorage.get();

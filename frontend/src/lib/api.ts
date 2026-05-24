@@ -5,17 +5,21 @@ const AI_URL = "/api/ai";
 
 export const tokenStorage = {
   get: () => localStorage.getItem("insurecrm_token"),
-  set: (t: string) => localStorage.setItem("insurecrm_token", t),
+  set: (token: string) => localStorage.setItem("insurecrm_token", token),
   clear: () => localStorage.removeItem("insurecrm_token"),
 };
 
 export const emailStorage = {
   get: () => localStorage.getItem("insurecrm_email"),
-  set: (e: string) => localStorage.setItem("insurecrm_email", e),
+  set: (email: string) => localStorage.setItem("insurecrm_email", email),
   clear: () => localStorage.removeItem("insurecrm_email"),
 };
 
-async function request<T>(base: string, path: string, init: RequestInit = {}): Promise<T> {
+async function request<T>(
+  base: string,
+  path: string,
+  init: RequestInit = {},
+): Promise<T> {
   const token = tokenStorage.get();
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -23,20 +27,21 @@ async function request<T>(base: string, path: string, init: RequestInit = {}): P
   };
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  const res = await fetch(`${base}${path}`, { ...init, headers });
+  const response = await fetch(`${base}${path}`, { ...init, headers });
 
-  if (res.status === 401) {
+  if (response.status === 401) {
     tokenStorage.clear();
     emailStorage.clear();
     throw new Error("Unauthorized");
   }
 
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(body.error ?? body.message ?? `HTTP ${res.status}`);
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(body.error ?? body.message ?? `HTTP ${response.status}`);
   }
-  if (res.status === 204) return undefined as unknown as T;
-  return res.json() as Promise<T>;
+
+  if (response.status === 204) return undefined as unknown as T;
+  return response.json() as Promise<T>;
 }
 
 export interface AuthResponse {
@@ -90,37 +95,63 @@ export const authApi = {
 
 export const customerApi = {
   getAll: () => request<CustomerResponse[]>(CUSTOMER_URL, "/customers"),
-  getById: (id: number) => request<CustomerResponse>(CUSTOMER_URL, `/customers/${id}`),
+  getById: (id: number) =>
+    request<CustomerResponse>(CUSTOMER_URL, `/customers/${id}`),
   create: (data: Omit<CustomerResponse, "id">) =>
-    request<CustomerResponse>(CUSTOMER_URL, "/customers", { method: "POST", body: JSON.stringify(data) }),
+    request<CustomerResponse>(CUSTOMER_URL, "/customers", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
   update: (id: number, data: Partial<CustomerResponse>) =>
-    request<CustomerResponse>(CUSTOMER_URL, `/customers/${id}`, { method: "PUT", body: JSON.stringify(data) }),
-  delete: (id: number) => request<void>(CUSTOMER_URL, `/customers/${id}`, { method: "DELETE" }),
-  getByAgent: (email: string) => request<CustomerResponse[]>(CUSTOMER_URL, `/customers/agent/${email}`),
+    request<CustomerResponse>(CUSTOMER_URL, `/customers/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+  delete: (id: number) =>
+    request<void>(CUSTOMER_URL, `/customers/${id}`, { method: "DELETE" }),
+  getByAgent: (email: string) =>
+    request<CustomerResponse[]>(CUSTOMER_URL, `/customers/agent/${email}`),
 };
 
 export const policyApi = {
   getAll: () => request<PolicyResponse[]>(POLICY_URL, "/policies"),
-  getById: (id: number) => request<PolicyResponse>(POLICY_URL, `/policies/${id}`),
+  getById: (id: number) =>
+    request<PolicyResponse>(POLICY_URL, `/policies/${id}`),
   create: (data: Omit<PolicyResponse, "id" | "policyNumber">) =>
-    request<PolicyResponse>(POLICY_URL, "/policies", { method: "POST", body: JSON.stringify(data) }),
+    request<PolicyResponse>(POLICY_URL, "/policies", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
   update: (id: number, data: Partial<PolicyResponse>) =>
-    request<PolicyResponse>(POLICY_URL, `/policies/${id}`, { method: "PUT", body: JSON.stringify(data) }),
-  delete: (id: number) => request<void>(POLICY_URL, `/policies/${id}`, { method: "DELETE" }),
-  getByCustomer: (customerId: number) => request<PolicyResponse[]>(POLICY_URL, `/policies/customer/${customerId}`),
-  getByAgent: (email: string) => request<PolicyResponse[]>(POLICY_URL, `/policies/agent/${email}`),
-  getByStatus: (status: string) => request<PolicyResponse[]>(POLICY_URL, `/policies/status/${status}`),
+    request<PolicyResponse>(POLICY_URL, `/policies/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    }),
+  delete: (id: number) =>
+    request<void>(POLICY_URL, `/policies/${id}`, { method: "DELETE" }),
+  getByCustomer: (customerId: number) =>
+    request<PolicyResponse[]>(POLICY_URL, `/policies/customer/${customerId}`),
+  getByAgent: (email: string) =>
+    request<PolicyResponse[]>(POLICY_URL, `/policies/agent/${email}`),
+  getByStatus: (status: string) =>
+    request<PolicyResponse[]>(POLICY_URL, `/policies/status/${status}`),
 };
 
 export const aiApi = {
   chat: async (messages: AiMessage[], agentEmail?: string) => {
-    const lastUserMessage = [...messages].reverse().find((m) => m.role === "user");
-    const message = lastUserMessage?.content ?? "";
+    const lastUserMessage = [...messages]
+      .reverse()
+      .find((message) => message.role === "user");
+    const messageContent = lastUserMessage?.content ?? "";
     const history = messages.slice(0, -1);
-    const res = await request<{ reply?: string; message?: string }>(AI_URL, "/chat", {
-      method: "POST",
-      body: JSON.stringify({ message, agentEmail, history }),
-    });
-    return { reply: res.reply ?? res.message ?? "" };
+    const response = await request<{ reply?: string; message?: string }>(
+      AI_URL,
+      "/chat",
+      {
+        method: "POST",
+        body: JSON.stringify({ message: messageContent, agentEmail, history }),
+      },
+    );
+    return { reply: response.reply ?? response.message ?? "" };
   },
 };

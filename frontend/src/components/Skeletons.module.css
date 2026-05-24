@@ -1,0 +1,28 @@
+.kpiGrid {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.chartBar {
+  width: 100%;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background-color: color-mix(in oklch, var(--primary), transparent 80%);
+  height: var(--bar-height, 50%);
+}
+
+.tableHeaderGrid {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  grid-template-columns: repeat(var(--grid-cols, 5), minmax(0, 1fr));
+}
+
+.tableRowGrid {
+  display: grid;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  grid-template-columns: repeat(var(--grid-cols, 5), minmax(0, 1fr));
+}
