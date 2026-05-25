@@ -12,7 +12,7 @@ export function LanguageToggle() {
       onClick={() => i18n.changeLanguage(isHebrew ? "en" : "he")}
       aria-label="Toggle language"
     >
-      {isHebrew ? "EN" : "עב"}
+      {isHebrew ? "עב" : "EN"}
     </button>
   );
 }
