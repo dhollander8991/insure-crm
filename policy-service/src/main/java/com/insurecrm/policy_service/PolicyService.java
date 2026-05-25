@@ -19,16 +19,13 @@ public class PolicyService {
     }
 
     public PolicyResponse create(PolicyRequest request) {
-        // Validate against customer-service before opening a transaction so
+        // Validate against customer-service BEFORE opening a transaction so
         // no DB connection is held during the outbound HTTP call.
         if (!customerServiceClient.customerExists(request.customerId())) {
             throw new RuntimeException("Customer not found in customer-service");
         }
-        return createPolicy(request);
-    }
 
-    @Transactional
-    protected PolicyResponse createPolicy(PolicyRequest request) {
+        // HTTP call is done; open a short-lived transaction only for the DB work.
         Policy policy = new Policy();
         policy.setPolicyNumber(generatePolicyNumber());
         policy.setCustomerId(request.customerId());
