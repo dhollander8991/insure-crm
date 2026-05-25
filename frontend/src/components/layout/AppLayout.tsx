@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import styles from "../layout.module.css";
+import { useLanguageDirection } from "@/hooks/useLanguageDirection";
 
 import { SidebarProvider } from "@/components/ui/Sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -11,6 +12,7 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { RouteProgress } from "@/components/RouteProgress";
 
 export function AppLayout() {
+  useLanguageDirection();
   return (
     <SidebarProvider className="h-svh overflow-hidden">
       <AuroraBackground />

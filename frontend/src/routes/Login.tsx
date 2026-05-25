@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import styles from "./auth.module.css";
 
+import { useTranslation } from "react-i18next";
 import { authApi, tokenStorage, emailStorage } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -18,6 +19,7 @@ const loginSchema = z.object({
 });
 
 export function LoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -41,7 +43,7 @@ export function LoginPage() {
       );
       tokenStorage.set(authResponse.token);
       emailStorage.set(authResponse.email);
-      toast.success("Welcome back");
+      toast.success(t("auth.welcomeBack"));
       navigate("/");
     } catch (err) {
       toast.error((err as Error).message);
@@ -52,20 +54,20 @@ export function LoginPage() {
 
   return (
     <AuthShell
-      title="Sign in"
-      subtitle="Welcome back to Aegis"
+      title={t("auth.signIn")}
+      subtitle={t("auth.welcomeBack")}
       footer={
         <>
-          New here?{" "}
+          {t("auth.newHere")}{" "}
           <Link to="/signup" className={styles.loginFooterLink}>
-            Create an account
+            {t("auth.createAccount")}
           </Link>
         </>
       }
     >
       <form onSubmit={handleLoginFormSubmit} className={styles.loginForm}>
         <div className={styles.loginField}>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -78,9 +80,9 @@ export function LoginPage() {
         </div>
         <div className={styles.loginField}>
           <div className={styles.passwordHeader}>
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("auth.password")}</Label>
             <Link to="/forgot-password" className={styles.forgotLink}>
-              Forgot?
+              {t("auth.forgotPassword")}
             </Link>
           </div>
           <Input
@@ -100,7 +102,7 @@ export function LoginPage() {
           data-testid="login-button"
         >
           {isSubmitting && <Loader2 className={styles.loginSpinner} />}
-          Sign in
+          {t("auth.signIn")}
         </Button>
       </form>
     </AuthShell>

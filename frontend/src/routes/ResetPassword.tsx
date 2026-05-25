@@ -2,22 +2,22 @@ import { Link } from "react-router-dom";
 
 import styles from "./auth.module.css";
 
+import { useTranslation } from "react-i18next";
 import { AuthShell } from "@/components/AuthShell";
 
 export function ResetPasswordPage() {
+  const { t } = useTranslation();
   return (
     <AuthShell
-      title="Password reset"
-      subtitle="Password reset is managed by your administrator"
+      title={t("auth.resetTitle")}
+      subtitle={t("auth.resetSubtitle")}
       footer={
         <Link to="/login" className={styles.resetFooterLink}>
-          Back to sign in
+          {t("auth.backToSignIn")}
         </Link>
       }
     >
-      <p className={styles.message}>
-        Please contact your administrator to set a new password.
-      </p>
+      <p className={styles.message}>{t("auth.resetMessage")}</p>
     </AuthShell>
   );
 }

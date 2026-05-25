@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   LayoutDashboard,
   Users,
@@ -31,6 +32,7 @@ import { useCustomersQuery } from "@/lib/queries/customers.queries";
 import { usePoliciesQuery } from "@/lib/queries/policies.queries";
 
 export function CommandPalette() {
+  const { t } = useTranslation();
   const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
@@ -118,7 +120,7 @@ export function CommandPalette() {
       }}
     >
       <CommandInput
-        placeholder="Search clients, policies, or jump to…"
+        placeholder={t("commandPalette.search")}
         value={searchQuery}
         onValueChange={setSearchQuery}
       />
@@ -126,16 +128,16 @@ export function CommandPalette() {
         {hasActiveSearch && isSearchLoading ? (
           <div className={styles.paletteLoadingRow}>
             <Loader2 className={styles.paletteSpinner} />
-            Searching…
+            {t("commandPalette.searching")}
           </div>
         ) : (
           <>
             {hasActiveSearch && !hasSearchResults && (
-              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandEmpty>{t("common.noResults")}</CommandEmpty>
             )}
 
             {hasActiveSearch && matchingCustomers.length > 0 && (
-              <CommandGroup heading="Clients">
+              <CommandGroup heading={t("commandPalette.clients")}>
                 {matchingCustomers.map((customer) => (
                   <CommandItem
                     key={customer.id}
@@ -159,7 +161,7 @@ export function CommandPalette() {
             )}
 
             {hasActiveSearch && matchingPolicies.length > 0 && (
-              <CommandGroup heading="Policies">
+              <CommandGroup heading={t("navigation.policies")}>
                 {matchingPolicies.map((policy) => (
                   <CommandItem
                     key={policy.id}
@@ -182,12 +184,12 @@ export function CommandPalette() {
 
             {!hasActiveSearch && (
               <>
-                <CommandEmpty>No results found.</CommandEmpty>
-                <CommandGroup heading="Navigate">
+                <CommandEmpty>{t("common.noResults")}</CommandEmpty>
+                <CommandGroup heading={t("commandPalette.navigate")}>
                   <CommandItem
                     onSelect={() => executeCommandAndClose(() => navigate("/"))}
                   >
-                    <LayoutDashboard className={styles.commandIcon} /> Dashboard
+                    <LayoutDashboard className={styles.commandIcon} /> {t("commandPalette.pages.dashboard")}
                     <CommandShortcut>G D</CommandShortcut>
                   </CommandItem>
                   <CommandItem
@@ -195,7 +197,7 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/clients"))
                     }
                   >
-                    <Users className={styles.commandIcon} /> Clients
+                    <Users className={styles.commandIcon} /> {t("commandPalette.pages.clients")}
                     <CommandShortcut>G C</CommandShortcut>
                   </CommandItem>
                   <CommandItem
@@ -203,7 +205,7 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/policies"))
                     }
                   >
-                    <FileText className={styles.commandIcon} /> Policies
+                    <FileText className={styles.commandIcon} /> {t("commandPalette.pages.policies")}
                     <CommandShortcut>G P</CommandShortcut>
                   </CommandItem>
                   <CommandItem
@@ -211,29 +213,29 @@ export function CommandPalette() {
                       executeCommandAndClose(() => navigate("/claims"))
                     }
                   >
-                    <ShieldAlert className={styles.commandIcon} /> Claims
+                    <ShieldAlert className={styles.commandIcon} /> {t("commandPalette.pages.claims")}
                     <CommandShortcut>G L</CommandShortcut>
                   </CommandItem>
                 </CommandGroup>
                 <CommandSeparator />
-                <CommandGroup heading="Quick actions">
+                <CommandGroup heading={t("commandPalette.quickActions")}>
                   <CommandItem
                     onSelect={() =>
                       executeCommandAndClose(() => navigate("/clients?new=true"))
                     }
                   >
-                    <PlusCircle className={styles.commandIcon} /> New client
+                    <PlusCircle className={styles.commandIcon} /> {t("commandPalette.newClient")}
                   </CommandItem>
                   <CommandItem
                     onSelect={() =>
                       executeCommandAndClose(() => navigate("/policies?new=true"))
                     }
                   >
-                    <PlusCircle className={styles.commandIcon} /> New policy
+                    <PlusCircle className={styles.commandIcon} /> {t("commandPalette.newPolicy")}
                   </CommandItem>
                 </CommandGroup>
                 <CommandSeparator />
-                <CommandGroup heading="Preferences">
+                <CommandGroup heading={t("commandPalette.preferences")}>
                   <CommandItem
                     onSelect={() => executeCommandAndClose(toggleTheme)}
                   >
@@ -242,12 +244,12 @@ export function CommandPalette() {
                     ) : (
                       <Moon className={styles.commandIcon} />
                     )}
-                    Toggle theme
+                    {t("commandPalette.toggleTheme", { theme })}
                   </CommandItem>
                   <CommandItem
                     onSelect={() => executeCommandAndClose(handleSignOut)}
                   >
-                    <LogOut className={styles.commandIcon} /> Sign out
+                    <LogOut className={styles.commandIcon} /> {t("commandPalette.signOut")}
                   </CommandItem>
                 </CommandGroup>
               </>

@@ -56,6 +56,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-rtl: "Heebo", "Arial Hebrew", system-ui, sans-serif;
 }
 
 :root {
@@ -200,6 +201,15 @@
     color: var(--color-foreground);
     -webkit-font-smoothing: antialiased;
   }
+}
+
+/* RTL global overrides */
+[dir="rtl"] {
+  font-family: var(--font-rtl);
+}
+
+[dir="rtl"] .shimmer-text {
+  direction: rtl;
 }
 
 @layer utilities {

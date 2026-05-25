@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import styles from "../forms.module.css";
 
+import { useTranslation } from "react-i18next";
 import { emailStorage } from "@/lib/api";
 import {
   Dialog,
@@ -45,6 +46,7 @@ interface NewClientDialogProps {
 }
 
 export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
+  const { t } = useTranslation();
   const createCustomerMutation = useCreateCustomerMutation();
 
   const {
@@ -64,7 +66,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
   const submitNewClientForm = async (formData: NewClientFormData) => {
     try {
       await createCustomerMutation.mutateAsync(formData);
-      toast.success("Client created successfully");
+      toast.success(t("customers.createSuccess", "Client created successfully"));
       onOpenChange(false);
       reset({ status: "PROSPECT", agentEmail: emailStorage.get() ?? "" });
     } catch (err) {
@@ -76,8 +78,8 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={styles.ncDialogContent}>
         <DialogHeader>
-          <DialogTitle>New Client</DialogTitle>
-          <DialogDescription>Add a new client to your CRM.</DialogDescription>
+          <DialogTitle>{t("forms.newClient")}</DialogTitle>
+          <DialogDescription>{t("forms.newClientDesc")}</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(submitNewClientForm)}
@@ -85,7 +87,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
         >
           <div className={styles.ncTwoCol}>
             <div className={styles.ncField}>
-              <Label htmlFor="firstName">First Name</Label>
+              <Label htmlFor="firstName">{t("forms.firstName")}</Label>
               <Input
                 id="firstName"
                 data-testid="firstName-input"
@@ -96,7 +98,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               )}
             </div>
             <div className={styles.ncField}>
-              <Label htmlFor="lastName">Last Name</Label>
+              <Label htmlFor="lastName">{t("forms.lastName")}</Label>
               <Input
                 id="lastName"
                 data-testid="lastName-input"
@@ -109,7 +111,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
           </div>
 
           <div className={styles.ncField}>
-            <Label htmlFor="nc-email">Email</Label>
+            <Label htmlFor="nc-email">{t("common.email")}</Label>
             <Input
               id="nc-email"
               type="email"
@@ -123,7 +125,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
 
           <div className={styles.ncTwoCol}>
             <div className={styles.ncField}>
-              <Label htmlFor="phone">Phone (05X-XXXXXXX)</Label>
+              <Label htmlFor="phone">{t("forms.phoneFormat")}</Label>
               <Input
                 id="phone"
                 data-testid="phone-input"
@@ -135,12 +137,12 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               )}
             </div>
             <div className={styles.ncField}>
-              <Label htmlFor="israeliId">Israeli ID</Label>
+              <Label htmlFor="israeliId">{t("forms.israeliId")}</Label>
               <Input
                 id="israeliId"
                 data-testid="israeliId-input"
                 {...register("israeliId")}
-                placeholder="9 digits"
+                placeholder={t("forms.nineDigits")}
                 maxLength={9}
               />
               {errors.israeliId && (
@@ -151,7 +153,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
 
           <div className={styles.ncTwoCol}>
             <div className={styles.ncField}>
-              <Label htmlFor="dateOfBirth">Date of Birth</Label>
+              <Label htmlFor="dateOfBirth">{t("customers.dateOfBirth")}</Label>
               <Input
                 id="dateOfBirth"
                 type="date"
@@ -164,7 +166,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               )}
             </div>
             <div className={styles.ncField}>
-              <Label>Status</Label>
+              <Label>{t("forms.status")}</Label>
               <Select
                 defaultValue="PROSPECT"
                 onValueChange={(selectedValue) =>
@@ -178,16 +180,16 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="PROSPECT">Prospect</SelectItem>
-                  <SelectItem value="ACTIVE">Active</SelectItem>
-                  <SelectItem value="INACTIVE">Inactive</SelectItem>
+                  <SelectItem value="PROSPECT">{t("forms.statusProspect")}</SelectItem>
+                  <SelectItem value="ACTIVE">{t("forms.statusActive")}</SelectItem>
+                  <SelectItem value="INACTIVE">{t("forms.statusInactive")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div className={styles.ncField}>
-            <Label htmlFor="agentEmail">Agent Email</Label>
+            <Label htmlFor="agentEmail">{t("forms.agentEmail")}</Label>
             <Input id="agentEmail" type="email" {...register("agentEmail")} />
             {errors.agentEmail && (
               <p className={styles.ncFieldError}>{errors.agentEmail.message}</p>
@@ -200,7 +202,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t("forms.cancel")}
             </Button>
             <Button
               type="submit"
@@ -210,7 +212,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
               {createCustomerMutation.isPending && (
                 <Loader2 className={styles.ncSpinner} />
               )}
-              Create Client
+              {t("forms.createClient")}
             </Button>
           </div>
         </form>

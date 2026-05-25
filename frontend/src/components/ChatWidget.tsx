@@ -3,6 +3,7 @@ import { MessageCircle, X, Send, Sparkles, Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { toast } from "sonner";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import styles from "./widgets.module.css";
 
@@ -12,13 +13,13 @@ import { type AiMessage } from "@/lib/api";
 import { useSendChatMessageMutation } from "@/lib/queries/ai.queries";
 
 export function ChatWidget() {
+  const { t } = useTranslation();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatInputText, setChatInputText] = useState("");
-  const [chatMessages, setChatMessages] = useState<AiMessage[]>([
+  const [chatMessages, setChatMessages] = useState<AiMessage[]>(() => [
     {
       role: "assistant",
-      content:
-        "Hi! I'm **Aegis Assistant**. Ask me about your clients, policies, or claims.",
+      content: t("ai.greeting"),
     },
   ]);
   const messagesScrollRef = useRef<HTMLDivElement>(null);
@@ -51,7 +52,7 @@ export function ChatWidget() {
         { role: "assistant", content: chatResponse.reply },
       ]);
     } catch (error) {
-      toast.error((error as Error).message ?? "Chat failed. Please try again.");
+      toast.error((error as Error).message ?? t("ai.errorMessage"));
     }
   };
 
@@ -69,7 +70,7 @@ export function ChatWidget() {
       <button
         type="button"
         onClick={() => setIsChatOpen((previousOpen) => !previousOpen)}
-        aria-label={isChatOpen ? "Close chat" : "Open chat"}
+        aria-label={isChatOpen ? t("ai.close") : t("ai.open")}
         data-testid="ai-chat-button"
         className={styles.toggleButton}
       >
@@ -142,7 +143,7 @@ export function ChatWidget() {
               value={chatInputText}
               onChange={(event) => setChatInputText(event.target.value)}
               onKeyDown={handleTextareaKeyDown}
-              placeholder="Ask anything…"
+              placeholder={t("ai.placeholder")}
               rows={1}
               data-testid="ai-chat-input"
               className={styles.textarea}

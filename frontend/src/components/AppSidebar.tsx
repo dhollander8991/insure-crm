@@ -7,6 +7,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import styles from "./layout.module.css";
 
@@ -23,17 +24,18 @@ import {
   useSidebar,
 } from "@/components/ui/Sidebar";
 
-const navigationItems = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard },
-  { title: "Clients", url: "/clients", icon: Users },
-  { title: "Policies", url: "/policies", icon: FileText },
-  { title: "Claims", url: "/claims", icon: ShieldAlert },
-];
-
 export function AppSidebar() {
+  const { t } = useTranslation();
   const { state, isMobile } = useSidebar();
   const isSidebarCollapsed = state === "collapsed" && !isMobile;
   const location = useLocation();
+
+  const navigationItems = [
+    { titleKey: "navigation.dashboard", url: "/", icon: LayoutDashboard },
+    { titleKey: "navigation.clients", url: "/clients", icon: Users },
+    { titleKey: "navigation.policies", url: "/policies", icon: FileText },
+    { titleKey: "navigation.claims", url: "/claims", icon: ShieldAlert },
+  ];
 
   const checkIsActiveRoute = (path: string) =>
     path === "/"
@@ -64,18 +66,19 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           {!isSidebarCollapsed && (
-            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("navigation.workspace")}</SidebarGroupLabel>
           )}
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((navItem) => {
                 const isNavItemActive = checkIsActiveRoute(navItem.url);
+                const label = t(navItem.titleKey);
                 return (
-                  <SidebarMenuItem key={navItem.title}>
+                  <SidebarMenuItem key={navItem.titleKey}>
                     <SidebarMenuButton
                       asChild
                       isActive={isNavItemActive}
-                      tooltip={navItem.title}
+                      tooltip={label}
                       className={styles.menuButton}
                     >
                       <Link to={navItem.url} className={styles.navLink}>
@@ -85,7 +88,7 @@ export function AppSidebar() {
                             isNavItemActive && styles.navIconActive,
                           )}
                         />
-                        {!isSidebarCollapsed && <span>{navItem.title}</span>}
+                        {!isSidebarCollapsed && <span>{label}</span>}
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

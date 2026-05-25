@@ -18,6 +18,7 @@ import clsx from "clsx";
 
 import styles from "./Claims.module.css";
 
+import { useTranslation } from "react-i18next";
 import { EmptyState } from "@/components/EmptyState";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -307,6 +308,7 @@ const severityStripeClasses: Record<ClaimSeverity, string> = {
 };
 
 export function ClaimsPage() {
+  const { t } = useTranslation();
   const isMountLoading = useMountLoading();
   const [claims, setClaims] = useState<Claim[]>(seedClaims);
   const [selectedClaimIds, setSelectedClaimIds] = useState<Set<string>>(
@@ -432,12 +434,8 @@ export function ClaimsPage() {
 
         <div className={styles.pageHeader}>
           <div>
-            <h1 className={styles.pageTitle}>Claims Board</h1>
-            <p className={styles.pageSubtitle}>
-              Drag to reassign. Hold <kbd className={styles.kbd}>⌘</kbd> /
-              <kbd className={styles.kbd}>Ctrl</kbd> to multi-select,
-              <kbd className={styles.kbd}>Shift</kbd> for a range.
-            </p>
+            <h1 className={styles.pageTitle}>{t("claims.title")}</h1>
+            <p className={styles.pageSubtitle}>{t("claims.subtitle")}</p>
           </div>
           <div className={styles.headerActions}>
             <AnimatePresence>
@@ -450,13 +448,13 @@ export function ClaimsPage() {
                 >
                   <Layers className={styles.selectionIcon} />
                   <span className={styles.selectionCount}>
-                    {selectedClaimIds.size} selected
+                    {selectedClaimIds.size} {t("claims.selected")}
                   </span>
                   <button
                     onClick={clearClaimSelection}
                     className={styles.selectionClear}
                   >
-                    Clear
+                    {t("claims.clearSelection")}
                   </button>
                 </motion.div>
               )}
@@ -465,7 +463,7 @@ export function ClaimsPage() {
               onClick={() => toast.info("Claims management coming soon")}
               className={styles.newClaimButton}
             >
-              <Plus className={styles.plusIcon} /> New Claim
+              <Plus className={styles.plusIcon} /> {t("claims.newClaim")}
             </Button>
           </div>
         </div>
@@ -475,8 +473,8 @@ export function ClaimsPage() {
         ) : claims.length === 0 ? (
           <EmptyState
             icon={ShieldAlert}
-            title="No claims yet"
-            description="Claims will appear here once they are filed."
+            title={t("claims.noClaimsTitle")}
+            description={t("claims.noClaimsDesc")}
           />
         ) : (
           <DndContext
@@ -542,34 +540,34 @@ export function ClaimsPage() {
                 <SheetHeader>
                   <SheetTitle className={styles.sheetTitle}>
                     <AlertCircle className={styles.sheetTitleIcon} />
-                    Claim {detailClaim.id}
+                    {t("claims.claimLabel")} {detailClaim.id}
                   </SheetTitle>
                   <SheetDescription>{detailClaim.description}</SheetDescription>
                 </SheetHeader>
                 <div className={styles.detailSheetContent}>
                   <ClaimDetailRow
-                    label="Client"
+                    label={t("claims.client")}
                     value={detailClaim.clientName}
                   />
                   <ClaimDetailRow
-                    label="Policy Type"
+                    label={t("claims.policyType")}
                     value={detailClaim.policyType}
                   />
                   <ClaimDetailRow
-                    label="Amount"
+                    label={t("claims.amount")}
                     value={`$${detailClaim.amount.toLocaleString()}`}
                   />
-                  <ClaimDetailRow label="Status" value={detailClaim.status} />
+                  <ClaimDetailRow label={t("claims.status")} value={detailClaim.status} />
                   <ClaimDetailRow
-                    label="Severity"
+                    label={t("claims.severity")}
                     value={detailClaim.severity}
                   />
                   <ClaimDetailRow
-                    label="Days Open"
-                    value={`${detailClaim.daysOpen} days`}
+                    label={t("claims.daysOpen")}
+                    value={`${detailClaim.daysOpen} ${t("claims.days")}`}
                   />
                   <ClaimDetailRow
-                    label="Filed"
+                    label={t("claims.filed")}
                     value={new Date(detailClaim.filedAt).toLocaleDateString()}
                   />
                 </div>
@@ -599,6 +597,7 @@ function BoardColumn({
   isOver: boolean;
   activeDragId: string | null;
 }) {
+  const { t } = useTranslation();
   const { setNodeRef } = useDroppable({ id: status });
   const isActiveInSelection =
     activeDragId !== null && selectedClaimIds.has(activeDragId);
@@ -611,7 +610,7 @@ function BoardColumn({
       className={styles.column}
     >
       <div className={clsx(styles.columnHeader, columnClass)}>
-        <span className={styles.columnTitle}>{status}</span>
+        <span className={styles.columnTitle}>{t(`claims.columns.${status}`)}</span>
         <span className={styles.columnCount}>{columnClaims.length}</span>
       </div>
       <div
@@ -634,7 +633,7 @@ function BoardColumn({
           );
         })}
         {columnClaims.length === 0 && (
-          <div className={styles.emptyDrop}>Drop here</div>
+          <div className={styles.emptyDrop}>{t("claims.dropHere")}</div>
         )}
       </div>
     </motion.div>

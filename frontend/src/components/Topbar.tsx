@@ -1,7 +1,9 @@
 import { Bell, Search, LogOut, User as UserIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { ThemeToggle } from "./ThemeToggle";
+import { LanguageToggle } from "./LanguageToggle";
 import styles from "./layout.module.css";
 
 import { SidebarTrigger } from "@/components/ui/Sidebar";
@@ -19,6 +21,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { tokenStorage, emailStorage } from "@/lib/api";
 
 export function Topbar() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -49,12 +52,11 @@ export function Topbar() {
         className={styles.searchButton}
       >
         <Search className={styles.searchBtnIcon} />
-        <span className={styles.searchText}>
-          Search clients, policies, claims…
-        </span>
+        <span className={styles.searchText}>{t("topbar.searchPlaceholder")}</span>
         <kbd className={styles.searchKbd}>⌘K</kbd>
       </button>
       <div className={styles.actions}>
+        <LanguageToggle />
         <ThemeToggle />
         <Button variant="ghost" size="icon" className={styles.bellButton}>
           <Bell className={styles.bellIcon} />
@@ -79,11 +81,11 @@ export function Topbar() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem disabled>
-              <UserIcon className={styles.menuIcon} /> Profile
+              <UserIcon className={styles.menuIcon} /> {t("topbar.profile")}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut}>
-              <LogOut className={styles.menuIcon} /> Sign out
+              <LogOut className={styles.menuIcon} /> {t("topbar.signOut")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

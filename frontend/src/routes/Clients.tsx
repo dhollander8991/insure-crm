@@ -16,6 +16,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import clsx from "clsx";
 
 import styles from "./Clients.module.css";
+import { useTranslation } from "react-i18next";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -158,6 +159,7 @@ function FilterHeader({
 }
 
 export function ClientsPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isNewClientModalOpen, setIsNewClientModalOpen] = useState(false);
@@ -282,9 +284,9 @@ export function ClientsPage() {
         <div className={styles.contentArea}>
           <div className={styles.pageHeader}>
             <div>
-              <h1 className={styles.pageTitle}>Clients</h1>
+              <h1 className={styles.pageTitle}>{t("customers.title")}</h1>
               <p className={styles.pageSubtitle}>
-                {filteredClients.length} of {clients.length} contacts
+                {filteredClients.length} {t("common.of")} {clients.length} {t("common.contacts")}
               </p>
             </div>
             <Button
@@ -292,13 +294,13 @@ export function ClientsPage() {
               className={styles.addButton}
               data-testid="add-customer-button"
             >
-              <Plus className={styles.addBtnIcon} /> Add Client
+              <Plus className={styles.addBtnIcon} /> {t("customers.addClient")}
             </Button>
           </div>
 
           {activeFilters.length > 0 && (
             <div className={styles.filterRow}>
-              <span className={styles.filtersLabel}>Filters:</span>
+              <span className={styles.filtersLabel}>{t("common.filters")}</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
@@ -318,7 +320,7 @@ export function ClientsPage() {
                 onClick={clearAllFilters}
                 className={styles.filterClearAll}
               >
-                Clear all
+                {t("common.clearAll")}
               </button>
             </div>
           )}
@@ -327,15 +329,15 @@ export function ClientsPage() {
             <TableSkeleton rows={7} cols={5} />
           ) : isError ? (
             <div className={styles.errorMessage}>
-              Failed to load clients. Make sure customer-service is running.
+              {t("customers.failedToLoad")}
             </div>
           ) : clients.length === 0 ? (
             <EmptyState
               icon={Users}
-              title="No clients yet"
-              description="Add your first client to get started tracking your book of business."
+              title={t("customers.noClientsTitle")}
+              description={t("customers.noClientsDesc")}
               action={{
-                label: "+ Add your first client",
+                label: t("customers.addFirstClient"),
                 onClick: () => setIsNewClientModalOpen(true),
               }}
             />
@@ -347,7 +349,7 @@ export function ClientsPage() {
                   <Input
                     value={nameFilter}
                     onChange={(event) => setNameFilter(event.target.value)}
-                    placeholder="Search by name…"
+                    placeholder={t("customers.searchByName")}
                     className={styles.searchInput}
                     data-testid="customer-search"
                   />
@@ -357,11 +359,11 @@ export function ClientsPage() {
                 {filteredClients.length === 0 ? (
                   <EmptyState
                     icon={Users}
-                    title="No matching clients"
-                    description="Try adjusting your filters."
+                    title={t("customers.noMatchingTitle")}
+                    description={t("customers.noMatchingDesc")}
                     action={
                       activeFilters.length > 0
-                        ? { label: "Clear filters", onClick: clearAllFilters }
+                        ? { label: t("customers.clearFilters"), onClick: clearAllFilters }
                         : undefined
                     }
                   />
@@ -373,14 +375,14 @@ export function ClientsPage() {
                           <TableHead>
                             <FilterHeader
                               col="name"
-                              label="Client"
+                              label={t("customers.client")}
                               isActive={!!nameFilter}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitleSm}>
-                                Filter by name
+                                {t("customers.filterByName")}
                               </p>
                               <Input
                                 size={20}
@@ -388,7 +390,7 @@ export function ClientsPage() {
                                 onChange={(event) =>
                                   setNameFilter(event.target.value)
                                 }
-                                placeholder="Search name…"
+                                placeholder={t("customers.searchName")}
                                 className={styles.filterInput}
                               />
                             </FilterHeader>
@@ -396,21 +398,21 @@ export function ClientsPage() {
                           <TableHead>
                             <FilterHeader
                               col="email"
-                              label="Email"
+                              label={t("common.email")}
                               isActive={!!emailFilter}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitleSm}>
-                                Filter by email
+                                {t("customers.filterByEmail")}
                               </p>
                               <Input
                                 value={emailFilter}
                                 onChange={(event) =>
                                   setEmailFilter(event.target.value)
                                 }
-                                placeholder="Search email…"
+                                placeholder={t("customers.searchEmail")}
                                 className={styles.filterInput}
                               />
                             </FilterHeader>
@@ -418,7 +420,7 @@ export function ClientsPage() {
                           <TableHead>
                             <SortHeader
                               col="phone"
-                              label="Phone"
+                              label={t("common.phone")}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
@@ -427,14 +429,14 @@ export function ClientsPage() {
                           <TableHead>
                             <FilterHeader
                               col="status"
-                              label="Status"
+                              label={t("common.status")}
                               isActive={statusFilters.size > 0}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitle}>
-                                Filter by status
+                                {t("customers.filterByStatus")}
                               </p>
                               <div className={styles.filterCheckboxGroup}>
                                 {ALL_STATUSES.map((status) => (
@@ -453,7 +455,7 @@ export function ClientsPage() {
                                       htmlFor={`status-${status}`}
                                       className={styles.filterLabel}
                                     >
-                                      {status}
+                                      {t(`customers.status.${status}`)}
                                     </Label>
                                   </div>
                                 ))}
@@ -463,7 +465,7 @@ export function ClientsPage() {
                           <TableHead>
                             <SortHeader
                               col="dateOfBirth"
-                              label="Date of Birth"
+                              label={t("customers.dateOfBirth")}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}

@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import styles from "../forms.module.css";
 
+import { useTranslation } from "react-i18next";
 import { emailStorage } from "@/lib/api";
 import {
   Dialog,
@@ -50,6 +51,7 @@ interface NewPolicyDialogProps {
 }
 
 export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
+  const { t } = useTranslation();
   const createPolicyMutation = useCreatePolicyMutation();
 
   const {
@@ -70,7 +72,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
   const submitNewPolicyForm = async (formData: NewPolicyFormData) => {
     try {
       await createPolicyMutation.mutateAsync(formData);
-      toast.success("Policy created successfully");
+      toast.success(t("policies.createSuccess", "Policy created successfully"));
       onOpenChange(false);
       reset({
         status: "PENDING",
@@ -86,8 +88,8 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={styles.npDialogContent}>
         <DialogHeader>
-          <DialogTitle>New Policy</DialogTitle>
-          <DialogDescription>Create a new insurance policy.</DialogDescription>
+          <DialogTitle>{t("forms.newPolicy")}</DialogTitle>
+          <DialogDescription>{t("forms.newPolicyDesc")}</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={handleSubmit(submitNewPolicyForm)}
@@ -95,7 +97,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
         >
           <div className={styles.npTwoCol}>
             <div className={styles.npField}>
-              <Label htmlFor="customerId">Customer ID</Label>
+              <Label htmlFor="customerId">{t("forms.customerId")}</Label>
               <Input
                 id="customerId"
                 type="number"
@@ -107,7 +109,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               )}
             </div>
             <div className={styles.npField}>
-              <Label htmlFor="customerName">Customer Name</Label>
+              <Label htmlFor="customerName">{t("forms.customerName")}</Label>
               <Input
                 id="customerName"
                 data-testid="customerName-input"
@@ -123,7 +125,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
 
           <div className={styles.npTwoCol}>
             <div className={styles.npField}>
-              <Label>Type</Label>
+              <Label>{t("forms.type")}</Label>
               <Select
                 defaultValue="CAR"
                 onValueChange={(selectedValue) =>
@@ -137,15 +139,15 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="CAR">Car</SelectItem>
-                  <SelectItem value="APARTMENT">Apartment</SelectItem>
-                  <SelectItem value="LIFE">Life</SelectItem>
-                  <SelectItem value="HEALTH">Health</SelectItem>
+                  <SelectItem value="CAR">{t("forms.typeCar")}</SelectItem>
+                  <SelectItem value="APARTMENT">{t("forms.typeApartment")}</SelectItem>
+                  <SelectItem value="LIFE">{t("forms.typeLife")}</SelectItem>
+                  <SelectItem value="HEALTH">{t("forms.typeHealth")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className={styles.npField}>
-              <Label>Status</Label>
+              <Label>{t("forms.status")}</Label>
               <Select
                 defaultValue="PENDING"
                 onValueChange={(selectedValue) =>
@@ -159,9 +161,9 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="PENDING">Pending</SelectItem>
-                  <SelectItem value="ACTIVE">Active</SelectItem>
-                  <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                  <SelectItem value="PENDING">{t("forms.statusPending")}</SelectItem>
+                  <SelectItem value="ACTIVE">{t("forms.statusActive")}</SelectItem>
+                  <SelectItem value="CANCELLED">{t("forms.statusCancelled")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -169,7 +171,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
 
           <div className={styles.npTwoCol}>
             <div className={styles.npField}>
-              <Label htmlFor="startDate">Start Date</Label>
+              <Label htmlFor="startDate">{t("forms.startDate")}</Label>
               <Input
                 id="startDate"
                 type="date"
@@ -181,7 +183,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               )}
             </div>
             <div className={styles.npField}>
-              <Label htmlFor="endDate">End Date</Label>
+              <Label htmlFor="endDate">{t("forms.endDate")}</Label>
               <Input
                 id="endDate"
                 type="date"
@@ -196,7 +198,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
 
           <div className={styles.npTwoCol}>
             <div className={styles.npField}>
-              <Label htmlFor="premium">Premium ($/mo)</Label>
+              <Label htmlFor="premium">{t("forms.premium")}</Label>
               <Input
                 id="premium"
                 type="number"
@@ -210,7 +212,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               )}
             </div>
             <div className={styles.npField}>
-              <Label htmlFor="np-agentEmail">Agent Email</Label>
+              <Label htmlFor="np-agentEmail">{t("forms.agentEmail")}</Label>
               <Input
                 id="np-agentEmail"
                 type="email"
@@ -228,7 +230,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t("forms.cancel")}
             </Button>
             <Button
               type="submit"
@@ -238,7 +240,7 @@ export function NewPolicyDialog({ open, onOpenChange }: NewPolicyDialogProps) {
               {createPolicyMutation.isPending && (
                 <Loader2 className={styles.npSpinner} />
               )}
-              Create Policy
+              {t("forms.createPolicy")}
             </Button>
           </div>
         </form>

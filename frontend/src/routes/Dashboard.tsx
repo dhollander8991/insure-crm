@@ -12,6 +12,7 @@ import {
 
 import styles from "./Dashboard.module.css";
 
+import { useTranslation } from "react-i18next";
 import { EmptyState } from "@/components/EmptyState";
 import {
   Card,
@@ -65,6 +66,7 @@ const RECENT_ACTIVITY = [
 ];
 
 export function Dashboard() {
+  const { t } = useTranslation();
   const { data: customersData = [], isLoading: isCustomersLoading } =
     useCustomersQuery();
   const { data: policiesData = [], isLoading: isPoliciesLoading } =
@@ -97,17 +99,17 @@ export function Dashboard() {
         >
           <div>
             <div className={styles.badgePill}>
-              <Sparkles className={styles.sparklesIcon} /> Live insights · Updated just now
+              <Sparkles className={styles.sparklesIcon} /> {t("dashboard.liveInsights")}
             </div>
             <h1 className={styles.heading}>
-              <span className="shimmer-text">Good morning</span>
+              <span className="shimmer-text">{t("dashboard.goodMorning")}</span>
             </h1>
             <p className={styles.headingSub}>
-              Your portfolio has{" "}
+              {t("dashboard.portfolioHas")}{" "}
               <span className={styles.headingHighlight}>
-                {activePoliciesCount} active policies
+                {activePoliciesCount} {t("dashboard.activePolicies")}
               </span>{" "}
-              right now.
+              {t("dashboard.activePoliciesNow")}
             </p>
           </div>
           <div className={styles.metricBadge}>
@@ -115,7 +117,7 @@ export function Dashboard() {
               <TrendingUp className={styles.trendIcon} />
             </div>
             <div>
-              <p className={styles.metricLabel}>Active Policies</p>
+              <p className={styles.metricLabel}>{t("dashboard.activePolicies")}</p>
               <p className={styles.metricValue}>{activePoliciesCount}</p>
             </div>
           </div>
@@ -128,14 +130,14 @@ export function Dashboard() {
           policiesData.length === 0 ? (
           <EmptyState
             icon={LayoutDashboard}
-            title="No data yet"
-            description="Add clients and policies to see your dashboard metrics."
+            title={t("dashboard.noDataTitle")}
+            description={t("dashboard.noDataDesc")}
           />
         ) : (
           <div className={styles.kpiGrid}>
             <div data-testid="kpi-total-premium">
               <KpiCard
-                label="Total Premium (Active)"
+                label={t("dashboard.totalPremium")}
                 value={totalActivePremium}
                 prefix="₪"
                 delta={0}
@@ -145,7 +147,7 @@ export function Dashboard() {
             </div>
             <div data-testid="kpi-active-policies">
               <KpiCard
-                label="Active Policies"
+                label={t("dashboard.activePolicies")}
                 value={activePoliciesCount}
                 delta={0}
                 icon={FileText}
@@ -154,7 +156,7 @@ export function Dashboard() {
             </div>
             <div data-testid="kpi-open-claims">
               <KpiCard
-                label="Open Claims"
+                label={t("dashboard.openClaims")}
                 value={0}
                 delta={0}
                 icon={ShieldAlert}
@@ -163,7 +165,7 @@ export function Dashboard() {
             </div>
             <div data-testid="kpi-total-customers">
               <KpiCard
-                label="New Leads"
+                label={t("dashboard.newLeads")}
                 value={newLeadsCount}
                 delta={0}
                 icon={UserPlus}
@@ -186,15 +188,15 @@ export function Dashboard() {
               <Card className={styles.chartCard}>
                 <CardHeader className={styles.chartCardHeader}>
                   <div>
-                    <CardTitle className={styles.chartTitle}>Revenue vs Claims</CardTitle>
-                    <CardDescription>Last 12 months · live</CardDescription>
+                    <CardTitle className={styles.chartTitle}>{t("dashboard.revenueVsClaims")}</CardTitle>
+                    <CardDescription>{t("dashboard.last12Months")}</CardDescription>
                   </div>
                   <div className={styles.legendRow}>
                     <span className={styles.legendPillPrimary}>
-                      <span className={styles.legendDotPrimary} /> Premium
+                      <span className={styles.legendDotPrimary} /> {t("dashboard.premium")}
                     </span>
                     <span className={styles.legendPillDestructive}>
-                      <span className={styles.legendDotDestructive} /> Claims
+                      <span className={styles.legendDotDestructive} /> {t("dashboard.claims")}
                     </span>
                   </div>
                 </CardHeader>
@@ -231,8 +233,8 @@ export function Dashboard() {
             ) : (
               <Card className={styles.chartCardSmall}>
                 <CardHeader>
-                  <CardTitle>Policies by Type</CardTitle>
-                  <CardDescription>Product mix</CardDescription>
+                  <CardTitle>{t("dashboard.policiesByType")}</CardTitle>
+                  <CardDescription>{t("dashboard.productMix")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <PoliciesDonut />
@@ -252,8 +254,8 @@ export function Dashboard() {
             ) : (
               <Card className={styles.chartCardSmall}>
                 <CardHeader>
-                  <CardTitle>Claims by Status</CardTitle>
-                  <CardDescription>Pipeline volume</CardDescription>
+                  <CardTitle>{t("dashboard.claimsByStatus")}</CardTitle>
+                  <CardDescription>{t("dashboard.pipelineVolume")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ClaimsBarChart />
@@ -273,8 +275,8 @@ export function Dashboard() {
             ) : (
               <Card className={styles.chartCardSmall}>
                 <CardHeader>
-                  <CardTitle>Lead Pipeline</CardTitle>
-                  <CardDescription>Conversion funnel</CardDescription>
+                  <CardTitle>{t("dashboard.leadPipeline")}</CardTitle>
+                  <CardDescription>{t("dashboard.conversionFunnel")}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <PipelineFunnel />
@@ -292,10 +294,8 @@ export function Dashboard() {
         >
           <Card className={styles.activityCard}>
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>
-                Latest events across your workspace
-              </CardDescription>
+              <CardTitle>{t("dashboard.recentActivity")}</CardTitle>
+              <CardDescription>{t("dashboard.latestEvents")}</CardDescription>
             </CardHeader>
             <CardContent className={styles.activityGrid}>
               {RECENT_ACTIVITY.map((activityItem, index) => (

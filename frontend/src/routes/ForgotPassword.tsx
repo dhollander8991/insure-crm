@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import styles from "./auth.module.css";
 
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -13,6 +14,7 @@ import { AuthShell } from "@/components/AuthShell";
 const schema = z.string().trim().email("Enter a valid email").max(255);
 
 export function ForgotPasswordPage() {
+  const { t } = useTranslation();
   const [emailInput, setEmailInput] = useState("");
   const [sent, setSent] = useState(false);
 
@@ -24,28 +26,28 @@ export function ForgotPasswordPage() {
       return;
     }
     setSent(true);
-    toast.success("If an account exists, a reset link will be sent");
+    toast.success(t("auth.sendResetRequest"));
   };
 
   return (
     <AuthShell
-      title="Forgot password"
-      subtitle="Contact your administrator to reset your password"
+      title={t("auth.forgotTitle")}
+      subtitle={t("auth.forgotSubtitle")}
       footer={
         <Link to="/login" className={styles.forgotFooterLink}>
-          Back to sign in
+          {t("auth.backToSignIn")}
         </Link>
       }
     >
       {sent ? (
         <p className={styles.successMessage}>
-          Please contact your administrator to reset the password for{" "}
+          {t("auth.contactAdmin")}{" "}
           <span className={styles.successEmail}>{emailInput}</span>.
         </p>
       ) : (
         <form onSubmit={onSubmit} className={styles.forgotForm}>
           <div className={styles.forgotField}>
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("auth.email")}</Label>
             <Input
               id="email"
               type="email"
@@ -56,7 +58,7 @@ export function ForgotPasswordPage() {
             />
           </div>
           <Button type="submit" className={styles.forgotSubmit}>
-            Send reset request
+            {t("auth.sendResetRequest")}
           </Button>
         </form>
       )}

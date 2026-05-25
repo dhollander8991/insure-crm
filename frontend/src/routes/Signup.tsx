@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 
 import styles from "./auth.module.css";
 
+import { useTranslation } from "react-i18next";
 import { authApi, tokenStorage, emailStorage } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -18,6 +19,7 @@ const signupSchema = z.object({
 });
 
 export function SignupPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
@@ -52,20 +54,20 @@ export function SignupPage() {
 
   return (
     <AuthShell
-      title="Create your account"
-      subtitle="Join Aegis in less than a minute"
+      title={t("auth.registerTitle")}
+      subtitle={t("auth.registerSubtitle")}
       footer={
         <>
-          Already have one?{" "}
+          {t("auth.alreadyHaveAccount")}{" "}
           <Link to="/login" className={styles.signupFooterLink}>
-            Sign in
+            {t("auth.signIn")}
           </Link>
         </>
       }
     >
       <form onSubmit={handleSignupFormSubmit} className={styles.signupForm}>
         <div className={styles.signupField}>
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <Input
             id="email"
             type="email"
@@ -76,7 +78,7 @@ export function SignupPage() {
           />
         </div>
         <div className={styles.signupField}>
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("auth.password")}</Label>
           <Input
             id="password"
             type="password"
@@ -92,7 +94,7 @@ export function SignupPage() {
           disabled={isSubmitting}
         >
           {isSubmitting && <Loader2 className={styles.signupSpinner} />}
-          Create account
+          {t("auth.createAccount")}
         </Button>
       </form>
     </AuthShell>

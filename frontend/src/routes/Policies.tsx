@@ -22,6 +22,7 @@ import clsx from "clsx";
 
 import styles from "./Policies.module.css";
 
+import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -216,6 +217,7 @@ function formatDate(dateString: string) {
 }
 
 export function PoliciesPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeView, setActiveView] = useState<"table" | "cards">("table");
@@ -353,7 +355,7 @@ export function PoliciesPage() {
       ? [
           {
             key: "premium",
-            label: `Premium: ₪${premiumMin || "0"}–₪${premiumMax || "∞"}`,
+            label: `${t("policies.premium")}: ₪${premiumMin || "0"}–₪${premiumMax || "∞"}`,
             onRemove: () => {
               setPremiumMin("");
               setPremiumMax("");
@@ -365,7 +367,7 @@ export function PoliciesPage() {
       ? [
           {
             key: "start",
-            label: `Start: ${startDateFrom || "any"} – ${startDateTo || "any"}`,
+            label: `${t("forms.startDate")}: ${startDateFrom || t("common.any")} – ${startDateTo || t("common.any")}`,
             onRemove: () => {
               setStartDateFrom("");
               setStartDateTo("");
@@ -377,7 +379,7 @@ export function PoliciesPage() {
       ? [
           {
             key: "end",
-            label: `End: ${endDateFrom || "any"} – ${endDateTo || "any"}`,
+            label: `${t("forms.endDate")}: ${endDateFrom || t("common.any")} – ${endDateTo || t("common.any")}`,
             onRemove: () => {
               setEndDateFrom("");
               setEndDateTo("");
@@ -407,9 +409,9 @@ export function PoliciesPage() {
         <div className={styles.contentArea}>
           <div className={styles.pageHeader}>
             <div>
-              <h1 className={styles.pageTitle}>Policies</h1>
+              <h1 className={styles.pageTitle}>{t("policies.title")}</h1>
               <p className={styles.pageSubtitle}>
-                {filteredPolicies.length} of {policies.length} policies
+                {filteredPolicies.length} {t("common.of")} {policies.length} {t("navigation.policies").toLowerCase()}
               </p>
             </div>
             <div className={styles.headerActions}>
@@ -440,7 +442,7 @@ export function PoliciesPage() {
                 className={styles.addButton}
                 data-testid="add-policy-button"
               >
-                <Plus className={styles.addBtnIcon} /> New Policy
+                <Plus className={styles.addBtnIcon} /> {t("policies.addPolicy")}
               </Button>
             </div>
           </div>
@@ -451,11 +453,10 @@ export function PoliciesPage() {
                 <Calendar className={styles.renewalIcon} />
                 <div className={styles.renewalText}>
                   <p className={styles.renewalMessage}>
-                    {renewingSoonPolicies.length} policies renewing in the next
-                    60 days
+                    {t("policies.renewalBannerDesc", { count: renewingSoonPolicies.length })}
                   </p>
                   <p className={styles.renewalSub}>
-                    Reach out proactively to maximize retention.
+                    {t("policies.renewalSub")}
                   </p>
                 </div>
               </CardContent>
@@ -464,7 +465,7 @@ export function PoliciesPage() {
 
           {activeFilters.length > 0 && (
             <div className={styles.filterRow}>
-              <span className={styles.filtersLabel}>Filters:</span>
+              <span className={styles.filtersLabel}>{t("common.filters")}</span>
               {activeFilters.map((filterChip) => (
                 <Badge
                   key={filterChip.key}
@@ -484,7 +485,7 @@ export function PoliciesPage() {
                 onClick={clearAllFilters}
                 className={styles.filterClearAll}
               >
-                Clear all
+                {t("common.clearAll")}
               </button>
             </div>
           )}
@@ -497,15 +498,15 @@ export function PoliciesPage() {
             )
           ) : isError ? (
             <div className={styles.errorMessage}>
-              Failed to load policies. Make sure policy-service is running.
+              {t("policies.failedToLoad")}
             </div>
           ) : policies.length === 0 ? (
             <EmptyState
               icon={FileText}
-              title="No policies yet"
-              description="Create your first insurance policy to get started."
+              title={t("policies.noPoliciesTitle")}
+              description={t("policies.noPoliciesDesc")}
               action={{
-                label: "+ Add your first policy",
+                label: t("policies.addFirstPolicy"),
                 onClick: () => setIsNewPolicyModalOpen(true),
               }}
             />
@@ -515,11 +516,11 @@ export function PoliciesPage() {
                 {filteredPolicies.length === 0 ? (
                   <EmptyState
                     icon={FileText}
-                    title="No matching policies"
-                    description="Try adjusting your filters."
+                    title={t("policies.noMatchingTitle")}
+                    description={t("policies.noMatchingDesc")}
                     action={
                       activeFilters.length > 0
-                        ? { label: "Clear filters", onClick: clearAllFilters }
+                        ? { label: t("policies.clearFilters"), onClick: clearAllFilters }
                         : undefined
                     }
                   />
@@ -531,7 +532,7 @@ export function PoliciesPage() {
                           <TableHead>
                             <SortHeader
                               col="policyNumber"
-                              label="Policy #"
+                              label={t("policies.policyNumber")}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
@@ -540,7 +541,7 @@ export function PoliciesPage() {
                           <TableHead>
                             <SortHeader
                               col="clientName"
-                              label="Customer"
+                              label={t("policies.customer")}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
@@ -549,14 +550,14 @@ export function PoliciesPage() {
                           <TableHead>
                             <FilterHeader
                               col="type"
-                              label="Type"
+                              label={t("common.type")}
                               isActive={typeFilters.size > 0}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitle}>
-                                Filter by type
+                                {t("policies.filterByType")}
                               </p>
                               <div className={styles.filterCheckboxGroup}>
                                 {ALL_TYPES.map((policyType) => (
@@ -585,14 +586,14 @@ export function PoliciesPage() {
                           <TableHead>
                             <FilterHeader
                               col="status"
-                              label="Status"
+                              label={t("common.status")}
                               isActive={statusFilters.size > 0}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitle}>
-                                Filter by status
+                                {t("policies.filterByStatus")}
                               </p>
                               <div className={styles.filterCheckboxGroup}>
                                 {ALL_STATUSES.map((status) => (
@@ -621,14 +622,14 @@ export function PoliciesPage() {
                           <TableHead>
                             <FilterHeader
                               col="premium"
-                              label="Premium (₪)"
+                              label={`${t("policies.premium")} (₪)`}
                               isActive={hasPremiumFilter}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitle}>
-                                Premium range (₪)
+                                {t("policies.premiumRange")} (₪)
                               </p>
                               <div className={styles.premiumRangeRow}>
                                 <Input
@@ -658,14 +659,14 @@ export function PoliciesPage() {
                           <TableHead>
                             <FilterHeader
                               col="startDate"
-                              label="Start Date"
+                              label={t("forms.startDate")}
                               isActive={hasStartDateFilter}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitle}>
-                                Start date range
+                                {t("policies.startDateRange")}
                               </p>
                               <div className={styles.filterDateGroup}>
                                 <Input
@@ -692,14 +693,14 @@ export function PoliciesPage() {
                           <TableHead>
                             <FilterHeader
                               col="endDate"
-                              label="End Date"
+                              label={t("forms.endDate")}
                               isActive={hasEndDateFilter}
                               sortCol={sortCol}
                               sortDir={sortDir}
                               onSort={handleColumnSort}
                             >
                               <p className={styles.filterGroupTitle}>
-                                End date range
+                                {t("policies.endDateRange")}
                               </p>
                               <div className={styles.filterDateGroup}>
                                 <Input
@@ -724,7 +725,7 @@ export function PoliciesPage() {
                             </FilterHeader>
                           </TableHead>
                           <TableHead className={styles.headMuted}>
-                            Agent
+                            {t("policies.agent")}
                           </TableHead>
                         </TableRow>
                       </TableHeader>
@@ -763,7 +764,7 @@ export function PoliciesPage() {
                                     >
                                       <TypeIcon className={styles.typeIconSm} />
                                     </div>
-                                    <span>{policy.type}</span>
+                                    <span>{t(`policies.type.${policy.type}`)}</span>
                                   </div>
                                 </TableCell>
                                 <TableCell>
@@ -774,7 +775,7 @@ export function PoliciesPage() {
                                       statusClasses[policy.status],
                                     )}
                                   >
-                                    {policy.status}
+                                    {t(`policies.status.${policy.status}`)}
                                   </Badge>
                                 </TableCell>
                                 <TableCell className={styles.cellPremium}>
@@ -802,11 +803,11 @@ export function PoliciesPage() {
           ) : filteredPolicies.length === 0 ? (
             <EmptyState
               icon={FileText}
-              title="No matching policies"
-              description="Try adjusting your filters."
+              title={t("policies.noMatchingTitle")}
+              description={t("policies.noMatchingDesc")}
               action={
                 activeFilters.length > 0
-                  ? { label: "Clear filters", onClick: clearAllFilters }
+                  ? { label: t("policies.clearFilters"), onClick: clearAllFilters }
                   : undefined
               }
             />
@@ -845,12 +846,12 @@ export function PoliciesPage() {
                               statusClasses[policy.status],
                             )}
                           >
-                            {policy.status}
+                            {t(`policies.status.${policy.status}`)}
                           </Badge>
                         </div>
                         <div className={styles.cardInfo}>
                           <p className={styles.cardType}>
-                            {policy.type} · {policy.policyNumber}
+                            {t(`policies.type.${policy.type}`)} · {policy.policyNumber}
                           </p>
                           <p className={styles.cardClient}>
                             {policy.clientName}
@@ -858,13 +859,13 @@ export function PoliciesPage() {
                         </div>
                         <div className={styles.cardFooter}>
                           <div>
-                            <p className={styles.cardPremiumLabel}>Premium</p>
+                            <p className={styles.cardPremiumLabel}>{t("policies.premium")}</p>
                             <p className={styles.cardPremiumValue}>
                               ₪{policy.premium.toLocaleString()}/mo
                             </p>
                           </div>
                           <p className={styles.cardRenewal}>
-                            Renews {formatDate(policy.endDate)}
+                            {t("policies.renewsOn", { date: formatDate(policy.endDate) })}
                           </p>
                         </div>
                       </CardContent>

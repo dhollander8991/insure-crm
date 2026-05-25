@@ -7,6 +7,7 @@ import { router } from "./router";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/Sonner";
+import "@/lib/i18n";
 import "./styles.css";
 
 const queryClient = new QueryClient({
