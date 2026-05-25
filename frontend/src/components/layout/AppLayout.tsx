@@ -12,13 +12,13 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { RouteProgress } from "@/components/RouteProgress";
 
 export function AppLayout() {
-  useLanguageDirection();
+  const { direction } = useLanguageDirection();
   return (
     <SidebarProvider className="h-svh overflow-hidden">
       <AuroraBackground />
       <CommandPalette />
       <RouteProgress />
-      <div className={styles.container}>
+      <div dir={direction} className={styles.container}>
         <AppSidebar />
         <div className={styles.sidebar}>
           <Topbar />

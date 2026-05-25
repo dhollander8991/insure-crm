@@ -212,6 +212,20 @@
   direction: rtl;
 }
 
+/* Sidebar nav items: shadcn hardcodes text-left, override for RTL */
+[dir="rtl"] [data-sidebar="menu-button"] {
+  text-align: right;
+}
+[dir="rtl"] [data-sidebar="group-label"] {
+  text-align: right;
+}
+
+/* Sidebar border: swap side in RTL */
+[dir="rtl"] [data-side="right"][data-variant="sidebar"] > div:last-child {
+  border-right: 1px solid var(--sidebar-border);
+  border-left: none;
+}
+
 @layer utilities {
   .perspective-1200 { perspective: 1200px; }
   .tilt-card {

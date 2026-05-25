@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./layout.module.css";
 
+import { useLanguageDirection } from "@/hooks/useLanguageDirection";
 import {
   Sidebar,
   SidebarContent,
@@ -26,6 +27,7 @@ import {
 
 export function AppSidebar() {
   const { t } = useTranslation();
+  const { isRTL } = useLanguageDirection();
   const { state, isMobile } = useSidebar();
   const isSidebarCollapsed = state === "collapsed" && !isMobile;
   const location = useLocation();
@@ -43,7 +45,7 @@ export function AppSidebar() {
       : location.pathname.startsWith(path);
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" side={isRTL ? "right" : "left"}>
       <SidebarHeader
         className={clsx(
           styles.sidebarHeader,
