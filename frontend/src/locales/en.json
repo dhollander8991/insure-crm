@@ -223,6 +223,14 @@
     "send": "Send",
     "errorMessage": "Chat failed. Please try again."
   },
+  "error": {
+    "title": "Something went wrong",
+    "defaultMessage": "An unexpected error occurred. Please try refreshing the page.",
+    "notFound": "Page not found",
+    "notFoundMessage": "The page you're looking for doesn't exist.",
+    "goHome": "Go home",
+    "reload": "Reload page"
+  },
   "topbar": {
     "searchPlaceholder": "Search clients, policies, claims…",
     "profile": "Profile",

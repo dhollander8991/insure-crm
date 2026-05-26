@@ -43,6 +43,19 @@ vi.mock("@/lib/api", () => ({
 
 import { customerApi, policyApi } from "@/lib/api";
 
+function paged<T>(items: T[]) {
+  return {
+    content: items,
+    totalElements: items.length,
+    totalPages: Math.max(1, Math.ceil(items.length / 20)),
+    size: 20,
+    number: 0,
+    first: true,
+    last: true,
+    numberOfElements: items.length,
+  };
+}
+
 const mockCustomers = [
   {
     id: 1,
@@ -110,8 +123,8 @@ describe("Dashboard", () => {
   });
 
   it("renders 4 KPI cards after data loads", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
 
     renderWithProviders(<Dashboard />);
 
@@ -125,8 +138,8 @@ describe("Dashboard", () => {
   });
 
   it("renders KPI labels after data loads", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
 
     renderWithProviders(<Dashboard />);
 
@@ -146,8 +159,8 @@ describe("Dashboard", () => {
   });
 
   it("shows correct active policy count", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
 
     renderWithProviders(<Dashboard />);
 
@@ -174,8 +187,8 @@ describe("Dashboard", () => {
   });
 
   it("shows empty state with no data", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue([]);
-    vi.mocked(policyApi.getAll).mockResolvedValue([]);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged([]));
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged([]));
 
     renderWithProviders(<Dashboard />);
 
@@ -188,8 +201,8 @@ describe("Dashboard", () => {
   });
 
   it("shows new leads count from PROSPECT customers", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
-    vi.mocked(policyApi.getAll).mockResolvedValue([]);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged([]));
 
     renderWithProviders(<Dashboard />);
 

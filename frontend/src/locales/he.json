@@ -223,6 +223,14 @@
     "send": "שלח",
     "errorMessage": "הצ׳אט נכשל. אנא נסה שוב."
   },
+  "error": {
+    "title": "משהו השתבש",
+    "defaultMessage": "אירעה שגיאה בלתי צפויה. אנא נסה לרענן את הדף.",
+    "notFound": "הדף לא נמצא",
+    "notFoundMessage": "הדף שחיפשת אינו קיים.",
+    "goHome": "לדף הבית",
+    "reload": "רענן דף"
+  },
   "topbar": {
     "searchPlaceholder": "חפש לקוחות, פוליסות, תביעות…",
     "profile": "פרופיל",

@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 
 import { tokenStorage } from "@/lib/api";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ErrorPage } from "@/routes/ErrorPage";
 import { LoginPage } from "@/routes/Login";
 import { SignupPage } from "@/routes/Signup";
 import { ForgotPasswordPage } from "@/routes/ForgotPassword";
@@ -27,29 +28,35 @@ function PublicRoute() {
 
 export const router = createBrowserRouter([
   {
-    element: <PublicRoute />,
-    children: [
-      { path: "/login", element: <LoginPage /> },
-      { path: "/signup", element: <SignupPage /> },
-      { path: "/forgot-password", element: <ForgotPasswordPage /> },
-      { path: "/reset-password", element: <ResetPasswordPage /> },
-    ],
-  },
-  {
-    element: <ProtectedRoute />,
+    errorElement: <ErrorPage />,
     children: [
       {
-        element: <AppLayout />,
+        element: <PublicRoute />,
         children: [
-          { path: "/", element: <Dashboard /> },
-          { path: "/clients", element: <ClientsPage /> },
-          { path: "/clients/:id", element: <ClientDetailPage /> },
-          { path: "/policies", element: <PoliciesPage /> },
-          { path: "/policies/:id", element: <PolicyDetailPage /> },
-          { path: "/claims", element: <ClaimsPage /> },
+          { path: "/login", element: <LoginPage /> },
+          { path: "/signup", element: <SignupPage /> },
+          { path: "/forgot-password", element: <ForgotPasswordPage /> },
+          { path: "/reset-password", element: <ResetPasswordPage /> },
         ],
       },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            element: <AppLayout />,
+            errorElement: <ErrorPage />,
+            children: [
+              { path: "/", element: <Dashboard /> },
+              { path: "/clients", element: <ClientsPage /> },
+              { path: "/clients/:id", element: <ClientDetailPage /> },
+              { path: "/policies", element: <PoliciesPage /> },
+              { path: "/policies/:id", element: <PolicyDetailPage /> },
+              { path: "/claims", element: <ClaimsPage /> },
+            ],
+          },
+        ],
+      },
+      { path: "*", element: <Navigate to="/" replace /> },
     ],
   },
-  { path: "*", element: <Navigate to="/" replace /> },
 ]);

@@ -38,24 +38,18 @@ export function CommandPalette() {
   const navigate = useNavigate();
   const { theme, toggle: toggleTheme } = useTheme();
 
-  const { data: customersData = [], isLoading: isCustomersLoading } =
-    useCustomersQuery({
-      enabled: isPaletteOpen,
-      staleTime: 60_000,
-    });
+  const { data: customersPage, isLoading: isCustomersLoading } =
+    useCustomersQuery(0, 20, { enabled: isPaletteOpen, staleTime: 60_000 });
 
-  const { data: policiesData = [], isLoading: isPoliciesLoading } =
-    usePoliciesQuery({
-      enabled: isPaletteOpen,
-      staleTime: 60_000,
-    });
+  const { data: policiesPage, isLoading: isPoliciesLoading } =
+    usePoliciesQuery(0, 20, { enabled: isPaletteOpen, staleTime: 60_000 });
 
   const isSearchLoading = isCustomersLoading || isPoliciesLoading;
 
   const matchingCustomers = useMemo(() => {
     if (!searchQuery) return [];
     const queryLower = searchQuery.toLowerCase();
-    return customersData
+    return (customersPage?.content ?? [])
       .filter(
         (customer) =>
           `${customer.firstName} ${customer.lastName}`
@@ -65,12 +59,12 @@ export function CommandPalette() {
           customer.phone.includes(queryLower),
       )
       .slice(0, 5);
-  }, [customersData, searchQuery]);
+  }, [customersPage, searchQuery]);
 
   const matchingPolicies = useMemo(() => {
     if (!searchQuery) return [];
     const queryLower = searchQuery.toLowerCase();
-    return policiesData
+    return (policiesPage?.content ?? [])
       .filter(
         (policy) =>
           policy.policyNumber.toLowerCase().includes(queryLower) ||
@@ -78,7 +72,7 @@ export function CommandPalette() {
           policy.type.toLowerCase().includes(queryLower),
       )
       .slice(0, 5);
-  }, [policiesData, searchQuery]);
+  }, [policiesPage, searchQuery]);
 
   useEffect(() => {
     const handleCommandPaletteShortcut = (event: KeyboardEvent) => {

@@ -67,20 +67,22 @@ const RECENT_ACTIVITY = [
 
 export function Dashboard() {
   const { t } = useTranslation();
-  const { data: customersData = [], isLoading: isCustomersLoading } =
+  const { data: customersPage, isLoading: isCustomersLoading } =
     useCustomersQuery();
-  const { data: policiesData = [], isLoading: isPoliciesLoading } =
+  const { data: policiesPage, isLoading: isPoliciesLoading } =
     usePoliciesQuery();
 
+  const customers = customersPage?.content ?? [];
+  const policies = policiesPage?.content ?? [];
   const isDataLoading = isCustomersLoading || isPoliciesLoading;
 
-  const activePoliciesCount = policiesData.filter(
+  const activePoliciesCount = policies.filter(
     (policy) => policy.status === "ACTIVE",
   ).length;
-  const totalActivePremium = policiesData
+  const totalActivePremium = policies
     .filter((policy) => policy.status === "ACTIVE")
     .reduce((sum, policy) => sum + Number(policy.premium), 0);
-  const newLeadsCount = customersData.filter(
+  const newLeadsCount = customers.filter(
     (customer) => customer.status === "PROSPECT",
   ).length;
 
@@ -126,8 +128,8 @@ export function Dashboard() {
         {isDataLoading ? (
           <KpiGridSkeleton count={4} />
         ) : !isDataLoading &&
-          customersData.length === 0 &&
-          policiesData.length === 0 ? (
+          customers.length === 0 &&
+          policies.length === 0 ? (
           <EmptyState
             icon={LayoutDashboard}
             title={t("dashboard.noDataTitle")}
