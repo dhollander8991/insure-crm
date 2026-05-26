@@ -1,7 +1,4 @@
-const AUTH_URL = "/api/auth";
-const CUSTOMER_URL = "/api/customers";
-const POLICY_URL = "/api/policies";
-const AI_URL = "/api/ai";
+const API_BASE = "/api";
 
 export const tokenStorage = {
   get: () => localStorage.getItem("insurecrm_token"),
@@ -82,59 +79,59 @@ export interface AiMessage {
 
 export const authApi = {
   login: (email: string, password: string) =>
-    request<AuthResponse>(AUTH_URL, "/auth/login", {
+    request<AuthResponse>(API_BASE, "/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     }),
   register: (email: string, password: string, role: string = "AGENT") =>
-    request<AuthResponse>(AUTH_URL, "/auth/register", {
+    request<AuthResponse>(API_BASE, "/auth/register", {
       method: "POST",
       body: JSON.stringify({ email, password, role }),
     }),
 };
 
 export const customerApi = {
-  getAll: () => request<CustomerResponse[]>(CUSTOMER_URL, "/customers"),
+  getAll: () => request<CustomerResponse[]>(API_BASE, "/customers"),
   getById: (id: number) =>
-    request<CustomerResponse>(CUSTOMER_URL, `/customers/${id}`),
+    request<CustomerResponse>(API_BASE, `/customers/${id}`),
   create: (data: Omit<CustomerResponse, "id">) =>
-    request<CustomerResponse>(CUSTOMER_URL, "/customers", {
+    request<CustomerResponse>(API_BASE, "/customers", {
       method: "POST",
       body: JSON.stringify(data),
     }),
   update: (id: number, data: Partial<CustomerResponse>) =>
-    request<CustomerResponse>(CUSTOMER_URL, `/customers/${id}`, {
+    request<CustomerResponse>(API_BASE, `/customers/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
   delete: (id: number) =>
-    request<void>(CUSTOMER_URL, `/customers/${id}`, { method: "DELETE" }),
+    request<void>(API_BASE, `/customers/${id}`, { method: "DELETE" }),
   getByAgent: (email: string) =>
-    request<CustomerResponse[]>(CUSTOMER_URL, `/customers/agent/${email}`),
+    request<CustomerResponse[]>(API_BASE, `/customers/agent/${email}`),
 };
 
 export const policyApi = {
-  getAll: () => request<PolicyResponse[]>(POLICY_URL, "/policies"),
+  getAll: () => request<PolicyResponse[]>(API_BASE, "/policies"),
   getById: (id: number) =>
-    request<PolicyResponse>(POLICY_URL, `/policies/${id}`),
+    request<PolicyResponse>(API_BASE, `/policies/${id}`),
   create: (data: Omit<PolicyResponse, "id" | "policyNumber">) =>
-    request<PolicyResponse>(POLICY_URL, "/policies", {
+    request<PolicyResponse>(API_BASE, "/policies", {
       method: "POST",
       body: JSON.stringify(data),
     }),
   update: (id: number, data: Partial<PolicyResponse>) =>
-    request<PolicyResponse>(POLICY_URL, `/policies/${id}`, {
+    request<PolicyResponse>(API_BASE, `/policies/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
   delete: (id: number) =>
-    request<void>(POLICY_URL, `/policies/${id}`, { method: "DELETE" }),
+    request<void>(API_BASE, `/policies/${id}`, { method: "DELETE" }),
   getByCustomer: (customerId: number) =>
-    request<PolicyResponse[]>(POLICY_URL, `/policies/customer/${customerId}`),
+    request<PolicyResponse[]>(API_BASE, `/policies/customer/${customerId}`),
   getByAgent: (email: string) =>
-    request<PolicyResponse[]>(POLICY_URL, `/policies/agent/${email}`),
+    request<PolicyResponse[]>(API_BASE, `/policies/agent/${email}`),
   getByStatus: (status: string) =>
-    request<PolicyResponse[]>(POLICY_URL, `/policies/status/${status}`),
+    request<PolicyResponse[]>(API_BASE, `/policies/status/${status}`),
 };
 
 export const aiApi = {
@@ -145,8 +142,8 @@ export const aiApi = {
     const messageContent = lastUserMessage?.content ?? "";
     const history = messages.slice(0, -1);
     const response = await request<{ reply?: string; message?: string }>(
-      AI_URL,
-      "/chat",
+      API_BASE,
+      "/ai/chat",
       {
         method: "POST",
         body: JSON.stringify({ message: messageContent, agentEmail, history }),

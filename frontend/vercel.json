@@ -2,9 +2,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/api/auth/:path*", "destination": "http://35.157.14.12:8081/v1/:path*" },
-    { "source": "/api/customers/:path*", "destination": "http://35.157.14.12:8082/v1/:path*" },
-    { "source": "/api/policies/:path*", "destination": "http://35.157.14.12:8083/v1/:path*" },
+    { "source": "/api/auth/:path*", "destination": "http://35.157.14.12:8081/v1/auth/:path*" },
+    { "source": "/api/customers/:path*", "destination": "http://35.157.14.12:8082/v1/customers/:path*" },
+    { "source": "/api/policies/:path*", "destination": "http://35.157.14.12:8083/v1/policies/:path*" },
     { "source": "/api/ai/:path*", "destination": "http://35.157.14.12:8084/v1/ai/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
