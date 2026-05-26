@@ -19,7 +19,6 @@ describe('Contract Tests — Request Shapes', () => {
       cy.wait('@aiChat').then((interception) => {
         const body = interception.request.body;
         expect(body).to.have.property('message').and.be.a('string').and.have.length.above(0);
-        expect(body).to.not.have.property('messages', undefined, 'should NOT send messages array');
         expect(body).to.satisfy(
           (b: Record<string, unknown>) => !('messages' in b),
           'body must not contain "messages" key',
@@ -44,8 +43,8 @@ describe('Contract Tests — Request Shapes', () => {
 
   // ── Auth login contract ─────────────────────────────────────────────────────
   describe('Auth Login', () => {
-    it('sends { email, password } to /api/auth/auth/login', () => {
-      cy.intercept('POST', '/api/auth/auth/login').as('login');
+    it('sends { email, password } to /api/auth/login', () => {
+      cy.intercept('POST', '/api/auth/login').as('login');
 
       cy.visit('/login');
       cy.get('[data-testid="email-input"]').type(Cypress.env('agentEmail'));
@@ -66,7 +65,7 @@ describe('Contract Tests — Request Shapes', () => {
     beforeEach(() => cy.login());
 
     it('sends all required fields including agentEmail', () => {
-      cy.intercept('POST', '/api/customers/customers').as('createCustomer');
+      cy.intercept('POST', '/api/customers').as('createCustomer');
 
       cy.visit('/clients');
       cy.get('[data-testid="add-customer-button"]').click();
@@ -88,8 +87,8 @@ describe('Contract Tests — Request Shapes', () => {
       });
     });
 
-    it('includes Authorization Bearer header', () => {
-      cy.intercept('GET', '/api/customers/customers').as('getCustomers');
+    it('includes Authorization Bearer header on GET /api/customers', () => {
+      cy.intercept('GET', '/api/customers').as('getCustomers');
       cy.visit('/clients');
       cy.wait('@getCustomers').then((interception) => {
         const auth = interception.request.headers['authorization'] as string;
@@ -103,7 +102,7 @@ describe('Contract Tests — Request Shapes', () => {
     beforeEach(() => cy.login());
 
     it('sends required fields and does NOT send policyNumber', () => {
-      cy.intercept('POST', '/api/policies/policies').as('createPolicy');
+      cy.intercept('POST', '/api/policies').as('createPolicy');
 
       cy.visit('/policies');
       cy.get('[data-testid="add-policy-button"]').click();
@@ -125,5 +124,54 @@ describe('Contract Tests — Request Shapes', () => {
         expect(body.premium).to.be.a('number').and.be.gt(0);
       });
     });
+  });
+});
+
+// ─── Pagination response shape contracts ─────────────────────────────────────
+describe('Contract Tests — Pagination Response Shape', () => {
+  beforeEach(() => cy.login());
+
+  it('GET /api/customers response contains paginated content array', () => {
+    cy.intercept('GET', '/api/customers').as('getCustomers');
+    cy.visit('/clients');
+    cy.wait('@getCustomers').then((interception) => {
+      const body = interception.response?.body;
+      expect(body).to.have.property('content').and.be.an('array');
+      expect(body).to.have.property('totalElements').and.be.a('number');
+      expect(body).to.have.property('totalPages').and.be.a('number');
+      expect(body).to.have.property('size').and.be.a('number');
+      expect(body).to.have.property('number').and.be.a('number');
+    });
+  });
+
+  it('Clients page renders rows (not raw paginated object)', () => {
+    cy.visit('/clients');
+    cy.get('[data-testid="customers-table"]', { timeout: 10000 }).should('exist');
+    cy.get('[data-testid="customers-table"] tbody tr').should('have.length.gte', 1);
+    cy.contains(/\d+ of \d+ contacts/).should('exist');
+  });
+
+  it('GET /api/policies response contains paginated content array', () => {
+    cy.intercept('GET', '/api/policies').as('getPolicies');
+    cy.visit('/policies');
+    cy.wait('@getPolicies').then((interception) => {
+      const body = interception.response?.body;
+      expect(body).to.have.property('content').and.be.an('array');
+      expect(body).to.have.property('totalElements').and.be.a('number');
+      expect(body).to.have.property('totalPages').and.be.a('number');
+    });
+  });
+
+  it('Policies page renders rows (not raw paginated object)', () => {
+    cy.visit('/policies');
+    cy.get('table tbody tr', { timeout: 10000 }).should('have.length.gte', 1);
+    cy.contains(/\d+ of \d+ policies/).should('exist');
+  });
+
+  it('Dashboard computes KPIs from paginated customer + policy data', () => {
+    cy.visit('/');
+    cy.get('[data-testid="kpi-active-policies"]', { timeout: 10000 }).should('exist');
+    cy.get('[data-testid="kpi-total-premium"]').should('exist');
+    cy.get('[data-testid="kpi-total-customers"]').should('exist');
   });
 });

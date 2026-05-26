@@ -72,6 +72,17 @@ export interface PolicyResponse {
   agentEmail: string;
 }
 
+export interface PaginatedResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+}
+
 export interface AiMessage {
   role: "user" | "assistant";
   content: string;
@@ -91,7 +102,10 @@ export const authApi = {
 };
 
 export const customerApi = {
-  getAll: () => request<CustomerResponse[]>(API_BASE, "/customers"),
+  getAll: () =>
+    request<PaginatedResponse<CustomerResponse>>(API_BASE, "/customers").then(
+      (r) => r.content,
+    ),
   getById: (id: number) =>
     request<CustomerResponse>(API_BASE, `/customers/${id}`),
   create: (data: Omit<CustomerResponse, "id">) =>
@@ -111,7 +125,10 @@ export const customerApi = {
 };
 
 export const policyApi = {
-  getAll: () => request<PolicyResponse[]>(API_BASE, "/policies"),
+  getAll: () =>
+    request<PaginatedResponse<PolicyResponse>>(API_BASE, "/policies").then(
+      (r) => r.content,
+    ),
   getById: (id: number) =>
     request<PolicyResponse>(API_BASE, `/policies/${id}`),
   create: (data: Omit<PolicyResponse, "id" | "policyNumber">) =>

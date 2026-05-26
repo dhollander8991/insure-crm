@@ -65,7 +65,7 @@ describe('API — Auth Service', () => {
     cy.request({
       method: 'POST',
       url: `${AUTH()}/auth/register`,
-      body: { email: unique, password: 'cypress123' },
+      body: { email: unique, password: 'cypress123', role: 'AGENT' },
       failOnStatusCode: false,
     }).then((res) => {
       expect([200, 201]).to.include(res.status);
@@ -87,14 +87,16 @@ describe('API — Auth Service', () => {
 
 // ─── Customer Service ─────────────────────────────────────────────────────────
 describe('API — Customer Service', () => {
-  it('GET /customers → 200 + array', () => {
+  it('GET /customers → 200 + paginated response', () => {
     cy.request({
       method: 'GET',
       url: `${CUST()}/customers`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.be.an('array');
+      expect(res.body).to.have.property('content').and.be.an('array');
+      expect(res.body).to.have.property('totalElements').and.be.a('number');
+      expect(res.body).to.have.property('totalPages').and.be.a('number');
     });
   });
 
@@ -104,18 +106,17 @@ describe('API — Customer Service', () => {
       url: `${CUST()}/customers`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((res) => {
-      expect(res.body.length).to.be.gte(1);
+      expect(res.body.content.length).to.be.gte(1);
     });
   });
 
   it('GET /customers/:id returns customer object', () => {
-    // Get the first customer's id
     cy.request({
       method: 'GET',
       url: `${CUST()}/customers`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((res) => {
-      const firstId = res.body[0].id;
+      const firstId = res.body.content[0].id;
       cy.request({
         method: 'GET',
         url: `${CUST()}/customers/${firstId}`,
@@ -142,7 +143,9 @@ describe('API — Customer Service', () => {
 
   it('POST /customers valid → 201 + customer with id', () => {
     cy.fixture('test-customer').then((customer) => {
-      const unique = { ...customer, email: `cy.${Date.now()}@test.io`, israeliId: `${Math.floor(100000000 + Math.random() * 900000000)}` };
+      const ts = Date.now();
+      const phone = `05${String(ts).slice(-8)}`;
+      const unique = { ...customer, email: `cy.${ts}@test.io`, israeliId: `${Math.floor(100000000 + Math.random() * 900000000)}`, phone };
       cy.request({
         method: 'POST',
         url: `${CUST()}/customers`,
@@ -190,14 +193,18 @@ describe('API — Customer Service', () => {
       cy.log('Skipping PUT — no customer was created in this run');
       return;
     }
-    cy.request({
-      method: 'PUT',
-      url: `${CUST()}/customers/${createdCustomerId}`,
-      headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
-      body: { firstName: 'Updated', lastName: 'E2E' },
-      failOnStatusCode: false,
-    }).then((res) => {
-      expect([200, 204]).to.include(res.status);
+    cy.fixture('test-customer').then((customer) => {
+      const ts = Date.now();
+      const phone = `05${String(ts).slice(-8)}`;
+      cy.request({
+        method: 'PUT',
+        url: `${CUST()}/customers/${createdCustomerId}`,
+        headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json' },
+        body: { ...customer, firstName: 'Updated', email: `upd.${ts}@test.io`, phone, israeliId: `${Math.floor(100000000 + Math.random() * 900000000)}` },
+        failOnStatusCode: false,
+      }).then((res) => {
+        expect([200, 204]).to.include(res.status);
+      });
     });
   });
 
@@ -219,14 +226,16 @@ describe('API — Customer Service', () => {
 
 // ─── Policy Service ───────────────────────────────────────────────────────────
 describe('API — Policy Service', () => {
-  it('GET /policies → 200 + array', () => {
+  it('GET /policies → 200 + paginated response', () => {
     cy.request({
       method: 'GET',
       url: `${POL()}/policies`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.be.an('array');
+      expect(res.body).to.have.property('content').and.be.an('array');
+      expect(res.body).to.have.property('totalElements').and.be.a('number');
+      expect(res.body).to.have.property('totalPages').and.be.a('number');
     });
   });
 
@@ -236,7 +245,7 @@ describe('API — Policy Service', () => {
       url: `${POL()}/policies`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((res) => {
-      expect(res.body.length).to.be.gte(1);
+      expect(res.body.content.length).to.be.gte(1);
     });
   });
 
@@ -246,7 +255,7 @@ describe('API — Policy Service', () => {
       url: `${POL()}/policies`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((res) => {
-      const firstId = res.body[0].id;
+      const firstId = res.body.content[0].id;
       cy.request({
         method: 'GET',
         url: `${POL()}/policies/${firstId}`,
@@ -265,7 +274,7 @@ describe('API — Policy Service', () => {
       url: `${CUST()}/customers`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((custRes) => {
-      const firstCustId = custRes.body[0].id;
+      const firstCustId = custRes.body.content[0].id;
       cy.request({
         method: 'GET',
         url: `${POL()}/policies/customer/${firstCustId}`,
@@ -286,7 +295,7 @@ describe('API — Policy Service', () => {
       url: `${CUST()}/customers`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((custRes) => {
-      const cust = custRes.body[0];
+      const cust = custRes.body.content[0];
       cy.request({
         method: 'POST',
         url: `${POL()}/policies`,
@@ -334,7 +343,7 @@ describe('API — Policy Service', () => {
       url: `${CUST()}/customers`,
       headers: { Authorization: `Bearer ${authToken}` },
     }).then((custRes) => {
-      const cust = custRes.body[0];
+      const cust = custRes.body.content[0];
       cy.request({
         method: 'POST',
         url: `${POL()}/policies`,
@@ -378,8 +387,8 @@ describe('API — AI Service', () => {
       timeout: 30000,
     }).then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.satisfy((b: Record<string, unknown>) => 'reply' in b || 'response' in b);
-      const reply = res.body.reply ?? res.body.response;
+      expect(res.body).to.satisfy((b: Record<string, unknown>) => 'reply' in b || 'response' in b || 'message' in b);
+      const reply = res.body.reply ?? res.body.response ?? res.body.message;
       expect(reply).to.be.a('string').and.have.length.above(5);
     });
   });

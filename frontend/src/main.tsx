@@ -7,6 +7,7 @@ import { router } from "./router";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/Sonner";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import "@/lib/i18n";
 import "./styles.css";
 
@@ -18,11 +19,13 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <RouterProvider router={router} />
-        <Toaster richColors closeButton position="top-right" />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+          <Toaster richColors closeButton position="top-right" />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 );
