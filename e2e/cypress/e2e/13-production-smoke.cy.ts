@@ -12,7 +12,7 @@ let prodToken: string;
 before(() => {
   cy.request({
     method: 'POST',
-    url: `${PROD_URL}/api/auth/auth/login`,
+    url: `${PROD_URL}/api/auth/login`,
     body: { email: AGENT_EMAIL, password: AGENT_PASSWORD },
     failOnStatusCode: false,
   }).then((res) => {
@@ -32,7 +32,7 @@ describe('Production Smoke Tests — Vercel Proxy', () => {
   it('auth proxy is reachable (not 502/503/404)', () => {
     cy.request({
       method: 'POST',
-      url: `${PROD_URL}/api/auth/auth/login`,
+      url: `${PROD_URL}/api/auth/login`,
       body: { email: AGENT_EMAIL, password: AGENT_PASSWORD },
       failOnStatusCode: false,
     }).then((res) => {
@@ -43,7 +43,7 @@ describe('Production Smoke Tests — Vercel Proxy', () => {
   it('auth proxy correct path: login returns 200 + token', () => {
     cy.request({
       method: 'POST',
-      url: `${PROD_URL}/api/auth/auth/login`,
+      url: `${PROD_URL}/api/auth/login`,
       body: { email: AGENT_EMAIL, password: AGENT_PASSWORD },
     }).then((res) => {
       expect(res.status).to.eq(200);
@@ -52,31 +52,31 @@ describe('Production Smoke Tests — Vercel Proxy', () => {
   });
 
   // ── Customer proxy ──────────────────────────────────────────────────────────
-  it('customer proxy correct path: GET /customers returns array with firstName', () => {
+  it('customer proxy correct path: GET /api/customers returns paginated response', () => {
     cy.request({
       method: 'GET',
-      url: `${PROD_URL}/api/customers/customers`,
+      url: `${PROD_URL}/api/customers`,
       headers: { Authorization: `Bearer ${prodToken}` },
     }).then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.be.an('array');
-      if (res.body.length > 0) {
-        expect(res.body[0]).to.have.property('firstName');
+      expect(res.body).to.have.property('content').and.be.an('array');
+      if (res.body.content.length > 0) {
+        expect(res.body.content[0]).to.have.property('firstName');
       }
     });
   });
 
   // ── Policy proxy ────────────────────────────────────────────────────────────
-  it('policy proxy correct path: GET /policies returns array with policyNumber', () => {
+  it('policy proxy correct path: GET /api/policies returns paginated response', () => {
     cy.request({
       method: 'GET',
-      url: `${PROD_URL}/api/policies/policies`,
+      url: `${PROD_URL}/api/policies`,
       headers: { Authorization: `Bearer ${prodToken}` },
     }).then((res) => {
       expect(res.status).to.eq(200);
-      expect(res.body).to.be.an('array');
-      if (res.body.length > 0) {
-        expect(res.body[0]).to.have.property('policyNumber').and.match(/^POL-/);
+      expect(res.body).to.have.property('content').and.be.an('array');
+      if (res.body.content.length > 0) {
+        expect(res.body.content[0]).to.have.property('policyNumber').and.match(/^POL-/);
       }
     });
   });
@@ -114,12 +114,22 @@ describe('Production Smoke Tests — Vercel Proxy', () => {
   });
 
   // ── Double-path bug regression ──────────────────────────────────────────────
-  it('double path /api/ai/ai/chat returns 404 (not accidentally routed)', () => {
+  it('double path /api/auth/auth/login returns non-200 (old broken route no longer works)', () => {
     cy.request({
       method: 'POST',
-      url: `${PROD_URL}/api/ai/ai/chat`,
-      headers: { Authorization: `Bearer ${prodToken}`, 'Content-Type': 'application/json' },
-      body: { message: 'test', agentEmail: AGENT_EMAIL },
+      url: `${PROD_URL}/api/auth/auth/login`,
+      body: { email: AGENT_EMAIL, password: AGENT_PASSWORD },
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.status).to.not.eq(200);
+    });
+  });
+
+  it('double path /api/customers/customers returns non-200 (old broken route no longer works)', () => {
+    cy.request({
+      method: 'GET',
+      url: `${PROD_URL}/api/customers/customers`,
+      headers: { Authorization: `Bearer ${prodToken}` },
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.not.eq(200);
