@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/ai/**").permitAll()
+                        auth.requestMatchers("/v1/ai/**", "/actuator/**").permitAll()
                                 .anyRequest().authenticated());
 
         return http.build();

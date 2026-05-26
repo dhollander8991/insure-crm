@@ -1,5 +1,7 @@
 package com.insurecrm.customer_service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -36,11 +38,8 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
-    public List<CustomerResponse> getAll() {
-        return customerRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .toList();
+    public Page<CustomerResponse> getAll(Pageable pageable) {
+        return customerRepository.findAll(pageable).map(this::toResponse);
     }
 
     @Transactional(readOnly = true)

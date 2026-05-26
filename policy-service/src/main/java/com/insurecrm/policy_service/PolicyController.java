@@ -1,6 +1,9 @@
 package com.insurecrm.policy_service;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/policies")
+@RequestMapping("/v1/policies")
 public class PolicyController {
 
     private final PolicyService policyService;
@@ -23,8 +26,8 @@ public class PolicyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PolicyResponse>> getAll() {
-        return ResponseEntity.ok(policyService.getAll());
+    public ResponseEntity<Page<PolicyResponse>> getAll(@PageableDefault(size = 20) Pageable pageable) {
+        return ResponseEntity.ok(policyService.getAll(pageable));
     }
 
     @GetMapping("/{id}")
