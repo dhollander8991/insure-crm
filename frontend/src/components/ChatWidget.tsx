@@ -16,12 +16,12 @@ export function ChatWidget() {
   const { t } = useTranslation();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatInputText, setChatInputText] = useState("");
-  const [chatMessages, setChatMessages] = useState<AiMessage[]>(() => [
-    {
-      role: "assistant",
-      content: t("ai.greeting"),
-    },
-  ]);
+  const [chatMessages, setChatMessages] = useState<AiMessage[]>([]);
+  const greeting = t("ai.greeting");
+
+  const allMessages: AiMessage[] = chatMessages.length === 0 || chatMessages[0]?.role !== "assistant"
+    ? [{ role: "assistant", content: greeting }, ...chatMessages]
+    : chatMessages;
   const messagesScrollRef = useRef<HTMLDivElement>(null);
 
   const sendChatMessageMutation = useSendChatMessageMutation();
@@ -31,14 +31,14 @@ export function ChatWidget() {
       top: messagesScrollRef.current.scrollHeight,
       behavior: "smooth",
     });
-  }, [chatMessages, isChatOpen]);
+  }, [allMessages, isChatOpen]);
 
   const sendChatMessage = async () => {
     const trimmedInput = chatInputText.trim();
     if (!trimmedInput || sendChatMessageMutation.isPending) return;
 
     const userMessage: AiMessage = { role: "user", content: trimmedInput };
-    const messagesWithUserInput = [...chatMessages, userMessage];
+    const messagesWithUserInput = [...allMessages, userMessage];
 
     setChatMessages(messagesWithUserInput);
     setChatInputText("");
@@ -47,8 +47,8 @@ export function ChatWidget() {
       const chatResponse = await sendChatMessageMutation.mutateAsync({
         messages: messagesWithUserInput,
       });
-      setChatMessages((previousMessages) => [
-        ...previousMessages,
+      setChatMessages((prev) => [
+        ...prev,
         { role: "assistant", content: chatResponse.reply },
       ]);
     } catch (error) {
@@ -104,7 +104,7 @@ export function ChatWidget() {
           data-testid="ai-chat-messages"
           className={styles.messagesArea}
         >
-          {chatMessages.map((message, index) => (
+          {allMessages.map((message, index) => (
             <div
               key={index}
               data-testid={

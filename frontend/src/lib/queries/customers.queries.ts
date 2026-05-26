@@ -4,17 +4,19 @@ import { customerApi, type CustomerResponse } from "@/lib/api";
 
 export const CUSTOMER_QUERY_KEYS = {
   all: ["customers"] as const,
+  paginated: (page: number, size: number) => ["customers", "paginated", page, size] as const,
   byId: (customerId: number) => ["customers", customerId] as const,
   byAgent: (agentEmail: string) => ["customers", "agent", agentEmail] as const,
 };
 
-export function useCustomersQuery(options?: {
-  enabled?: boolean;
-  staleTime?: number;
-}) {
+export function useCustomersQuery(
+  page = 0,
+  size = 20,
+  options?: { enabled?: boolean; staleTime?: number },
+) {
   return useQuery({
-    queryKey: CUSTOMER_QUERY_KEYS.all,
-    queryFn: customerApi.getAll,
+    queryKey: CUSTOMER_QUERY_KEYS.paginated(page, size),
+    queryFn: () => customerApi.getAll(page, size),
     ...options,
   });
 }

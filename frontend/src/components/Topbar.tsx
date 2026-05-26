@@ -58,7 +58,7 @@ export function Topbar() {
       <div className={styles.actions}>
         <LanguageToggle />
         <ThemeToggle />
-        <Button variant="ghost" size="icon" className={styles.bellButton} aria-label="Notifications">
+        <Button variant="ghost" size="icon" className={styles.bellButton} aria-label={t("topbar.notifications")}>
           <Bell className={styles.bellIcon} />
           <span className={styles.bellDot} />
         </Button>

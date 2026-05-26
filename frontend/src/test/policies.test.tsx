@@ -44,20 +44,33 @@ const mockPolicies = [
   },
 ];
 
+function paged(policies: typeof mockPolicies) {
+  return {
+    content: policies,
+    totalElements: policies.length,
+    totalPages: 1,
+    size: 20,
+    number: 0,
+    first: true,
+    last: true,
+    numberOfElements: policies.length,
+  };
+}
+
 describe("PoliciesPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("shows loading skeleton while fetching", () => {
-    vi.mocked(policyApi.getAll).mockReturnValue(new Promise(() => {}));
+    vi.mocked(policyApi.getAll).mockReturnValue(new Promise(() => {}) as never);
     renderWithProviders(<PoliciesPage />);
     const skeletons = document.querySelectorAll(".animate-pulse");
     expect(skeletons.length).toBeGreaterThan(0);
   });
 
   it("renders policy cards when data loads", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(
@@ -70,7 +83,7 @@ describe("PoliciesPage", () => {
   });
 
   it("renders policy numbers", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(
@@ -83,7 +96,7 @@ describe("PoliciesPage", () => {
   });
 
   it("renders policy status badges", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(
@@ -96,7 +109,7 @@ describe("PoliciesPage", () => {
   });
 
   it("shows page heading", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(() => {
@@ -105,7 +118,7 @@ describe("PoliciesPage", () => {
   });
 
   it("shows empty state when no policies exist", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue([]);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged([]));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(
@@ -119,7 +132,7 @@ describe("PoliciesPage", () => {
 
   it("shows error state when API fails", async () => {
     vi.mocked(policyApi.getAll).mockRejectedValue(
-      new Error("Service unavailable"),
+      new Error("Service unavailable") as never,
     );
     renderWithProviders(<PoliciesPage />);
 
@@ -134,7 +147,7 @@ describe("PoliciesPage", () => {
   });
 
   it("shows policy type values after data loads", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(
@@ -150,7 +163,7 @@ describe("PoliciesPage", () => {
   });
 
   it("shows New Policy button", async () => {
-    vi.mocked(policyApi.getAll).mockResolvedValue(mockPolicies);
+    vi.mocked(policyApi.getAll).mockResolvedValue(paged(mockPolicies));
     renderWithProviders(<PoliciesPage />);
 
     await waitFor(() => {

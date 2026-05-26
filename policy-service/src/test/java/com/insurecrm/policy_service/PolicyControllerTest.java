@@ -16,6 +16,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.security.test.context.support.WithMockUser;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -24,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(PolicyController.class)
 @Import(SecurityConfig.class)
+@WithMockUser
 class PolicyControllerTest {
 
     @Autowired private MockMvc mockMvc;

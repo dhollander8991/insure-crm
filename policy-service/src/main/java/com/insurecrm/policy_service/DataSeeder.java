@@ -1,5 +1,6 @@
 package com.insurecrm.policy_service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Component
 public class DataSeeder implements CommandLineRunner {
 
@@ -54,7 +56,7 @@ public class DataSeeder implements CommandLineRunner {
         );
 
         policyRepository.saveAll(policies);
-        System.out.println("Seeded " + policies.size() + " policies");
+        log.info("Seeded {} policies", policies.size());
     }
 
     private Policy policy(String policyNumber, Long customerId, String customerName,

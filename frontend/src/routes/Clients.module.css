@@ -192,3 +192,11 @@
 .cellPhoneIcon {
   @apply h-3 w-3 shrink-0;
 }
+
+.pagination {
+  @apply flex items-center justify-center gap-3 mt-4 pt-4 border-t;
+}
+
+.pageInfo {
+  @apply text-sm text-muted-foreground;
+}

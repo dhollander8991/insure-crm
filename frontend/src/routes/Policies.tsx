@@ -222,6 +222,8 @@ export function PoliciesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeView, setActiveView] = useState<"table" | "cards">("table");
   const [isNewPolicyModalOpen, setIsNewPolicyModalOpen] = useState(false);
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 20;
 
   useEffect(() => {
     if (searchParams.get("new") === "true") {
@@ -244,12 +246,15 @@ export function PoliciesPage() {
   const [endDateFrom, setEndDateFrom] = useState("");
   const [endDateTo, setEndDateTo] = useState("");
 
-  const { data: rawPolicies = [], isLoading, isError } = usePoliciesQuery();
+  const { data: policiesPage, isLoading, isError } = usePoliciesQuery(page, PAGE_SIZE);
 
   const policies = useMemo(
-    () => rawPolicies.map(mapPolicyToDisplay),
-    [rawPolicies],
+    () => (policiesPage?.content ?? []).map(mapPolicyToDisplay),
+    [policiesPage],
   );
+
+  const totalElements = policiesPage?.totalElements ?? 0;
+  const totalPages = policiesPage?.totalPages ?? 1;
 
   const handleColumnSort = (column: SortColumn) => {
     if (sortCol === column) {
@@ -411,7 +416,7 @@ export function PoliciesPage() {
             <div>
               <h1 className={styles.pageTitle}>{t("policies.title")}</h1>
               <p className={styles.pageSubtitle}>
-                {filteredPolicies.length} {t("common.of")} {policies.length} {t("navigation.policies").toLowerCase()}
+                {filteredPolicies.length} {t("common.of")} {totalElements} {t("navigation.policies").toLowerCase()}
               </p>
             </div>
             <div className={styles.headerActions}>
@@ -796,6 +801,29 @@ export function PoliciesPage() {
                         </AnimatePresence>
                       </TableBody>
                     </Table>
+                  </div>
+                )}
+                {totalPages > 1 && (
+                  <div className={styles.pagination}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.max(0, p - 1))}
+                      disabled={page === 0}
+                    >
+                      {t("common.back")}
+                    </Button>
+                    <span className={styles.pageInfo}>
+                      {page + 1} / {totalPages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                      disabled={page >= totalPages - 1}
+                    >
+                      {t("common.next")}
+                    </Button>
                   </div>
                 )}
               </CardContent>

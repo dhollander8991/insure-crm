@@ -55,20 +55,33 @@ const mockCustomers = [
   },
 ];
 
+function paged(customers: typeof mockCustomers) {
+  return {
+    content: customers,
+    totalElements: customers.length,
+    totalPages: 1,
+    size: 20,
+    number: 0,
+    first: true,
+    last: true,
+    numberOfElements: customers.length,
+  };
+}
+
 describe("ClientsPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it("shows loading state while fetching", () => {
-    vi.mocked(customerApi.getAll).mockReturnValue(new Promise(() => {}));
+    vi.mocked(customerApi.getAll).mockReturnValue(new Promise(() => {}) as never);
     renderWithProviders(<ClientsPage />);
     const skeletons = document.querySelectorAll(".animate-pulse");
     expect(skeletons.length).toBeGreaterThan(0);
   });
 
   it("renders client names when data loads", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -79,7 +92,7 @@ describe("ClientsPage", () => {
   });
 
   it("renders table column headers", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -93,7 +106,7 @@ describe("ClientsPage", () => {
 
   it("search input by name filters clients", async () => {
     const user = userEvent.setup();
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -111,7 +124,7 @@ describe("ClientsPage", () => {
   });
 
   it("page heading shows Clients", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -122,7 +135,7 @@ describe("ClientsPage", () => {
   });
 
   it("shows count of contacts", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -131,7 +144,7 @@ describe("ClientsPage", () => {
   });
 
   it("shows empty state when no clients exist", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue([]);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged([]));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -140,7 +153,7 @@ describe("ClientsPage", () => {
   });
 
   it("shows error state when API fails", async () => {
-    vi.mocked(customerApi.getAll).mockRejectedValue(new Error("Network error"));
+    vi.mocked(customerApi.getAll).mockRejectedValue(new Error("Network error") as never);
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -149,7 +162,7 @@ describe("ClientsPage", () => {
   });
 
   it("shows Add Client button", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {
@@ -162,7 +175,7 @@ describe("ClientsPage", () => {
   });
 
   it("shows status badges for clients", async () => {
-    vi.mocked(customerApi.getAll).mockResolvedValue(mockCustomers);
+    vi.mocked(customerApi.getAll).mockResolvedValue(paged(mockCustomers));
     renderWithProviders(<ClientsPage />);
 
     await waitFor(() => {

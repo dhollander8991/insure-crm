@@ -47,11 +47,11 @@ export interface AuthResponse { token: string; email: string; role: string; }
 
 export const authApi = {
   login: (data: LoginRequest) =>
-    request<AuthResponse>(`${AUTH_URL}/auth/login`, {
+    request<AuthResponse>(`${AUTH_URL}/login`, {
       method: 'POST', body: JSON.stringify(data),
     }),
   register: (data: RegisterRequest) =>
-    request<AuthResponse>(`${AUTH_URL}/auth/register`, {
+    request<AuthResponse>(`${AUTH_URL}/register`, {
       method: 'POST', body: JSON.stringify(data),
     }),
 };
@@ -70,6 +70,17 @@ export interface CustomerResponse {
   agentEmail: string;
 }
 
+export interface PaginatedResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+}
+
 export interface CreateCustomerRequest {
   firstName: string;
   lastName: string;
@@ -82,14 +93,16 @@ export interface CreateCustomerRequest {
 }
 
 export const customerApi = {
-  getAll: () => request<CustomerResponse[]>(`${CUSTOMER_URL}/customers`),
-  getById: (id: number) => request<CustomerResponse>(`${CUSTOMER_URL}/customers/${id}`),
+  getAll: (page = 0, size = 20) =>
+    request<PaginatedResponse<CustomerResponse>>(`${CUSTOMER_URL}?page=${page}&size=${size}`),
+  getById: (id: number) =>
+    request<CustomerResponse>(`${CUSTOMER_URL}/${id}`),
   create: (data: CreateCustomerRequest) =>
-    request<CustomerResponse>(`${CUSTOMER_URL}/customers`, {
+    request<CustomerResponse>(CUSTOMER_URL, {
       method: 'POST', body: JSON.stringify(data),
     }),
   update: (id: number, data: Partial<CreateCustomerRequest>) =>
-    request<CustomerResponse>(`${CUSTOMER_URL}/customers/${id}`, {
+    request<CustomerResponse>(`${CUSTOMER_URL}/${id}`, {
       method: 'PUT', body: JSON.stringify(data),
     }),
 };
@@ -121,12 +134,14 @@ export interface CreatePolicyRequest {
 }
 
 export const policyApi = {
-  getAll: () => request<PolicyResponse[]>(`${POLICY_URL}/policies`),
-  getById: (id: number) => request<PolicyResponse>(`${POLICY_URL}/policies/${id}`),
+  getAll: (page = 0, size = 20) =>
+    request<PaginatedResponse<PolicyResponse>>(`${POLICY_URL}?page=${page}&size=${size}`),
+  getById: (id: number) =>
+    request<PolicyResponse>(`${POLICY_URL}/${id}`),
   getByCustomer: (customerId: number) =>
-    request<PolicyResponse[]>(`${POLICY_URL}/policies/customer/${customerId}`),
+    request<PolicyResponse[]>(`${POLICY_URL}/customer/${customerId}`),
   create: (data: CreatePolicyRequest) =>
-    request<PolicyResponse>(`${POLICY_URL}/policies`, {
+    request<PolicyResponse>(POLICY_URL, {
       method: 'POST', body: JSON.stringify(data),
     }),
 };

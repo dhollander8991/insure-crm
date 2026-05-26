@@ -1,11 +1,13 @@
 package com.insurecrm.customer_service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Component
 public class DataSeeder implements CommandLineRunner {
 
@@ -38,7 +40,7 @@ public class DataSeeder implements CommandLineRunner {
         );
 
         customerRepository.saveAll(customers);
-        System.out.println("Seeded " + customers.size() + " customers");
+        log.info("Seeded {} customers", customers.size());
     }
 
     private Customer customer(String firstName, String lastName, String email,

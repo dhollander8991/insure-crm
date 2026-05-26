@@ -66,12 +66,12 @@ public class CustomerService {
 
     @Transactional
     public void delete(Long id) {
-        if (!customerRepository.existsById(id)) {
-            throw new RuntimeException("Customer not found");
-        }
-        customerRepository.deleteById(id);
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+        customerRepository.delete(customer);
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> getByAgent(String agentEmail) {
         return customerRepository.findByAgentEmail(agentEmail)
                 .stream()

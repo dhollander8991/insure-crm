@@ -81,7 +81,8 @@
     "conversionFunnel": "משפך המרה",
     "recentActivity": "פעילות אחרונה",
     "latestEvents": "אירועים אחרונים בסביבת העבודה שלך",
-    "globalReach": "כיסוי גלובלי"
+    "globalReach": "כיסוי גלובלי",
+    "vsLastMonth": "לעומת חודש שעבר"
   },
   "customers": {
     "title": "לקוחות",
@@ -188,7 +189,7 @@
     "lastName": "שם משפחה",
     "israeliId": "תעודת זהות",
     "nineDigits": "9 ספרות",
-    "phoneFormat": "טלפון (05X-XXXXXXX)",
+    "phoneFormat": "טלפון (05XXXXXXXX)",
     "agentEmail": "אימייל סוכן",
     "status": "סטטוס",
     "statusProspect": "פוטנציאלי",
@@ -226,7 +227,8 @@
     "searchPlaceholder": "חפש לקוחות, פוליסות, תביעות…",
     "profile": "פרופיל",
     "signOut": "התנתק",
-    "language": "שפה"
+    "language": "שפה",
+    "notifications": "התראות"
   },
   "commandPalette": {
     "search": "חיפוש…",

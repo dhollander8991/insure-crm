@@ -31,7 +31,7 @@ const newClientSchema = z.object({
   firstName: z.string().min(1, "Required"),
   lastName: z.string().min(1, "Required"),
   email: z.string().email("Valid email required"),
-  phone: z.string().min(9, "Format: 05X-XXXXXXX"),
+  phone: z.string().regex(/^05\d{8}$/, "Format: 05XXXXXXXX (10 digits, no hyphen)"),
   israeliId: z.string().regex(/^\d{9}$/, "Must be exactly 9 digits"),
   dateOfBirth: z.string().min(1, "Required"),
   status: z.enum(["ACTIVE", "INACTIVE", "PROSPECT"]),
@@ -130,7 +130,7 @@ export function NewClientDialog({ open, onOpenChange }: NewClientDialogProps) {
                 id="phone"
                 data-testid="phone-input"
                 {...register("phone")}
-                placeholder="050-1234567"
+                placeholder="0501234567"
               />
               {errors.phone && (
                 <p className={styles.ncFieldError}>{errors.phone.message}</p>

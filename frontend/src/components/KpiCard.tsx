@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { ArrowDownRight, ArrowUpRight, type LucideIcon } from "lucide-react";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 import styles from "./widgets.module.css";
 
@@ -64,6 +65,7 @@ export function KpiCard({
   icon: Icon,
   index = 0,
 }: KpiCardProps) {
+  const { t } = useTranslation();
   const up = delta >= 0;
   const ref = useRef<HTMLDivElement>(null);
 
@@ -127,7 +129,7 @@ export function KpiCard({
                   <ArrowDownRight className={styles.deltaIcon} />
                 )}
                 {up ? "+" : ""}
-                {delta}% vs last month
+                {delta}% {t("dashboard.vsLastMonth")}
               </div>
             </div>
             <div className={styles.kpiIconWrap}>

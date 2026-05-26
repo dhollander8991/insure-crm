@@ -102,9 +102,10 @@ export const authApi = {
 };
 
 export const customerApi = {
-  getAll: () =>
-    request<PaginatedResponse<CustomerResponse>>(API_BASE, "/customers").then(
-      (r) => r.content,
+  getAll: (page = 0, size = 20) =>
+    request<PaginatedResponse<CustomerResponse>>(
+      API_BASE,
+      `/customers?page=${page}&size=${size}`,
     ),
   getById: (id: number) =>
     request<CustomerResponse>(API_BASE, `/customers/${id}`),
@@ -125,9 +126,10 @@ export const customerApi = {
 };
 
 export const policyApi = {
-  getAll: () =>
-    request<PaginatedResponse<PolicyResponse>>(API_BASE, "/policies").then(
-      (r) => r.content,
+  getAll: (page = 0, size = 20) =>
+    request<PaginatedResponse<PolicyResponse>>(
+      API_BASE,
+      `/policies?page=${page}&size=${size}`,
     ),
   getById: (id: number) =>
     request<PolicyResponse>(API_BASE, `/policies/${id}`),

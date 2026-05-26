@@ -4,6 +4,7 @@ import { policyApi, type PolicyResponse } from "@/lib/api";
 
 export const POLICY_QUERY_KEYS = {
   all: ["policies"] as const,
+  paginated: (page: number, size: number) => ["policies", "paginated", page, size] as const,
   byId: (policyId: number) => ["policies", policyId] as const,
   byCustomer: (customerId: number) =>
     ["policies", "customer", customerId] as const,
@@ -11,13 +12,14 @@ export const POLICY_QUERY_KEYS = {
   byStatus: (status: string) => ["policies", "status", status] as const,
 };
 
-export function usePoliciesQuery(options?: {
-  enabled?: boolean;
-  staleTime?: number;
-}) {
+export function usePoliciesQuery(
+  page = 0,
+  size = 20,
+  options?: { enabled?: boolean; staleTime?: number },
+) {
   return useQuery({
-    queryKey: POLICY_QUERY_KEYS.all,
-    queryFn: policyApi.getAll,
+    queryKey: POLICY_QUERY_KEYS.paginated(page, size),
+    queryFn: () => policyApi.getAll(page, size),
     ...options,
   });
 }

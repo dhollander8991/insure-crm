@@ -81,7 +81,8 @@
     "conversionFunnel": "Conversion funnel",
     "recentActivity": "Recent Activity",
     "latestEvents": "Latest events across your workspace",
-    "globalReach": "Global Reach"
+    "globalReach": "Global Reach",
+    "vsLastMonth": "vs last month"
   },
   "customers": {
     "title": "Clients",
@@ -188,7 +189,7 @@
     "lastName": "Last Name",
     "israeliId": "Israeli ID",
     "nineDigits": "9 digits",
-    "phoneFormat": "Phone (05X-XXXXXXX)",
+    "phoneFormat": "Phone (05XXXXXXXX)",
     "agentEmail": "Agent Email",
     "status": "Status",
     "statusProspect": "Prospect",
@@ -226,7 +227,8 @@
     "searchPlaceholder": "Search clients, policies, claims…",
     "profile": "Profile",
     "signOut": "Sign out",
-    "language": "Language"
+    "language": "Language",
+    "notifications": "Notifications"
   },
   "commandPalette": {
     "search": "Search…",

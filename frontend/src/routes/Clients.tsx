@@ -163,6 +163,8 @@ export function ClientsPage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isNewClientModalOpen, setIsNewClientModalOpen] = useState(false);
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 20;
 
   useEffect(() => {
     if (searchParams.get("new") === "true") {
@@ -180,12 +182,15 @@ export function ClientsPage() {
     new Set(),
   );
 
-  const { data: customersData = [], isLoading, isError } = useCustomersQuery();
+  const { data: customersPage, isLoading, isError } = useCustomersQuery(page, PAGE_SIZE);
 
   const clients = useMemo(
-    () => customersData.map(mapCustomerToClient),
-    [customersData],
+    () => (customersPage?.content ?? []).map(mapCustomerToClient),
+    [customersPage],
   );
+
+  const totalElements = customersPage?.totalElements ?? 0;
+  const totalPages = customersPage?.totalPages ?? 1;
 
   const handleColumnSort = (column: SortColumn) => {
     if (sortCol === column) {
@@ -286,7 +291,7 @@ export function ClientsPage() {
             <div>
               <h1 className={styles.pageTitle}>{t("customers.title")}</h1>
               <p className={styles.pageSubtitle}>
-                {filteredClients.length} {t("common.of")} {clients.length} {t("common.contacts")}
+                {filteredClients.length} {t("common.of")} {totalElements} {t("common.contacts")}
               </p>
             </div>
             <Button
@@ -543,6 +548,29 @@ export function ClientsPage() {
                         </AnimatePresence>
                       </TableBody>
                     </Table>
+                  </div>
+                )}
+                {totalPages > 1 && (
+                  <div className={styles.pagination}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.max(0, p - 1))}
+                      disabled={page === 0}
+                    >
+                      {t("common.back")}
+                    </Button>
+                    <span className={styles.pageInfo}>
+                      {page + 1} / {totalPages}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                      disabled={page >= totalPages - 1}
+                    >
+                      {t("common.next")}
+                    </Button>
                   </div>
                 )}
               </CardContent>

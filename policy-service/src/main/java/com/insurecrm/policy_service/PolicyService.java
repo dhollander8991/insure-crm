@@ -20,6 +20,7 @@ public class PolicyService {
         this.customerServiceClient = customerServiceClient;
     }
 
+    @Transactional
     public PolicyResponse create(PolicyRequest request) {
         // Validate against customer-service BEFORE opening a transaction so
         // no DB connection is held during the outbound HTTP call.
@@ -27,7 +28,6 @@ public class PolicyService {
             throw new RuntimeException("Customer not found in customer-service");
         }
 
-        // HTTP call is done; open a short-lived transaction only for the DB work.
         Policy policy = new Policy();
         policy.setPolicyNumber(generatePolicyNumber());
         policy.setCustomerId(request.customerId());
@@ -71,12 +71,12 @@ public class PolicyService {
 
     @Transactional
     public void delete(Long id) {
-        if (!policyRepository.existsById(id)) {
-            throw new RuntimeException("Policy not found");
-        }
-        policyRepository.deleteById(id);
+        Policy policy = policyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Policy not found"));
+        policyRepository.delete(policy);
     }
 
+    @Transactional(readOnly = true)
     public List<PolicyResponse> getByCustomer(Long customerId) {
         return policyRepository.findByCustomerId(customerId)
                 .stream()
@@ -84,6 +84,7 @@ public class PolicyService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<PolicyResponse> getByAgent(String agentEmail) {
         return policyRepository.findByAgentEmail(agentEmail)
                 .stream()
@@ -91,6 +92,7 @@ public class PolicyService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<PolicyResponse> getByStatus(Policy.PolicyStatus status) {
         return policyRepository.findByStatus(status)
                 .stream()
@@ -99,10 +101,10 @@ public class PolicyService {
     }
 
     private String generatePolicyNumber() {
-        String number = "POL-" + UUID.randomUUID().toString().substring(0, 5).toUpperCase();
-        while (policyRepository.findByPolicyNumber(number).isPresent()) {
-            number = "POL-" + UUID.randomUUID().toString().substring(0, 5).toUpperCase();
-        }
+        String number;
+        do {
+            number = "POL-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        } while (policyRepository.findByPolicyNumber(number).isPresent());
         return number;
     }
 
