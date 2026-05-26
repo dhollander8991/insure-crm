@@ -155,7 +155,7 @@ describe("PoliciesPage", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByRole("button", { name: /New Policy/i }),
+        screen.getByRole("button", { name: /Add Policy/i }),
       ).toBeInTheDocument();
     });
   });

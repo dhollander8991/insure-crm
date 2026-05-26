@@ -20,7 +20,7 @@ vi.mock("../lib/api", () => ({
   },
 }));
 
-vi.mock("../components/theme-provider", () => ({
+vi.mock("@/components/ThemeProvider", () => ({
   useTheme: () => ({ theme: "light", toggle: vi.fn() }),
 }));
 
@@ -37,7 +37,7 @@ describe("CommandPalette", () => {
   it("is initially closed (no dialog visible)", () => {
     renderWithProviders(<CommandPalette />);
     expect(
-      screen.queryByPlaceholderText("Search clients, policies, or jump to…"),
+      screen.queryByPlaceholderText("Search…"),
     ).not.toBeInTheDocument();
   });
 
@@ -50,7 +50,7 @@ describe("CommandPalette", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByPlaceholderText("Search clients, policies, or jump to…"),
+        screen.getByPlaceholderText("Search…"),
       ).toBeInTheDocument();
     });
   });
@@ -64,7 +64,7 @@ describe("CommandPalette", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByPlaceholderText("Search clients, policies, or jump to…"),
+        screen.getByPlaceholderText("Search…"),
       ).toBeInTheDocument();
     });
   });
@@ -79,7 +79,7 @@ describe("CommandPalette", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByPlaceholderText("Search clients, policies, or jump to…"),
+        screen.getByPlaceholderText("Search…"),
       ).toBeInTheDocument();
     });
 
@@ -90,7 +90,7 @@ describe("CommandPalette", () => {
 
     await waitFor(() => {
       expect(
-        screen.queryByPlaceholderText("Search clients, policies, or jump to…"),
+        screen.queryByPlaceholderText("Search…"),
       ).not.toBeInTheDocument();
     });
   });
@@ -119,7 +119,7 @@ describe("CommandPalette", () => {
 
     await waitFor(() => {
       const input = screen.getByPlaceholderText(
-        "Search clients, policies, or jump to…",
+        "Search…",
       );
       expect(input).toBeInTheDocument();
     });

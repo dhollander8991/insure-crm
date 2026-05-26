@@ -32,11 +32,11 @@ Cypress.Commands.add('logout', () => {
 // First run saves the baseline; subsequent runs diff against it (3% threshold).
 Cypress.Commands.add('matchVisualSnapshot', (snapshotName: string) => {
   const screenshotsFolder = Cypress.config('screenshotsFolder') as string;
-  const specRelative = Cypress.spec.relative;
+  const specName = Cypress.spec.relative.split('/').pop()!;
   cy.screenshot(snapshotName, { overwrite: true });
   cy.task('compareSnapshots', {
     snapshotName,
-    screenshotPath: `${screenshotsFolder}/${specRelative}/${snapshotName}.png`,
+    screenshotPath: `${screenshotsFolder}/${specName}/${snapshotName}.png`,
   });
 });
 

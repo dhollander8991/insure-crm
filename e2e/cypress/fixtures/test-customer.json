@@ -2,7 +2,7 @@
   "firstName": "E2E",
   "lastName": "TestUser",
   "email": "e2e.test@cypress.io",
-  "phone": "050-1234567",
+  "phone": "0501234567",
   "israeliId": "987654321",
   "dateOfBirth": "1990-01-15",
   "status": "PROSPECT",

@@ -83,6 +83,7 @@ export function ChatWidget() {
 
       <div
         data-testid="ai-chat-panel"
+        data-state={isChatOpen ? "open" : "closed"}
         className={clsx(
           styles.panel,
           isChatOpen ? styles.panelOpen : styles.panelClosed,
@@ -129,9 +130,9 @@ export function ChatWidget() {
             </div>
           ))}
           {sendChatMessageMutation.isPending && (
-            <div className={styles.chatLoadingRow}>
+            <div className={styles.chatLoadingRow} data-testid="ai-chat-loading">
               <div className={styles.loadingBubble}>
-                <Loader2 className={styles.chatSpinner} />
+                <Loader2 className={`${styles.chatSpinner} animate-spin`} />
               </div>
             </div>
           )}
@@ -155,6 +156,7 @@ export function ChatWidget() {
                 sendChatMessageMutation.isPending || !chatInputText.trim()
               }
               data-testid="ai-chat-send"
+              aria-label={t("ai.send")}
             >
               <Send className={styles.iconMd} />
             </Button>

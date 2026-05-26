@@ -27,6 +27,13 @@ vi.mock("react-markdown", () => ({
   default: ({ children }: { children: string }) => <span>{children}</span>,
 }));
 
+vi.mock("@/lib/queries/ai.queries", () => ({
+  useSendChatMessageMutation: () => ({
+    mutateAsync: vi.fn().mockResolvedValue({ reply: "Mock AI reply" }),
+    isPending: false,
+  }),
+}));
+
 function renderWidget() {
   return render(<ChatWidget />);
 }
@@ -42,8 +49,8 @@ describe("ChatWidget", () => {
 
   it("chat panel is initially hidden (opacity-0)", () => {
     renderWidget();
-    const panel = document.querySelector(".fixed.bottom-20");
-    expect(panel).toHaveClass("opacity-0");
+    const panel = screen.getByTestId("ai-chat-panel");
+    expect(panel).toHaveAttribute("data-state", "closed");
   });
 
   it("clicking button opens the chat panel", async () => {
@@ -51,8 +58,8 @@ describe("ChatWidget", () => {
     renderWidget();
     const button = screen.getByRole("button", { name: /open chat/i });
     await user.click(button);
-    const panel = document.querySelector(".fixed.bottom-20");
-    expect(panel).toHaveClass("opacity-100");
+    const panel = screen.getByTestId("ai-chat-panel");
+    expect(panel).toHaveAttribute("data-state", "open");
   });
 
   it("shows close button when open", async () => {
@@ -69,13 +76,13 @@ describe("ChatWidget", () => {
     renderWidget();
     await user.click(screen.getByRole("button", { name: /open chat/i }));
     await user.click(screen.getByRole("button", { name: /close chat/i }));
-    const panel = document.querySelector(".fixed.bottom-20");
-    expect(panel).toHaveClass("opacity-0");
+    const panel = screen.getByTestId("ai-chat-panel");
+    expect(panel).toHaveAttribute("data-state", "closed");
   });
 
   it("renders textarea input", () => {
     renderWidget();
-    const textarea = screen.getByPlaceholderText("Ask anything…");
+    const textarea = screen.getByPlaceholderText("Ask anything about your clients or policies…");
     expect(textarea).toBeInTheDocument();
   });
 
@@ -90,7 +97,7 @@ describe("ChatWidget", () => {
   it("send button is enabled when input has text", async () => {
     const user = userEvent.setup();
     renderWidget();
-    const textarea = screen.getByPlaceholderText("Ask anything…");
+    const textarea = screen.getByPlaceholderText("Ask anything about your clients or policies…");
     await user.type(textarea, "Hello");
     // The send button should no longer be disabled
     const buttons = screen.getAllByRole("button");
@@ -112,7 +119,7 @@ describe("ChatWidget", () => {
   it("user message appears after pressing Enter", async () => {
     const user = userEvent.setup();
     renderWidget();
-    const textarea = screen.getByPlaceholderText("Ask anything…");
+    const textarea = screen.getByPlaceholderText("Ask anything about your clients or policies…");
     await user.type(textarea, "Hello world");
     await user.keyboard("{Enter}");
 

@@ -1,4 +1,5 @@
 import './commands';
+import 'cypress-real-events';
 
 // Suppress uncaught exceptions from third-party libraries that shouldn't fail tests
 Cypress.on('uncaught:exception', (err) => {

@@ -119,7 +119,7 @@ describe("aiApi", () => {
     expect(url).toContain("/ai/chat");
     expect(init.method).toBe("POST");
     const body = JSON.parse(init.body as string);
-    expect(body.messages).toEqual(messages);
+    expect(body.message).toBe("Hi");
     expect(body.agentEmail).toBe("agent@test.com");
   });
 });

@@ -25,7 +25,7 @@ describe('Authentication', () => {
     });
 
     it('renders link to signup page', () => {
-      cy.contains(/create an account/i).should('have.attr', 'href', '/signup');
+      cy.contains(/create account/i).should('have.attr', 'href', '/signup');
     });
   });
 
@@ -125,7 +125,7 @@ describe('Authentication', () => {
 
     it('clicking signup link navigates to /signup from login', () => {
       cy.visit('/login');
-      cy.contains(/create an account/i).click();
+      cy.contains(/create account/i).click();
       cy.url().should('include', '/signup');
     });
 

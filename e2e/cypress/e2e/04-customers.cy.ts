@@ -13,7 +13,7 @@ describe('Clients Page', () => {
   });
 
   it('renders Name column header', () => {
-    cy.contains(/^name$/i).should('be.visible');
+    cy.contains(/^client$/i).should('be.visible');
   });
 
   it('renders Email column header', () => {
@@ -35,16 +35,16 @@ describe('Clients Page', () => {
   // ── Search ────────────────────────────────────────────────────────────────
   describe('Search', () => {
     it('search input is visible', () => {
-      cy.get('input[placeholder*="search" i], input[placeholder*="name" i]').should('be.visible');
+      cy.get('[data-testid="customer-search"]').should('be.visible');
     });
 
     it('searching filters the table', () => {
-      cy.get('input[placeholder*="search" i], input[placeholder*="name" i]').type('zzznomatch999');
+      cy.get('[data-testid="customer-search"]').type('zzznomatch999');
       cy.get('tbody tr, [role="row"]').should('have.length.lte', 5);
     });
 
     it('clearing search restores full list', () => {
-      const searchInput = cy.get('input[placeholder*="search" i], input[placeholder*="name" i]');
+      const searchInput = cy.get('[data-testid="customer-search"]');
       searchInput.type('zzznomatch999').clear();
       cy.get('tbody tr, [role="row"]').should('have.length.gte', 1);
     });
@@ -57,7 +57,7 @@ describe('Clients Page', () => {
     });
 
     it('Prospect filter exists', () => {
-      cy.contains(/prospect/i).should('exist');
+      cy.contains(/lead/i).should('exist');
     });
   });
 
@@ -72,13 +72,13 @@ describe('Clients Page', () => {
   // ── Sort ──────────────────────────────────────────────────────────────────
   describe('Column sorting', () => {
     it('clicking Name column header triggers sort', () => {
-      cy.contains('th, button', /^name$/i).click();
+      cy.contains('th, button', /^client$/i).click();
       // After sort the table still has rows
       cy.get('tbody tr, [role="row"]').should('have.length.gte', 1);
     });
 
     it('clicking Name header twice reverses sort', () => {
-      const header = cy.contains('th, button', /^name$/i);
+      const header = cy.contains('th, button', /^client$/i);
       header.click();
       header.click();
       cy.get('tbody tr, [role="row"]').should('have.length.gte', 1);
@@ -153,6 +153,6 @@ describe('Clients Page', () => {
   it('clients page renders on 375px mobile', () => {
     cy.viewport(375, 812);
     cy.visit('/clients');
-    cy.contains(/clients/i, { timeout: 8000 }).should('be.visible');
+    cy.get('h1').contains(/clients/i, { timeout: 8000 }).should('be.visible');
   });
 });

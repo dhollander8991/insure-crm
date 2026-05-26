@@ -29,14 +29,12 @@ describe('Dashboard', () => {
     });
 
     it('Active Policies shows a non-negative number from real API', () => {
-      cy.contains(/active policies/i)
-        .closest('[class*="card"], .card, section, div')
-        .find('span, p, div')
-        .not(':empty')
-        .first()
+      cy.get('[data-testid="kpi-active-policies"]')
         .invoke('text')
         .then((text) => {
-          const num = parseInt(text.replace(/[^0-9]/g, ''), 10);
+          const match = text.match(/\d+/);
+          expect(match, 'numeric value present in KPI card').to.not.be.null;
+          const num = parseInt(match![0], 10);
           expect(num).to.be.gte(0);
         });
     });
@@ -50,15 +48,15 @@ describe('Dashboard', () => {
     });
 
     it('Policies by Type chart renders', () => {
-      cy.contains(/policies by type/i).should('be.visible');
+      cy.contains(/policies by type/i).scrollIntoView().should('be.visible');
     });
 
     it('Claims by Status chart renders', () => {
-      cy.contains(/claims by status/i).should('be.visible');
+      cy.contains(/claims by status/i).scrollIntoView().should('be.visible');
     });
 
     it('Lead Pipeline chart renders', () => {
-      cy.contains(/lead pipeline/i).should('be.visible');
+      cy.contains(/lead pipeline/i).scrollIntoView().should('be.visible');
     });
 
     it('has at least 2 SVG/canvas elements (multiple charts)', () => {
@@ -69,7 +67,7 @@ describe('Dashboard', () => {
   // ── Recent Activity ───────────────────────────────────────────────────────
   describe('Recent Activity', () => {
     it('Recent Activity section is visible', () => {
-      cy.contains(/recent activity/i).should('be.visible');
+      cy.contains(/recent activity/i).scrollIntoView().should('be.visible');
     });
   });
 
