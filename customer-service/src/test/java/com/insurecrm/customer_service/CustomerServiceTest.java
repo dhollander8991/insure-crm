@@ -5,6 +5,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -95,19 +98,19 @@ class CustomerServiceTest {
 
     @Test
     void getAll_multipleCustomers_returnsList() {
-        when(customerRepository.findAll()).thenReturn(
-                List.of(buildCustomer(1L, "a@test.com"), buildCustomer(2L, "b@test.com")));
+        List<Customer> customers = List.of(buildCustomer(1L, "a@test.com"), buildCustomer(2L, "b@test.com"));
+        when(customerRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(customers));
 
-        List<CustomerResponse> result = customerService.getAll();
+        Page<CustomerResponse> result = customerService.getAll(Pageable.unpaged());
 
-        assertThat(result).hasSize(2);
+        assertThat(result.getContent()).hasSize(2);
     }
 
     @Test
     void getAll_noCustomers_returnsEmptyList() {
-        when(customerRepository.findAll()).thenReturn(Collections.emptyList());
+        when(customerRepository.findAll(any(Pageable.class))).thenReturn(Page.empty());
 
-        assertThat(customerService.getAll()).isEmpty();
+        assertThat(customerService.getAll(Pageable.unpaged()).getContent()).isEmpty();
     }
 
     @Test

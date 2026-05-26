@@ -8,6 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -43,7 +46,7 @@ class PolicyControllerTest {
     void create_validRequest_returns201() throws Exception {
         when(policyService.create(any())).thenReturn(response());
 
-        mockMvc.perform(post("/policies")
+        mockMvc.perform(post("/v1/policies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isCreated())
@@ -57,7 +60,7 @@ class PolicyControllerTest {
                 {"customerName":"John","type":"CAR","startDate":"2024-01-01",
                  "endDate":"2025-01-01","premium":1200.00,"agentEmail":"a@t.com"}""";
 
-        mockMvc.perform(post("/policies")
+        mockMvc.perform(post("/v1/policies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isBadRequest())
@@ -70,7 +73,7 @@ class PolicyControllerTest {
                 {"customerId":1,"type":"CAR","startDate":"2024-01-01",
                  "endDate":"2025-01-01","premium":1200.00,"agentEmail":"a@t.com"}""";
 
-        mockMvc.perform(post("/policies")
+        mockMvc.perform(post("/v1/policies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isBadRequest())
@@ -84,7 +87,7 @@ class PolicyControllerTest {
                  "startDate":"2024-01-01","endDate":"2025-01-01",
                  "premium":0.00,"agentEmail":"a@t.com"}""";
 
-        mockMvc.perform(post("/policies")
+        mockMvc.perform(post("/v1/policies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isBadRequest())
@@ -96,7 +99,7 @@ class PolicyControllerTest {
         when(policyService.create(any()))
                 .thenThrow(new RuntimeException("Customer not found in customer-service"));
 
-        mockMvc.perform(post("/policies")
+        mockMvc.perform(post("/v1/policies")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isBadRequest())
@@ -105,27 +108,27 @@ class PolicyControllerTest {
 
     @Test
     void getAll_returns200WithList() throws Exception {
-        when(policyService.getAll()).thenReturn(List.of(response()));
+        when(policyService.getAll(any())).thenReturn(new PageImpl<>(List.of(response())));
 
-        mockMvc.perform(get("/policies"))
+        mockMvc.perform(get("/v1/policies"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.content.length()").value(1));
     }
 
     @Test
     void getAll_empty_returns200WithEmptyList() throws Exception {
-        when(policyService.getAll()).thenReturn(Collections.emptyList());
+        when(policyService.getAll(any())).thenReturn(Page.empty());
 
-        mockMvc.perform(get("/policies"))
+        mockMvc.perform(get("/v1/policies"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(0));
+                .andExpect(jsonPath("$.content.length()").value(0));
     }
 
     @Test
     void getById_found_returns200() throws Exception {
         when(policyService.getById(1L)).thenReturn(response());
 
-        mockMvc.perform(get("/policies/1"))
+        mockMvc.perform(get("/v1/policies/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.policyNumber").value("POL-ABCDE"));
@@ -135,7 +138,7 @@ class PolicyControllerTest {
     void getById_notFound_returns400() throws Exception {
         when(policyService.getById(99L)).thenThrow(new RuntimeException("Policy not found"));
 
-        mockMvc.perform(get("/policies/99"))
+        mockMvc.perform(get("/v1/policies/99"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.error").value("Policy not found"));
     }
@@ -144,7 +147,7 @@ class PolicyControllerTest {
     void update_validRequest_returns200() throws Exception {
         when(policyService.update(eq(1L), any())).thenReturn(response());
 
-        mockMvc.perform(put("/policies/1")
+        mockMvc.perform(put("/v1/policies/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(VALID_BODY))
                 .andExpect(status().isOk())
@@ -155,7 +158,7 @@ class PolicyControllerTest {
     void delete_existingId_returns204() throws Exception {
         doNothing().when(policyService).delete(1L);
 
-        mockMvc.perform(delete("/policies/1"))
+        mockMvc.perform(delete("/v1/policies/1"))
                 .andExpect(status().isNoContent());
     }
 
@@ -163,7 +166,7 @@ class PolicyControllerTest {
     void delete_notFound_returns400() throws Exception {
         doThrow(new RuntimeException("Policy not found")).when(policyService).delete(99L);
 
-        mockMvc.perform(delete("/policies/99"))
+        mockMvc.perform(delete("/v1/policies/99"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -171,7 +174,7 @@ class PolicyControllerTest {
     void getByCustomer_returns200WithList() throws Exception {
         when(policyService.getByCustomer(1L)).thenReturn(List.of(response()));
 
-        mockMvc.perform(get("/policies/customer/1"))
+        mockMvc.perform(get("/v1/policies/customer/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1));
     }
@@ -180,7 +183,7 @@ class PolicyControllerTest {
     void getByAgent_returns200WithList() throws Exception {
         when(policyService.getByAgent("agent@test.com")).thenReturn(List.of(response()));
 
-        mockMvc.perform(get("/policies/agent/agent@test.com"))
+        mockMvc.perform(get("/v1/policies/agent/agent@test.com"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1));
     }
@@ -189,7 +192,7 @@ class PolicyControllerTest {
     void getByStatus_active_returns200WithList() throws Exception {
         when(policyService.getByStatus(Policy.PolicyStatus.ACTIVE)).thenReturn(List.of(response()));
 
-        mockMvc.perform(get("/policies/status/ACTIVE"))
+        mockMvc.perform(get("/v1/policies/status/ACTIVE"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1));
     }

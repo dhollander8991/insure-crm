@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CustomerServiceClientTest {
 
@@ -49,9 +50,10 @@ class CustomerServiceClientTest {
     }
 
     @Test
-    void customerExists_serviceDown_returnsFalse() throws IOException {
+    void customerExists_serviceDown_throwsException() throws IOException {
         mockWebServer.shutdown();
 
-        assertThat(customerServiceClient.customerExists(1L)).isFalse();
+        assertThatThrownBy(() -> customerServiceClient.customerExists(1L))
+                .isInstanceOf(Exception.class);
     }
 }

@@ -6,6 +6,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -85,18 +89,19 @@ class PolicyServiceTest {
 
     @Test
     void getAll_multiplePolicies_returnsList() {
-        when(policyRepository.findAll()).thenReturn(List.of(buildPolicy(1L, 1L), buildPolicy(2L, 2L)));
+        List<Policy> policies = List.of(buildPolicy(1L, 1L), buildPolicy(2L, 2L));
+        when(policyRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(policies));
 
-        List<PolicyResponse> result = policyService.getAll();
+        Page<PolicyResponse> result = policyService.getAll(Pageable.unpaged());
 
-        assertThat(result).hasSize(2);
+        assertThat(result.getContent()).hasSize(2);
     }
 
     @Test
     void getAll_noPolicies_returnsEmptyList() {
-        when(policyRepository.findAll()).thenReturn(Collections.emptyList());
+        when(policyRepository.findAll(any(Pageable.class))).thenReturn(Page.empty());
 
-        assertThat(policyService.getAll()).isEmpty();
+        assertThat(policyService.getAll(Pageable.unpaged()).getContent()).isEmpty();
     }
 
     @Test

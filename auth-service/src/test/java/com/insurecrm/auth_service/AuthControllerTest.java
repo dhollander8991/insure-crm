@@ -26,7 +26,7 @@ class AuthControllerTest {
         when(authService.register(eq("agent@test.com"), eq("password123"), eq(User.Role.AGENT)))
                 .thenReturn("jwt-token");
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"password123\",\"role\":\"AGENT\"}"))
                 .andExpect(status().isCreated())
@@ -37,7 +37,7 @@ class AuthControllerTest {
 
     @Test
     void register_invalidEmailFormat_returns400() throws Exception {
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"notanemail\",\"password\":\"password123\",\"role\":\"AGENT\"}"))
                 .andExpect(status().isBadRequest())
@@ -46,7 +46,7 @@ class AuthControllerTest {
 
     @Test
     void register_blankEmail_returns400() throws Exception {
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"\",\"password\":\"password123\",\"role\":\"AGENT\"}"))
                 .andExpect(status().isBadRequest());
@@ -54,7 +54,7 @@ class AuthControllerTest {
 
     @Test
     void register_passwordTooShort_returns400() throws Exception {
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"abc\",\"role\":\"AGENT\"}"))
                 .andExpect(status().isBadRequest())
@@ -63,7 +63,7 @@ class AuthControllerTest {
 
     @Test
     void register_blankPassword_returns400() throws Exception {
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"\",\"role\":\"AGENT\"}"))
                 .andExpect(status().isBadRequest())
@@ -75,7 +75,7 @@ class AuthControllerTest {
         when(authService.register(any(), any(), any()))
                 .thenThrow(new RuntimeException("Email already registered"));
 
-        mockMvc.perform(post("/auth/register")
+        mockMvc.perform(post("/v1/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"password123\",\"role\":\"AGENT\"}"))
                 .andExpect(status().isBadRequest())
@@ -87,7 +87,7 @@ class AuthControllerTest {
         when(authService.login("agent@test.com", "password123"))
                 .thenReturn(new AuthResponse("jwt-token", "agent@test.com", "AGENT"));
 
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"password123\"}"))
                 .andExpect(status().isOk())
@@ -101,7 +101,7 @@ class AuthControllerTest {
         when(authService.login(any(), any()))
                 .thenThrow(new RuntimeException("Invalid credentials"));
 
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"wrongpass\"}"))
                 .andExpect(status().isBadRequest())
@@ -110,7 +110,7 @@ class AuthControllerTest {
 
     @Test
     void login_invalidEmailFormat_returns400() throws Exception {
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"notanemail\",\"password\":\"password123\"}"))
                 .andExpect(status().isBadRequest());
@@ -118,7 +118,7 @@ class AuthControllerTest {
 
     @Test
     void login_blankPassword_returns400() throws Exception {
-        mockMvc.perform(post("/auth/login")
+        mockMvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"email\":\"agent@test.com\",\"password\":\"\"}"))
                 .andExpect(status().isBadRequest())

@@ -1,5 +1,7 @@
 package com.insurecrm.policy_service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -41,11 +43,8 @@ public class PolicyService {
     }
 
     @Transactional(readOnly = true)
-    public List<PolicyResponse> getAll() {
-        return policyRepository.findAll()
-                .stream()
-                .map(this::toResponse)
-                .toList();
+    public Page<PolicyResponse> getAll(Pageable pageable) {
+        return policyRepository.findAll(pageable).map(this::toResponse);
     }
 
     @Transactional(readOnly = true)
